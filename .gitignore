@@ -1,0 +1,13 @@
+.DS_Store
+tags
+*.swp
+*.swo
+target/
+project*/boot
+project*/plugins/src_managed
+project*/plugins/project
+lib_managed/
+.idea
+.idea_modules
+out/
+*.iml
