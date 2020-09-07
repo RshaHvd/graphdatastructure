@@ -1,8 +1,8 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.csr._
-import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.Inspectors._
+import org.scalatest.{FlatSpec, Matchers}
 
 class GraphAlgoCSRSpec extends FlatSpec with Matchers {
 
@@ -10,11 +10,10 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
-    //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
       csrGraph.vertexLength should be(5)
-      csrGraph.edgeLength should be(7)
+      csrGraph.edgeLength should be(6)
       val walkDFFromNode = CSRNode(10, 10)
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes.map(_.id)
@@ -29,7 +28,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
     //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
       val walkDFFromNode = CSRNode(10, 10)
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
@@ -44,7 +43,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
 
     //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
 
       val walkDFFromNodeFrom1 = CSRNode(1, 1)
@@ -72,16 +71,17 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
 
   }
 
+
   "Breath First Search on CSR" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
 
     //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
       csrGraph.vertexLength should be(5)
-      csrGraph.edgeLength should be(7)
+      csrGraph.edgeLength should be(6)
       val walkDFFromNode = CSRNode(10, 10)
       val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
 
@@ -98,7 +98,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
 
     //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
       val walkDFFromNode = CSRNode(10, 10)
       val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
@@ -112,43 +112,29 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
 
-    //csrGraphs.foreach { csrGraph =>
-    forAll(csrGraphs){csrGraph =>
+    forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
       val walkDFFromNodeFrom1 = CSRNode(1, 1)
       val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, csrGraph)
 
-      //    val walkDFFromNode6 = CSRNode(6, 6)
-      //    val actualListNodes6 = GraphAlgos.bfs(walkDFFromNode6, csrGraph)
-      //
-      //    val walkDFFromNode5 = CSRNode(5, 5)
-      //    val actualListNodes5 = GraphAlgos.bfs(walkDFFromNode5, csrGraph)
-
       val actualList1 = actualListNodesFrom1.map(_.id)
       val expectedList1 = List(1, 2, 3, 4, 5, 6, 7, 8)
 
-      //    val actualList6 = actualListNodes6.map(_.id)
-      //    val expectedList6 = List(6, 1, 2, 7, 3, 4, 8, 5)
-      //
-      //    val actualList5 = actualListNodes5.map(_.id)
-      //    val expectedList5 = List(5, 6, 1, 2, 7, 3, 4, 8)
-
       expectedList1 shouldEqual actualList1
-      //    expectedList6 shouldEqual actualList6
-      //    expectedList5 shouldEqual actualList5
     }
 
   }
+
 
 }
 
 
 object TestGraphUtil {
 
-  def makeAllCSRGraphContainer(inputStr: String, delimiter1: String, delimiter2: String): List[CSRGraph[_ <: CSRContainers]] = {
+  def makeAllCSRGraphContainer(inputStr: String, delimiter1: String, delimiter2: String) = {
     List(
-      CSRGraph.buildFromString[ArrayBasedCSRContainer](inputStr, delimiter1, delimiter2),
-      CSRGraph.buildFromString[HashMapBasedCSRContainer](inputStr, delimiter1, delimiter2)
+      GraphBuilder.buildFromString[CSRNode, ArrayBasedCSRContainer](inputStr, delimiter1, delimiter2),
+      GraphBuilder.buildFromString[CSRNode, HashMapBasedCSRContainer](inputStr, delimiter1, delimiter2)
     )
   }
 
