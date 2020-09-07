@@ -1,11 +1,14 @@
 package hvd.edu.graph.csr
 
+import hvd.edu.graph.GraphContainer
+
 import scala.collection.mutable
 
-class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends CSRContainers {
+class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
 
   private val vertexContainer = mutable.Map[CSRNode, String]()
   private val edgeContainer = mutable.Map[String, List[CSRNode]]()
+  private val vertexNoEdgesEdgeId = "-1"
 
   override def add(vertex: CSRNode, edge: CSRNode): Unit = {
     val mayBeAlreadyAdded = vertexContainer.get(vertex)
@@ -27,8 +30,16 @@ class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends CS
     edgeContainer(edgesKey) = updatedEdges
   }
 
-  override def vertex_?(vertex: CSRNode): CSRNode = {
-   vertexContainer.keys.find(_ == vertex).getOrElse(EmptyCSRNode)
+  override def vertex_?(vertex: CSRNode): Option[CSRNode] = {
+   vertexContainer.keys.find(_ == vertex)
+     //.getOrElse(EmptyCSRNode)
+  }
+
+  override def addVertex(vertex: CSRNode): Unit = {
+    val mayBeAlreadyAdded = vertexContainer.get(vertex)
+    if(mayBeAlreadyAdded.isEmpty){
+      vertexContainer(vertex) = vertexNoEdgesEdgeId
+    }
   }
 
   override def allVertices: List[CSRNode] = vertexContainer.keys.toList
@@ -44,7 +55,9 @@ class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends CS
       edgeId => edgeContainer.get(edgeId)
     }.getOrElse(List.empty[CSRNode])
 
-    edgeList.filterNot(_ == EmptyCSRNode)
+    //edgeList.filterNot(_ == EmptyCSRNode)
+
+    edgeList.collect{case p: CSRNode => p}
   }
 
   override def edgesForVertexId(vid: Int): List[CSRNode] = {

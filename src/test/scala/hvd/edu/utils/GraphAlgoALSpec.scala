@@ -1,7 +1,6 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.al.{AdjacencyList, AdjacencyListNode}
-import hvd.edu.graph.csr.{CSRGraph, CSRNode}
+import hvd.edu.graph.al.{ALNodeWithSetBasedEdges, ArrayBasedALContainer}
 import org.scalatest.{FlatSpec, Matchers}
 
 class GraphAlgoALSpec extends FlatSpec with Matchers {
@@ -9,11 +8,11 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   "Depth First Search on Adjacency List" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = AdjacencyListNode(10, 10)
+    val walkDFFromNode = ALNodeWithSetBasedEdges(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14)
@@ -24,9 +23,9 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   it should "work on sample graph 2" in {
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
-    val walkDFFromNode = AdjacencyListNode(10, 10)
+    val walkDFFromNode = ALNodeWithSetBasedEdges(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 14, 15, 13)
@@ -36,14 +35,14 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
 
   it should "produce different list from different start vertices of the same graph" in {
     val inputString = "1,2 2,3 2,4 3, 4, 5,6 6,1 6,2 6,7 7, "
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
-    val walkDFFromNodeFrom1 = AdjacencyListNode(1, 1)
+    val walkDFFromNodeFrom1 = ALNodeWithSetBasedEdges(1, 1)
     val actualListNodesFrom1 = GraphAlgos.dfs(walkDFFromNodeFrom1, graph)
-    val walkDFFromNode6 = AdjacencyListNode(6, 6)
+    val walkDFFromNode6 = ALNodeWithSetBasedEdges(6, 6)
     val actualListNodes6 = GraphAlgos.dfs(walkDFFromNode6, graph)
 
-    val walkDFFromNode5 = AdjacencyListNode(5, 5)
+    val walkDFFromNode5 = ALNodeWithSetBasedEdges(5, 5)
     val actualListNodes5 = GraphAlgos.dfs(walkDFFromNode5, graph)
 
     val actualList1 = actualListNodesFrom1.map(_.id)
@@ -64,11 +63,11 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   "Breath First Search on Adjacency List" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = AdjacencyListNode(10, 10)
+    val walkDFFromNode = ALNodeWithSetBasedEdges(10, 10)
     val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, graph)
 
     val actualBFSList = actualBFSListNodes.map(_.id)
@@ -80,9 +79,9 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   it should "work on sample graph 2" in {
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
-    val walkDFFromNode = AdjacencyListNode(10, 10)
+    val walkDFFromNode = ALNodeWithSetBasedEdges(10, 10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14, 15)
@@ -92,15 +91,15 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
 
   it should "produce different list from different start vertices of the same graph" in {
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
-    val graph = AdjacencyList.buildFromString(inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[ALNodeWithSetBasedEdges, ArrayBasedALContainer](inputString, " ", ",")
     graph shouldNot be(null)
-    val walkDFFromNodeFrom1 = AdjacencyListNode(1, 1)
+    val walkDFFromNodeFrom1 = ALNodeWithSetBasedEdges(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, graph)
 
-    val walkDFFromNode6 = AdjacencyListNode(6, 6)
+    val walkDFFromNode6 = ALNodeWithSetBasedEdges(6, 6)
     val actualListNodes6 = GraphAlgos.bfs(walkDFFromNode6, graph)
 
-    val walkDFFromNode5 = AdjacencyListNode(5, 5)
+    val walkDFFromNode5 = ALNodeWithSetBasedEdges(5, 5)
     val actualListNodes5 = GraphAlgos.bfs(walkDFFromNode5, graph)
 
     val actualList1 = actualListNodesFrom1.map(_.id)
@@ -118,8 +117,5 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
 
   }
 
-
-
-
-
 }
+

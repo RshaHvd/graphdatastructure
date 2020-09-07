@@ -1,13 +1,13 @@
 package hvd.edu.utils
 
-import hvd.edu.{Graph, Node}
+import hvd.edu.graph.{Graph, GraphContainer, Node}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 object GraphAlgos {
 
-  def bfs[N <: Node, G <: Graph[N]](fromNode: N, graph: G): List[N] = {
+  def bfs[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
@@ -17,7 +17,7 @@ object GraphAlgos {
 
   }
 
-  def dfs[N <: Node, G <: Graph[N]](fromNode: N, graph: G): List[N] = {
+  def dfs[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
@@ -26,9 +26,9 @@ object GraphAlgos {
     internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
   }
 
-  private def internalDFS[N <: Node, G <: Graph[N]](
+  private def internalDFS[N <: Node, GC <: GraphContainer[N]](
     fromVertices: List[N],
-    graph: G,
+    graph: Graph[N, GC],
     accum: ListBuffer[N],
     alreadyVisited: mutable.Set[Int]
   ): List[N] = {
@@ -38,7 +38,6 @@ object GraphAlgos {
       fromVertices.foreach { n =>
         if (!alreadyVisited.contains(n.id)) {
           val edgesFromN: List[N] = graph.edgesForVertexId(n.id)
-          // val verticesForThisEdgeNodes = graph.verticesByNodeIds(edgesFromN)
           accum += n
           alreadyVisited += n.id
           val visitNextBuffer = mutable.ListBuffer[N]()
@@ -57,9 +56,9 @@ object GraphAlgos {
 
   }
 
-  private def internalBFS[N <: Node, G <: Graph[N]](
+  private def internalBFS[N <: Node, GC <: GraphContainer[N]](
     fromNodes: List[N],
-    graph: G,
+    graph: Graph[N, GC],
     accum: ListBuffer[N],
     alreadyVisited: mutable.Set[Int]
   ): List[N] = {
