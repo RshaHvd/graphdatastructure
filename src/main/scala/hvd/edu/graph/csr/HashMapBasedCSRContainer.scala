@@ -1,6 +1,6 @@
 package hvd.edu.graph.csr
 
-import hvd.edu.graph.GraphContainer
+import hvd.edu.graph.{CSRNode, GraphContainer}
 
 import scala.collection.mutable
 

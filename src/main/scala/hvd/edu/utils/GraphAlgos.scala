@@ -26,6 +26,15 @@ object GraphAlgos {
     internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
   }
 
+  def dfsFromNodeId[N <: Node, GC <: GraphContainer[N]](nodeId: Int, graph: Graph[N, GC]): List[N] = {
+
+    val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
+      (thisNode.id == nodeId)
+    }
+
+    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
+  }
+
   private def internalDFS[N <: Node, GC <: GraphContainer[N]](
     fromVertices: List[N],
     graph: Graph[N, GC],
