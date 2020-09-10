@@ -50,9 +50,9 @@ class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(im
   }
 
   def printGraph(mayBeVertexLen: Option[Int]): Unit = {
-    println(s"************* Printing CSR Graph *************")
+    println(s"************* Started Printing Graph *************")
     graphContainer.print(mayBeVertexLen)
-    println(s"************* Finished Printing CSR Graph *************")
+    println(s"************* Finished Printing Graph *************")
   }
 
   def vertexList: List[N] = graphContainer.nonEmptyVertexList
@@ -65,12 +65,6 @@ class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(im
 
   def edgesForVertexId(vid: Int): List[N] = graphContainer.edgesForVertexId(vid)
 
-}
+  def findVertexById(i: Int): Option[N] = graphContainer.nonEmptyVertexList.find(v => v.id == i)
 
-//// this is not scalable....
-//trait ImmutableGraph[Node] extends Graph[Node]{
-//
-//  def addEdge(u: Node, v: Node, g: Graph[Node]): Graph[Node]
-//
-//  def addVertex(v: Node,  g: Graph[Node]): Graph[Node]
-//}
+}

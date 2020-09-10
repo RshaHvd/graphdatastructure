@@ -6,7 +6,8 @@ object GraphBuilder {
 
   def buildFromString[N<:Node, C <: GraphContainer[N]](s: String,
                                                        firstDelimiter: String,
-                                                       secondDelimiter: String)(implicit ev: ContainerMaker[N, C], nodeMaker: NodeMaker[N]): Graph[N, C] = {
+                                                       secondDelimiter: String)(implicit ev: ContainerMaker[N, C],
+                                                                                nodeMaker: NodeMaker[N]): Graph[N, C] = {
 
     val arrayEdges: Array[String] = s.split(firstDelimiter)
 

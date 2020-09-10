@@ -1,6 +1,6 @@
 package hvd.edu.graph.al
 
-import hvd.edu.graph.{ContainerMaker, Graph, GraphContainer, Node, NodeMaker}
+import hvd.edu.graph.Node
 
 import scala.collection.mutable
 
@@ -13,23 +13,25 @@ import scala.collection.mutable
  * [4 -> 5]
  */
 
-trait AdjacencyListNode extends Node{
+//trait AdjacencyListNode extends Node
 //
 // // def v : Int
 //
 ////  def addEdge[ALN <: AdjacencyListNode](e: ALN) : Unit
 ////
 ////  def outgoingEdges[ALN <: AdjacencyListNode] : Set[ALN]
-}
+//}
 
 //object EmptyAdjacencyNode extends ALNodeWithSetBasedEdges(-1, -1)
 
 
-case class ALNodeWithSetBasedEdges(override val id: Int, override val value: Int) extends AdjacencyListNode {
+case class SetBasedALNode(override val id: Int, override val value: Int) extends Node {
 
-  private var outgoingEdgeSet = mutable.Set[ALNodeWithSetBasedEdges]()
+  private var outgoingEdgeSet = mutable.Set[SetBasedALNode]()
 
   def outgoingEdges() = outgoingEdgeSet.toSet
 
-  def addEdge(e: ALNodeWithSetBasedEdges) = outgoingEdgeSet.add(e)
+  def addEdge(e: SetBasedALNode) = outgoingEdgeSet.add(e)
 }
+
+case class DefaultALNode(override val id: Int, override val value: Int) extends Node

@@ -1,7 +1,7 @@
 package hvd.edu.graph
 
-import hvd.edu.graph.al.{ALNodeWithSetBasedEdges, ArrayBasedALContainer}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
+import hvd.edu.graph.al.{ArrayBasedALContainer, DefaultALNode, HashMapBasedALContainer, SetBasedALNode}
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
 
 trait ContainerMaker[N<: Node, C <: GraphContainer[N]] {
   def make(numVertex: Int, numEdges: Int): C
@@ -21,11 +21,18 @@ object ContainerMaker {
     }
   }
 
-  implicit object ArrayBasedALContainerFactory extends ContainerMaker[ALNodeWithSetBasedEdges, ArrayBasedALContainer] {
+  implicit object ArrayBasedALContainerFactory extends ContainerMaker[SetBasedALNode, ArrayBasedALContainer] {
     override def make(numVertex: Int, numEdges: Int) = {
       new ArrayBasedALContainer(numVertex)
     }
   }
+
+  implicit object HashMapBasedALContainerFactory extends ContainerMaker[DefaultALNode, HashMapBasedALContainer] {
+    override def make(numVertex: Int, numEdges: Int) = {
+      new HashMapBasedALContainer(numVertex)
+    }
+  }
+
 
   def apply[N<: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(implicit ev: ContainerMaker[N, C]): C = {
     ev.make(numVertex, numEdges)

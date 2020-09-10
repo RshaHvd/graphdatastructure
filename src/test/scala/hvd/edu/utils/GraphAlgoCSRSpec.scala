@@ -1,6 +1,7 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.csr._
+import hvd.edu.TestGraphUtil
+import hvd.edu.graph.CSRNode
 import org.scalatest.Inspectors._
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -129,13 +130,3 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
 }
 
 
-object TestGraphUtil {
-
-  def makeAllCSRGraphContainer(inputStr: String, delimiter1: String, delimiter2: String) = {
-    List(
-      GraphBuilder.buildFromString[CSRNode, ArrayBasedCSRContainer](inputStr, delimiter1, delimiter2),
-      GraphBuilder.buildFromString[CSRNode, HashMapBasedCSRContainer](inputStr, delimiter1, delimiter2)
-    )
-  }
-
-}

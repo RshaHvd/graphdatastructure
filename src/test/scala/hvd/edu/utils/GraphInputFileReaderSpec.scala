@@ -1,7 +1,8 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.al.{ALNodeWithSetBasedEdges, ArrayBasedALContainer}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
+import hvd.edu.graph.CSRNode
+import hvd.edu.graph.al.{ArrayBasedALContainer, SetBasedALNode}
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
 import org.scalatest.{FlatSpec, Matchers}
 
 class GraphInputFileReaderSpec extends FlatSpec with Matchers {
@@ -39,7 +40,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid Adjacency List graph" in {
 
-    val readGraph = GraphInputFileReader.readFile[ALNodeWithSetBasedEdges,ArrayBasedALContainer](
+    val readGraph = GraphInputFileReader.readFile[SetBasedALNode,ArrayBasedALContainer](
       "/Users/rsha/harvardcourses/thesis/project/graphdatastructures/src/test/resources/facebook_combined.txt",
       88234,
       " "

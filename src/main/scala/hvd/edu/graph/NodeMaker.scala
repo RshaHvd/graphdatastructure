@@ -1,7 +1,6 @@
 package hvd.edu.graph
 
-import hvd.edu.graph.al.ALNodeWithSetBasedEdges
-import hvd.edu.graph.csr.CSRNode
+import hvd.edu.graph.al.{DefaultALNode, SetBasedALNode}
 
 trait NodeMaker[N<: Node] {
   def make(id: Int, value: Int): N
@@ -13,8 +12,12 @@ object NodeMaker{
     override def make(id: Int, value: Int): CSRNode = CSRNode(id, value)
   }
 
-  implicit object ALNodeWithSetBasedEdgesMaker extends NodeMaker[ALNodeWithSetBasedEdges] {
-    override def make(id: Int, value: Int) = ALNodeWithSetBasedEdges(id, value)
+  implicit object ALNodeWithSetBasedEdgesMaker extends NodeMaker[SetBasedALNode] {
+    override def make(id: Int, value: Int) = SetBasedALNode(id, value)
+  }
+
+  implicit object DefaultALNodeMaker extends NodeMaker[DefaultALNode] {
+    override def make(id: Int, value: Int) = DefaultALNode(id, value)
   }
 
   def apply[N <: Node](id: Int, value: Int)(implicit nodeMaker : NodeMaker[N]): N = {

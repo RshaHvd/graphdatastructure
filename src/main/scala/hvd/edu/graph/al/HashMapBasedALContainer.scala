@@ -2,27 +2,64 @@ package hvd.edu.graph.al
 
 import hvd.edu.graph.GraphContainer
 
-class HashMapBasedALContainer(numVertex: Int) extends GraphContainer[AdjacencyListNode] {
+import scala.collection.mutable
 
-  override def add(vertex: AdjacencyListNode, edge: AdjacencyListNode): Unit = ???
+class HashMapBasedALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
 
-  override def addEdge(vertex: AdjacencyListNode, edge: AdjacencyListNode): Unit = ???
+  private val adjacencyListMap = mutable.Map[DefaultALNode, List[DefaultALNode]]()
 
-  override def allVertices: List[AdjacencyListNode] = ???
+  override def add(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
+    val mayBeAlreadyAdded = hasVertex(vertex)
+    if(mayBeAlreadyAdded){
+      addEdge(vertex, edge)
+    }else{
+      adjacencyListMap(vertex) = List(edge)
+    }
+  }
 
-  override def vertex_?(vertex: AdjacencyListNode): Option[AdjacencyListNode] = ???
+  override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
+    val findVertex = adjacencyListMap.get(vertex)
+    findVertex.fold{
+      throw new RuntimeException("Cannot find the vertex to add edge too")}{
+      existingList =>
+        val newLL = existingList.+:(edge)
+        adjacencyListMap(vertex) = newLL
+    }
+  }
 
-  override def edgeLength: Int = ???
+  override def allVertices: List[DefaultALNode] = {
+    adjacencyListMap.keys.toList
+  }
 
-  override def vertexLength: Int = ???
+  override def vertex_?(vertex: DefaultALNode): Option[DefaultALNode] = {
+    adjacencyListMap.keys.find(_ == vertex)
+  }
 
-  override def edgesForVertex(v: AdjacencyListNode): List[AdjacencyListNode] = ???
+  def hasVertex(vertex:DefaultALNode): Boolean = adjacencyListMap.contains(vertex)
 
-  override def edgesForVertexId(vid: Int): List[AdjacencyListNode] = ???
+  override def edgeLength: Int = {
+    adjacencyListMap.values.flatten.size
+  }
 
-  override def nonEmptyVertexList: List[AdjacencyListNode] = ???
+  override def vertexLength: Int = adjacencyListMap.keySet.size
+
+  override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] = {
+    adjacencyListMap.get(v).getOrElse(List.empty[DefaultALNode])
+  }
+
+  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
+    val mayBeALNode = adjacencyListMap.keySet.find{
+      v =>v.id == vid
+    }
+
+    mayBeALNode.fold(List.empty[DefaultALNode])(edgesForVertex(_))
+  }
+
+  override def nonEmptyVertexList: List[DefaultALNode] = allVertices
 
   override def print(mayBeNumberOfVertex: Option[Int]): Unit = ???
 
-  override def addVertex(vertex: AdjacencyListNode): Unit = ???
+  override def addVertex(vertex: DefaultALNode): Unit = {
+    adjacencyListMap(vertex) = List.empty[DefaultALNode]
+  }
 }
