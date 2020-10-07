@@ -1,9 +1,7 @@
 package hvd.edu.graph
 
-import hvd.edu.TestGraphUtil
 import hvd.edu.graph.al.{ArrayBasedALContainer, DefaultALNode, HashMapBasedALContainer, SetBasedALNode}
 import hvd.edu.utils.GraphBuilder
-import org.scalatest.Inspectors._
 import org.scalatest.{FlatSpec, Matchers}
 
 class AdjacencyListSpec extends FlatSpec with Matchers {

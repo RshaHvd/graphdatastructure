@@ -1,9 +1,8 @@
-package hvd.edu
+package hvd.edu.utils
 
-import hvd.edu.graph.{CSRNode, Graph, GraphContainer, Node, NodeMaker}
+import hvd.edu.graph.Node
 import hvd.edu.graph.al.{ArrayBasedALContainer, DefaultALNode, HashMapBasedALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
-import hvd.edu.utils.GraphBuilder
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
 
 object TestGraphUtil {
 
@@ -20,17 +19,5 @@ object TestGraphUtil {
 
     List(g1,g2)
   }
-
-
-
-//  import scala.reflect.runtime.universe._
-//  def makeNode[T:TypeTag](withId: Int, forGraph: Graph[T, _]): T  = {
-//    typeOf[T] match{
-//      case t if t =:= typeOf[DefaultALNode] =>  DefaultALNode(withId, withId)
-//      case t if t =:= typeOf[SetBasedALNode] =>  SetBasedALNode(withId, withId)
-//    }
-//
-//
-//  }
 
 }

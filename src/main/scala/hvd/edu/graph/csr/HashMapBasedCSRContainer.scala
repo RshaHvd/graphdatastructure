@@ -1,6 +1,6 @@
 package hvd.edu.graph.csr
 
-import hvd.edu.graph.{CSRNode, GraphContainer}
+import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
@@ -10,7 +10,7 @@ class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
   private val edgeContainer = mutable.Map[String, List[CSRNode]]()
   private val vertexNoEdgesEdgeId = "-1"
 
-  override def add(vertex: CSRNode, edge: CSRNode): Unit = {
+  override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
     val mayBeAlreadyAdded = vertexContainer.get(vertex)
     val edgesKey = mayBeAlreadyAdded.fold {
       val edgeId = s"V${vertex.id}_E${edge.id}"
@@ -23,16 +23,8 @@ class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
     edgeContainer(edgesKey) = updatedEdges
   }
 
-  override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
-    val edgesKey = vertexContainer(vertex)
-    val edges = edgeContainer(edgesKey)
-    val updatedEdges = edges.:+(edge)
-    edgeContainer(edgesKey) = updatedEdges
-  }
-
-  override def vertex_?(vertex: CSRNode): Option[CSRNode] = {
+  def vertex_?(vertex: CSRNode): Option[CSRNode] = {
    vertexContainer.keys.find(_ == vertex)
-     //.getOrElse(EmptyCSRNode)
   }
 
   override def addVertex(vertex: CSRNode): Unit = {

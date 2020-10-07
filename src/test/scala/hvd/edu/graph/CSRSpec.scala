@@ -1,7 +1,6 @@
 package hvd.edu.graph
 
-import hvd.edu.graph.al.{ArrayBasedALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
 import hvd.edu.utils.GraphBuilder
 import org.scalatest.{FlatSpec, Matchers}
 

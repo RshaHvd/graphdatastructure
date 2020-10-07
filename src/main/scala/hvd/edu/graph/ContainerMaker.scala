@@ -1,7 +1,7 @@
 package hvd.edu.graph
 
 import hvd.edu.graph.al.{ArrayBasedALContainer, DefaultALNode, HashMapBasedALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
 
 trait ContainerMaker[N<: Node, C <: GraphContainer[N]] {
   def make(numVertex: Int, numEdges: Int): C

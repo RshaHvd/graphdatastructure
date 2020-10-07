@@ -1,6 +1,7 @@
 package hvd.edu.graph
 
 import hvd.edu.graph.al.{DefaultALNode, SetBasedALNode}
+import hvd.edu.graph.csr.CSRNode
 
 trait NodeMaker[N<: Node] {
   def make(id: Int, value: Int): N

@@ -8,15 +8,11 @@ trait Node {
 
 trait GraphContainer[n <: Node] {
 
-  def add(vertex: n, edge: n): Unit
-
   def addEdge(vertex: n, edge: n): Unit
 
   def addVertex(vertex: n): Unit
 
   def allVertices: List[n]
-
-  def vertex_?(vertex: n): Option[n]
 
   def edgeLength: Int
 
@@ -28,7 +24,7 @@ trait GraphContainer[n <: Node] {
 
   def nonEmptyVertexList: List[n]
 
-  def print(mayBeNumberOfVertex: Option[Int])
+  def print(mayBeNumberOfVertex: Option[Int]) : Unit
 }
 
 
@@ -38,11 +34,12 @@ class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(im
 
   def addEdge(vertex: N, edgeNode: N): Unit = {
     // if vertex was already added
-    val mayBeNode = graphContainer.vertex_?(vertex)
-    mayBeNode match {
-      case None => graphContainer.add(vertex, edgeNode)
-      case Some(c) => graphContainer.addEdge(vertex, edgeNode)
-    }
+    graphContainer.addEdge(vertex, edgeNode)
+//    val mayBeNode = graphContainer.vertex_?(vertex)
+//    mayBeNode match {
+//      case None => graphContainer.add(vertex, edgeNode)
+//      case Some(c) => graphContainer.addEdge(vertex, edgeNode)
+//    }
   }
 
   def addVertex(vertex: N): Unit = {
