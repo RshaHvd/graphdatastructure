@@ -8,7 +8,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
   "BPlusTree" should "be able to create a tree and grow tree" in {
 
-    val testTree = new DefaultBPlusTree[Int, Int](3)
+    val testTree = new BPlusTreeImpl[Int, Int](3)
     testTree.add(8,8)
     testTree.add(4,4)
     testTree shouldNot be(null)
@@ -17,41 +17,41 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     testTree.add(6,6)
     val nodesList2 = testTree.getNodes()
     nodesList2 shouldEqual(List(6))
-    val child = testTree.getChildren()
+    val child = testTree.getImmediateIndexNodes()
     child.size shouldBe 2
     testTree.add(7,7)
     val nodesList3 = testTree.getNodes()
     nodesList3 shouldEqual(List(6,7))
-    val child2: ListBuffer[_ <: TreeNode[_]] = testTree.getChildren()
+    val child2 = testTree.getImmediateIndexNodes()
     child2.size shouldBe 3
-    val allChildNodesInOrder = child2.flatMap(_.listOfNodes.toList)
+    val allChildNodesInOrder = child2.flatMap(_.listOfNodes)
     // // println(allChildNodesInOrder.mkString(","))
     val expectedChildNodesInOrder = ListBuffer(4,6,7,8)
     allChildNodesInOrder shouldBe expectedChildNodesInOrder
 
     println("Adding 5")
     testTree.add(5,5)
-    val child3 = testTree.getChildren()
+    val child3 = testTree.getImmediateIndexNodes()
     child3.size shouldBe 3
-    val allChildrenInOrder3 = child3.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder3 = child3.flatMap(_.listOfNodes)
     // println(allChildrenInOrder3.mkString(","))
     val expectedChildNodesInOrder3 = ListBuffer(4,5,6,7,8)
     allChildrenInOrder3 shouldBe expectedChildNodesInOrder3
 
     println("Adding 9")
     testTree.add(9,9)
-    val child4 = testTree.getChildren()
+    val child4 = testTree.getImmediateIndexNodes()
     child4.size shouldBe 2
-    val allChildrenInOrder4 = child4.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder4 = child4.flatMap(_.listOfNodes)
     // println(allChildrenInOrder4.mkString(","))
     val expectedChildNodesInOrder4 = ListBuffer(6,8)
     allChildrenInOrder4 shouldBe expectedChildNodesInOrder4
 
     println("Adding 10")
     testTree.add(10,10)
-    val child5 = testTree.getChildren()
+    val child5 = testTree.getImmediateIndexNodes()
     child5.size shouldBe 2
-    val allChildrenInOrder5 = child5.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder5 = child5.flatMap(_.listOfNodes)
     // println(allChildrenInOrder5.mkString(","))
     val expectedChildNodesInOrder5 = ListBuffer(6,8,9)
     allChildrenInOrder5 shouldBe expectedChildNodesInOrder5
@@ -65,9 +65,9 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val nodes6 = testTree.getNodes()
     // println(s"${nodes6.mkString(",")}")
     nodes6 shouldEqual(List(7,9))
-    val child6 = testTree.getChildren()
+    val child6 = testTree.getImmediateIndexNodes()
     child6.size shouldBe 3
-    val allChildrenInOrder6 = child6.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder6 = child6.flatMap(_.listOfNodes)
     // println(allChildrenInOrder6.mkString(","))
     val expectedChildNodesInOrder6 = ListBuffer(6,8,10)
     allChildrenInOrder6 shouldBe expectedChildNodesInOrder6
@@ -81,9 +81,9 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val nodes7 = testTree.getNodes()
     // println(s"${nodes7.mkString(",")}")
     nodes7 shouldEqual(List(7,9))
-    val child7 = testTree.getChildren()
+    val child7 = testTree.getImmediateIndexNodes()
     child7.size shouldBe 3
-    val allChildrenInOrder7 = child7.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder7 = child7.flatMap(_.listOfNodes)
     // println(allChildrenInOrder7.mkString(","))
     val expectedChildNodesInOrder7 = ListBuffer(6,8,10,11)
     allChildrenInOrder7 shouldBe expectedChildNodesInOrder7
@@ -94,7 +94,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     println("Adding 14")
     testTree.add(14,14)
-    val treeHt = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt}")
     treeHt shouldBe 3
 
@@ -102,16 +102,16 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"${nodes8.mkString(",")}")
     nodes8 shouldEqual(List(9))
 
-    val child8 = testTree.getChildren()
+    val child8 = testTree.getImmediateIndexNodes()
     child8.size shouldBe 2
-    val allChildrenInOrder8 = child8.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder8 = child8.flatMap(_.listOfNodes)
     // println(allChildrenInOrder8.mkString(","))
     val expectedChildNodesInOrder8 = ListBuffer(7,11)
     allChildrenInOrder8 shouldBe expectedChildNodesInOrder8
-    val allGrandChild8 = child8.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild8 = child8.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild8.size shouldBe 4
 
-    val allGrandChildNodes = allGrandChild8.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes = allGrandChild8.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes.mkString(",")}")
     val expectedGrandChildren = List(6,8,10,12)
     expectedGrandChildren shouldBe(allGrandChildNodes)
@@ -125,7 +125,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     //
     println("Adding 15")
     testTree.add(15,15)
-    val treeHt9 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt9 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt9}")
     treeHt9 shouldBe 3
 
@@ -133,15 +133,15 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"${nodes9.mkString(",")}")
     nodes9 shouldEqual(List(9))
 
-    val child9 = testTree.getChildren()
-    val allChildrenInOrder9= child9.flatMap(_.listOfNodes.toList)
+    val child9 = testTree.getImmediateIndexNodes()
+    val allChildrenInOrder9= child9.flatMap(_.listOfNodes)
     // println(allChildrenInOrder9.mkString(","))
     val expectedChildNodesInOrder9 = ListBuffer(7,11)
     allChildrenInOrder9 shouldBe expectedChildNodesInOrder9
-    val allGrandChild9 = child9.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild9 = child9.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild9.size shouldBe 4
 
-    val allGrandChildNodes9 = allGrandChild9.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes9 = allGrandChild9.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes9.mkString(",")}")
     val expectedGrandChildren9 = List(6,8,10,12,14)
     expectedGrandChildren9 shouldBe(allGrandChildNodes9)
@@ -155,7 +155,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     println("Adding 16")
     testTree.add(16,161)
-    val treeHt10 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt10 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt10}")
     treeHt10 shouldBe 3
 
@@ -163,17 +163,17 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"Root Nodes: ${nodes10.mkString(",")}")
     nodes10 shouldEqual(List(9))
 
-    val child10 = testTree.getChildren()
+    val child10 = testTree.getImmediateIndexNodes()
     child10.size shouldBe 2
-    val allChildrenInOrder10= child10.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder10= child10.flatMap(_.listOfNodes)
     // println(s"Children: ${allChildrenInOrder10.mkString(",")}")
     val expectedChildNodesInOrder10 = ListBuffer(7,11,14)
     allChildrenInOrder10 shouldBe expectedChildNodesInOrder10
 
-    val allGrandChild10 = child10.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild10 = child10.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild10.size shouldBe 5
 
-    val allGrandChildNodes10 = allGrandChild10.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes10 = allGrandChild10.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes10.mkString(",")}")
     val expectedGrandChildren10 = List(6,8,10,12,15)
     expectedGrandChildren10 shouldBe(allGrandChildNodes10)
@@ -186,7 +186,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     println("Adding 17")
     testTree.add(17,171)
-    val treeHt11 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt11 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt11}")
     treeHt11 shouldBe 3
 
@@ -194,17 +194,17 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"Root Nodes: ${nodes11.mkString(",")}")
     nodes11 shouldEqual(List(9))
 
-    val child11 = testTree.getChildren()
+    val child11 = testTree.getImmediateIndexNodes()
     child11.size shouldBe 2
-    val allChildrenInOrder11= child11.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder11= child11.flatMap(_.listOfNodes)
     // println(s"Children: ${allChildrenInOrder11.mkString(",")}")
     val expectedChildNodesInOrder11 = ListBuffer(7,11,14)
     allChildrenInOrder11 shouldBe expectedChildNodesInOrder11
 
-    val allGrandChild11 = child10.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild11 = child10.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild11.size shouldBe 5
 
-    val allGrandChildNodes11 = allGrandChild11.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes11 = allGrandChild11.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes11.mkString(",")}")
     val expectedGrandChildren11 = List(6,8,10,12,15,16)
     expectedGrandChildren11 shouldBe(allGrandChildNodes11)
@@ -217,7 +217,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     println("Adding 18")
     testTree.add(18,181)
-    val treeHt12 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt12 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt12}")
     treeHt12 shouldBe 3
 
@@ -225,17 +225,17 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"Root Nodes: ${nodes12.mkString(",")}")
     nodes12 shouldEqual(List(9,14))
 
-    val child12 = testTree.getChildren()
+    val child12 = testTree.getImmediateIndexNodes()
     child12.size shouldBe 3
-    val allChildrenInOrder12 = child12.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder12 = child12.flatMap(_.listOfNodes)
     // println(s"Children: ${allChildrenInOrder12.mkString(",")}")
     val expectedChildNodesInOrder12 = ListBuffer(7,11,16)
     allChildrenInOrder12 shouldBe expectedChildNodesInOrder12
 
-    val allGrandChild12 = child12.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild12 = child12.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild12.size shouldBe 6
 
-   val allGrandChildNodes12 = allGrandChild12.flatMap(_.listOfNodes.toList)
+   val allGrandChildNodes12 = allGrandChild12.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes12.mkString(",")}")
     val expectedGrandChildren12 = List(6,8,10,12,15,17)
     expectedGrandChildren12 shouldBe(allGrandChildNodes12)
@@ -254,7 +254,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     testTree.add(23,231)
     testTree.add(25,251)
 
-    val treeHt15 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt15 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt15}")
     treeHt15 shouldBe 4
 
@@ -262,25 +262,25 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"Root Nodes: ${nodes15.mkString(",")}")
     nodes15 shouldEqual(List(14))
 
-    val child15 = testTree.getChildren()
+    val child15 = testTree.getImmediateIndexNodes()
     child15.size shouldBe 2
 
-    val allChildrenInOrder15 = child15.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder15 = child15.flatMap(_.listOfNodes)
     // println(s"Children: ${allChildrenInOrder15.mkString(",")}")
    val expectedChildNodesInOrder15 = ListBuffer(9,18)
     allChildrenInOrder15 shouldBe expectedChildNodesInOrder15
 
-    val allGrandChild15 = child15.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild15 = child15.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild15.size shouldBe 4
 
-    val allGrandChildNodes15 = allGrandChild15.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes15 = allGrandChild15.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes15.mkString(",")}")
     val expectedGrandChildren15 = List(7,11,16,20,22)
     expectedGrandChildren15 shouldBe(allGrandChildNodes15)
 
-    val allGGChild15 = allGrandChild15.flatMap(DefaulTree.getChildren(_).toList)
+    val allGGChild15 = allGrandChild15.flatMap(TreeOps.immediateIndexNodes(_))
     allGGChild15.size shouldBe 9
-    val allGGrandChildNodes15 = allGGChild15.flatMap(_.listOfNodes.toList)
+    val allGGrandChildNodes15 = allGGChild15.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGGrandChildNodes15.mkString(",")}")
     val expectedGGrandChildren15 = List(6,8,10,12,15,17,19,21,23)
     expectedGGrandChildren15 shouldBe(allGGrandChildNodes15)
@@ -297,7 +297,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     testTree.add(1,1)
     testTree.add(2,2)
 
-    val treeHt16 = DefaulTree.treeHeight(testTree.getTree())
+    val treeHt16 = testTree.treeHeight()
     // println(s"Tree Height : ${treeHt16}")
     treeHt16 shouldBe 4
 
@@ -305,25 +305,25 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(s"Root Nodes: ${nodes16.mkString(",")}")
     nodes15 shouldEqual(List(14))
 
-    val child16 = testTree.getChildren()
+    val child16 = testTree.getImmediateIndexNodes()
     child16.size shouldBe 2
 
-    val allChildrenInOrder16 = child16.flatMap(_.listOfNodes.toList)
+    val allChildrenInOrder16 = child16.flatMap(_.listOfNodes)
     // println(s"Children: ${allChildrenInOrder16.mkString(",")}")
     val expectedChildNodesInOrder16 = ListBuffer(9,18)
     allChildrenInOrder16 shouldBe expectedChildNodesInOrder16
 
-    val allGrandChild16 = child16.flatMap(DefaulTree.getChildren(_).toList)
+    val allGrandChild16 = child16.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild16.size shouldBe 4
 
-    val allGrandChildNodes16 = allGrandChild16.flatMap(_.listOfNodes.toList)
+    val allGrandChildNodes16 = allGrandChild16.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes16.mkString(",")}")
     val expectedGrandChildren16 = List(4,7,11,16,20,22)
     expectedGrandChildren16 shouldBe(allGrandChildNodes16)
 
-    val allGGChild16 = allGrandChild16.flatMap(DefaulTree.getChildren(_).toList)
+    val allGGChild16 = allGrandChild16.flatMap(TreeOps.immediateIndexNodes(_))
     allGGChild15.size shouldBe 9
-    val allGGrandChildNodes16 = allGGChild16.flatMap(_.listOfNodes.toList)
+    val allGGrandChildNodes16 = allGGChild16.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGGrandChildNodes16.mkString(",")}")
     val expectedGGrandChildren16 = List(2,6,8,10,12,15,17,19,21,23)
     expectedGGrandChildren16 shouldBe(allGGrandChildNodes16)

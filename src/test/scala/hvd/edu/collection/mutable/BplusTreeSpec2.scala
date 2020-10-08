@@ -8,7 +8,7 @@ class BplusTreeSpec2 extends FlatSpec with Matchers {
 
   "BPlusTree" should "be able to create a tree and grow tree" in {
 
-    val testTree = new DefaultBPlusTree[Int, List[Int]](3)
+    val testTree = new BPlusTreeImpl[Int, List[Int]](3)
     testTree.add(8,List(1,23))
     testTree.add(4,List(54, 78))
     testTree shouldNot be(null)
@@ -17,14 +17,14 @@ class BplusTreeSpec2 extends FlatSpec with Matchers {
     testTree.add(6,List(89,65))
     val nodesList2 = testTree.getNodes()
     nodesList2 shouldEqual(List(6))
-    val child = testTree.getChildren()
+    val child = testTree.getImmediateIndexNodes()
     child.size shouldBe 2
     testTree.add(7, List(77, 88))
     val nodesList3 = testTree.getNodes()
     nodesList3 shouldEqual(List(6,7))
-    val child2: ListBuffer[_ <: TreeNode[_]] = testTree.getChildren()
+    val child2 = testTree.getImmediateIndexNodes()
     child2.size shouldBe 3
-    val allChildNodesInOrder = child2.flatMap(_.listOfNodes.toList)
+    val allChildNodesInOrder = child2.flatMap(_.listOfNodes)
     // // println(allChildNodesInOrder.mkString(","))
     val expectedChildNodesInOrder = ListBuffer(4,6,7,8)
     allChildNodesInOrder shouldBe expectedChildNodesInOrder
