@@ -15,3 +15,6 @@ trait CSRNodeDef extends Node {
   def firstEdgeIndex: Int
 }
 
+case class CSRNode(override val id: Int, override val value: Int, firstEdgeIndex: Int = -1)
+  extends CSRNodeDef
+

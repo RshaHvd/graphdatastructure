@@ -8,19 +8,12 @@ class HashMapBasedALContainer(numVertex: Int) extends GraphContainer[DefaultALNo
 
   private val adjacencyListMap = mutable.Map[DefaultALNode, List[DefaultALNode]]()
 
-  override def add(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
-    val mayBeAlreadyAdded = hasVertex(vertex)
-    if(mayBeAlreadyAdded){
-      addEdge(vertex, edge)
-    }else{
-      adjacencyListMap(vertex) = List(edge)
-    }
-  }
-
   override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
     val findVertex = adjacencyListMap.get(vertex)
-    findVertex.fold{
-      throw new RuntimeException("Cannot find the vertex to add edge too")}{
+    findVertex.fold {
+      // throw new RuntimeException("Cannot find the vertex to add edge too")}
+      adjacencyListMap(vertex) = List(edge)
+    }{
       existingList =>
         val newLL = existingList.+:(edge)
         adjacencyListMap(vertex) = newLL
@@ -31,7 +24,7 @@ class HashMapBasedALContainer(numVertex: Int) extends GraphContainer[DefaultALNo
     adjacencyListMap.keys.toList
   }
 
-  override def vertex_?(vertex: DefaultALNode): Option[DefaultALNode] = {
+   def vertex_?(vertex: DefaultALNode): Option[DefaultALNode] = {
     adjacencyListMap.keys.find(_ == vertex)
   }
 

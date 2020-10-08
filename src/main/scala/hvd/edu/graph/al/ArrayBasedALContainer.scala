@@ -7,7 +7,7 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
   private var arrayLen = numVertex
   private var vertexContainer = Array.ofDim[SetBasedALNode](numVertex)
 
-  override def add(vertex: SetBasedALNode, edge: SetBasedALNode): Unit = {
+   def add(vertex: SetBasedALNode, edge: SetBasedALNode): Unit = {
     resizeContainer(vertex)
     vertexContainer(vertex.id) = vertex
     addEdge(vertex, edge)
@@ -15,8 +15,14 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
   }
 
   override def addEdge(vertex: SetBasedALNode, edge: SetBasedALNode): Unit = {
-    resizeContainer(vertex)
-    vertexContainer(vertex.id).addEdge(edge)
+    val mayBeVertex = vertex_?(vertex)
+    mayBeVertex match {
+      case None => add(vertex, edge)
+      case Some(c) => {
+        resizeContainer(vertex)
+        vertexContainer(vertex.id).addEdge(edge)
+      }
+    }
   }
 
   override def addVertex(vertex: SetBasedALNode): Unit = {
@@ -40,7 +46,7 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
     }
   }
 
-  override def vertex_?(vertex: SetBasedALNode): Option[SetBasedALNode] = {
+  def vertex_?(vertex: SetBasedALNode): Option[SetBasedALNode] = {
     if(vertex.id >= vertexContainer.size) None
     else vertexContainer.collectFirst{
       case v: SetBasedALNode if v.id == vertex.id => v
@@ -49,7 +55,7 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
 
   override def edgeLength: Int = {
       val allEdges = for (i <- 0 to vertexLength - 1) yield {
-        nonEmptyVertexList(i).outgoingEdges.toList.size
+        nonEmptyVertexList(i).outgoingEdges().toList.size
       }
       allEdges.sum
   }
@@ -62,7 +68,7 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
   }
 
   override def edgesForVertex(v: SetBasedALNode): List[SetBasedALNode] = {
-    v.outgoingEdges.toList.sortBy(_.id)
+    v.outgoingEdges().toList.sortBy(_.id)
   }
 
   override def edgesForVertexId(vid: Int): List[SetBasedALNode] = {
@@ -78,7 +84,7 @@ class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNod
 
     for (i <- 0 to vlenToUse) {
       val n1 = vlist(i)
-      val outGoingEdges = n1.outgoingEdges
+      val outGoingEdges = n1.outgoingEdges()
       println(
         s"[ ${n1.id} -> ( ${outGoingEdges.toList.map(_.id).sorted.mkString(",")} ) ]"
       )

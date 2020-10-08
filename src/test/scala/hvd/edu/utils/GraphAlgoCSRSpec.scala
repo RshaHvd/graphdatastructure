@@ -1,7 +1,6 @@
 package hvd.edu.utils
 
-import hvd.edu.TestGraphUtil
-import hvd.edu.graph.CSRNode
+import hvd.edu.graph.csr.CSRNode
 import org.scalatest.Inspectors._
 import org.scalatest.{FlatSpec, Matchers}
 

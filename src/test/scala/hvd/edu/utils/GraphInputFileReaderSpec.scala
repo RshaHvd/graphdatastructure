@@ -1,8 +1,7 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.CSRNode
 import hvd.edu.graph.al.{ArrayBasedALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayBasedCSRContainer, HashMapBasedCSRContainer}
+import hvd.edu.graph.csr.{ArrayBasedCSRContainer, CSRNode, HashMapBasedCSRContainer}
 import org.scalatest.{FlatSpec, Matchers}
 
 class GraphInputFileReaderSpec extends FlatSpec with Matchers {

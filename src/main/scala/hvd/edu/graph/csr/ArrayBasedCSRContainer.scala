@@ -1,6 +1,6 @@
 package hvd.edu.graph.csr
 
-import hvd.edu.graph.{CSRNode, GraphContainer}
+import hvd.edu.graph.GraphContainer
 
 class ArrayBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
   private var vertexContainer = Array.ofDim[CSRNode](numVertex)
@@ -8,7 +8,7 @@ class ArrayBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
   private var vertexSize = 0
   private var lastEdgePointer = -1
 
-  def add(vertex: CSRNode, edge: CSRNode): Unit = {
+  private def add(vertex: CSRNode, edge: CSRNode): Unit = {
     resizeVertexContainer(vertex)
     val nextEdgePointer = lastEdgePointer + 1
     val vertextWithFirstIndex = vertex.copy(firstEdgeIndex = nextEdgePointer)
@@ -18,8 +18,12 @@ class ArrayBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
   }
 
   def addEdge(vertex: CSRNode, edgeNode: CSRNode) = {
-    val nextEdgePointer = lastEdgePointer + 1
-    addToEdgeContainer(edgeNode, nextEdgePointer)
+    if(vertex_?(vertex).nonEmpty) {
+      val nextEdgePointer = lastEdgePointer + 1
+      addToEdgeContainer(edgeNode, nextEdgePointer)
+    }else{
+      add(vertex, edgeNode)
+    }
   }
 
   def addVertex(vertex: CSRNode) = {
