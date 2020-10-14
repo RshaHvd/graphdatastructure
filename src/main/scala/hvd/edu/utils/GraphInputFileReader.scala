@@ -8,7 +8,9 @@ object GraphInputFileReader {
 
   def readFile[N<:Node,  C <: GraphContainer[N]](filePath: String,
                                                  fileLength: Int,
-                                                 delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N]) = {
+                                                 delimiter: String)(implicit ev: ContainerMaker[N, C],
+                                                                    nm: NodeMaker[N],
+                                                                    fanout: Option[Int]= None) = {
 
     val startTime = System.currentTimeMillis()
 

@@ -13,16 +13,6 @@ import scala.collection.mutable
  * [4 -> 5]
  */
 
-//trait AdjacencyListNode extends Node
-//
-// // def v : Int
-//
-////  def addEdge[ALN <: AdjacencyListNode](e: ALN) : Unit
-////
-////  def outgoingEdges[ALN <: AdjacencyListNode] : Set[ALN]
-//}
-
-//object EmptyAdjacencyNode extends ALNodeWithSetBasedEdges(-1, -1)
 
 
 case class SetBasedALNode(override val id: Int, override val value: Int) extends Node {
@@ -35,3 +25,13 @@ case class SetBasedALNode(override val id: Int, override val value: Int) extends
 }
 
 case class DefaultALNode(override val id: Int, override val value: Int) extends Node
+
+object ALNodeUtils{
+
+  implicit def defaultALNodeOrdering = new Ordering[DefaultALNode]{
+    override def compare(x: DefaultALNode, y: DefaultALNode): Int = {
+      x.id compare y.id
+    }
+  }
+
+}

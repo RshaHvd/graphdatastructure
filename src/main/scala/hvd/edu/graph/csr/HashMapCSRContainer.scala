@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-class HashMapBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
+class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
 
   private val vertexContainer = mutable.Map[CSRNode, String]()
   private val edgeContainer = mutable.Map[String, List[CSRNode]]()

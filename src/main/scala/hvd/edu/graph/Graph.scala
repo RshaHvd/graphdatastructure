@@ -28,18 +28,13 @@ trait GraphContainer[n <: Node] {
 }
 
 
-class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(implicit ev: ContainerMaker[N, C]) {
+class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(implicit ev: ContainerMaker[N, C],
+                                                                              fanout: Option[Int] = None) {
 
   private val graphContainer = ContainerMaker.apply[N, C](numVertex, numEdges)
 
   def addEdge(vertex: N, edgeNode: N): Unit = {
-    // if vertex was already added
     graphContainer.addEdge(vertex, edgeNode)
-//    val mayBeNode = graphContainer.vertex_?(vertex)
-//    mayBeNode match {
-//      case None => graphContainer.add(vertex, edgeNode)
-//      case Some(c) => graphContainer.addEdge(vertex, edgeNode)
-//    }
   }
 
   def addVertex(vertex: N): Unit = {
