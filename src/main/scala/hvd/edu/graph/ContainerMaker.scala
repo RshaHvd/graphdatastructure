@@ -1,7 +1,7 @@
 package hvd.edu.graph
 
 import hvd.edu.graph.al.{ArrayALContainer, BplusTreeALContainer, DefaultALNode, HashMapALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayCSRContainer, CSRNode, HashMapCSRContainer}
+import hvd.edu.graph.csr.{ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer}
 
 trait ContainerMaker[N<: Node, C <: GraphContainer[N]] {
   def make(numVertex: Int, numEdges: Int)(implicit fanout: Option[Int]): C
@@ -18,6 +18,12 @@ object ContainerMaker {
    implicit object HashMapBasedCSRContainerFactory extends ContainerMaker[CSRNode, HashMapCSRContainer] {
     override def make(numVertex: Int, numEdges: Int)(implicit fanout: Option[Int]) = {
       new HashMapCSRContainer(numVertex, numEdges)
+    }
+  }
+
+  implicit object BplusTreeBasedCSRContainerFactory extends ContainerMaker[CSRNode, BplusTreeCSRContainer]{
+    override def make(numVertex: Int, numEdges: Int)(implicit fanout: Option[Int]): BplusTreeCSRContainer = {
+      new BplusTreeCSRContainer(numVertex, fanout)
     }
   }
 

@@ -1,7 +1,7 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.al.{ArrayALContainer, BplusTreeALContainer, DefaultALNode, HashMapALContainer, SetBasedALNode}
-import hvd.edu.graph.csr.{ArrayCSRContainer, CSRNode, HashMapCSRContainer}
+import hvd.edu.graph.csr.{ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer}
 import org.scalatest.{FlatSpec, Matchers}
 
 class GraphInputFileReaderSpec extends FlatSpec with Matchers {
@@ -21,7 +21,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
     actualEdge10Indices should equal(expectedEdge10Indidces)
   }
 
-  it should "Generate a valid HashMapBased CSR  graph" in {
+  it should "Generate a valid HashMapBased CSR graph" in {
 
     val readGraph = GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](
       "/Users/rsha/harvardcourses/thesis/project/graphdatastructures/src/test/resources/facebook_combined.txt",
@@ -34,6 +34,21 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
     val expectedEdge10Indidces =
       List(67, 142, 169, 200, 277, 285, 291, 323, 332)
     actualEdge10IndicesForCSR should equal(expectedEdge10Indidces)
+  }
+
+  it should "Generate a valid BplusTre CSR graph" in {
+
+    val readGraph = GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](
+      "/Users/rsha/harvardcourses/thesis/project/graphdatastructures/src/test/resources/facebook_combined.txt",
+      88234,
+      " "
+    )
+    readGraph shouldNot be(null)
+    val edgesForNode10ForBplusTreeCSR = readGraph.edgesForVertexId(10)
+    val actualEdge10IndicesForBplusTreeCSR = edgesForNode10ForBplusTreeCSR.map(_.id)
+    val expectedEdge10Indidces =
+      List(67, 142, 169, 200, 277, 285, 291, 323, 332)
+    actualEdge10IndicesForBplusTreeCSR should equal(expectedEdge10Indidces)
   }
 
   it should "Generate a valid Adjacency List graph" in {

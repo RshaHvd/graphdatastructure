@@ -19,7 +19,7 @@ class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends GraphCon
     val mayBeExistingEdges: Option[List[DefaultALNode]] = container.find(vertex)
 
     mayBeExistingEdges.fold{container.add(vertex, List(edge))}{eList =>
-      val updatedEdges = eList.+:(edge)
+      val updatedEdges = eList.:+(edge)
       container.update(vertex, updatedEdges)
     }
   }

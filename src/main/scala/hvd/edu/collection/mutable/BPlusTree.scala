@@ -27,6 +27,8 @@ trait LeafNode[T, D] extends TreeNode[T] {
 
   def allValues(): List[D]
 
+  def allKeyValues() : List[(T, D)]
+
 }
 
 abstract class IndexNode[T: Ordering] extends TreeNode[T] {
@@ -99,6 +101,8 @@ class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil,
 
   override def allValues(): List[D] = dataByKey.values.toList
 
+  override def allKeyValues(): List[(T, D)] = dataByKey.toList
+
 }
 
 trait BPlusTree[T, D] {
@@ -120,6 +124,8 @@ trait BPlusTree[T, D] {
   def update(t:T, d:D): Unit
 
   def getAllValues() : List[D]
+
+  def getAllKeyValues(): List[(T, D)]
 }
 
 
@@ -305,6 +311,25 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int) extends BPlusTree[
 
     walkTreeForValues(_tree)
 
+  }
+
+  override def getAllKeyValues(): List[(T, D)] = {
+
+    def walkTreeKeyValues(_theTree: TreeNode[T]): List[(T, D)] = {
+      _theTree match {
+
+        case t1: LeafNode[T, D] => t1.allKeyValues()
+
+        case t2: IndexNode[T] => {
+          val keyValueAllChildren = t2.children.flatMap {
+            walkTreeKeyValues(_)
+          }
+          keyValueAllChildren.toList
+        }
+      }
+    }
+
+    walkTreeKeyValues(_tree)
   }
 
   override def treeHeight(): Int = TreeOps.treeHeight(_tree)

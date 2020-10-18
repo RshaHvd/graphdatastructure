@@ -28,7 +28,7 @@ case class DefaultALNode(override val id: Int, override val value: Int) extends 
 
 object ALNodeUtils{
 
-  implicit def defaultALNodeOrdering = new Ordering[DefaultALNode]{
+  implicit val defaultALNodeOrdering = new Ordering[DefaultALNode]{
     override def compare(x: DefaultALNode, y: DefaultALNode): Int = {
       x.id compare y.id
     }

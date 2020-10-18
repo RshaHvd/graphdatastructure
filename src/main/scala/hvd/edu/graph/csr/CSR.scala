@@ -18,3 +18,12 @@ trait CSRNodeDef extends Node {
 case class CSRNode(override val id: Int, override val value: Int, firstEdgeIndex: Int = -1)
   extends CSRNodeDef
 
+object CSRNodeUtils{
+
+  implicit val defaultCSRNodeOrdering = new Ordering[CSRNode]{
+    override def compare(x: CSRNode, y: CSRNode): Int = {
+      x.id compare y.id
+    }
+  }
+
+}

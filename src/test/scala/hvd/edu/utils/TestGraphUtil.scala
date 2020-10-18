@@ -13,11 +13,4 @@ object TestGraphUtil {
     )
   }
 
-  def makeAllALGraphContainer[N<:Node](inputStr: String, delimiter1: String, delimiter2: String) = {
-    val g1 = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](inputStr, delimiter1, delimiter2)
-    val g2 = GraphBuilder.buildFromString[DefaultALNode, HashMapALContainer](inputStr, delimiter1, delimiter2)
-
-    List(g1,g2)
-  }
-
 }
