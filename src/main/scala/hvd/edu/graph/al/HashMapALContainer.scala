@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-class HashMapBasedALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
+class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
 
   private val adjacencyListMap = mutable.Map[DefaultALNode, List[DefaultALNode]]()
 

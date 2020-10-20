@@ -23,6 +23,12 @@ trait LeafNode[T, D] extends TreeNode[T] {
 
   def getDataForKeys(findKeys: T*): Map[T, D]
 
+  def update(t:T, d: D): Unit
+
+  def allValues(): List[D]
+
+  def allKeyValues() : List[(T, D)]
+
 }
 
 abstract class IndexNode[T: Ordering] extends TreeNode[T] {
@@ -84,6 +90,19 @@ class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil,
     dataByKey.filterKeys(_k => findKeys.contains(_k)).toMap
   }
 
+  override def update(t:T, d: D) ={
+    if(nodes.contains(t) && dataByKey.contains(t)) {
+      dataByKey(t) = d
+    }
+    else{
+      throw new RuntimeException(s"Trying to update ket : ${t} which does not exists in the Leaf")
+    }
+  }
+
+  override def allValues(): List[D] = dataByKey.values.toList
+
+  override def allKeyValues(): List[(T, D)] = dataByKey.toList
+
 }
 
 trait BPlusTree[T, D] {
@@ -101,6 +120,12 @@ trait BPlusTree[T, D] {
   def getNodes(): List[T]
 
   def treeHeight(): Int
+
+  def update(t:T, d:D): Unit
+
+  def getAllValues() : List[D]
+
+  def getAllKeyValues(): List[(T, D)]
 }
 
 
@@ -231,6 +256,25 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int) extends BPlusTree[
     findInThisTree(_tree)
   }
 
+
+  override def update(t: T, d: D): Unit = {
+
+    def findAndUpdate(theTree: TreeNode[T]): Unit = {
+      theTree match {
+        case t1: IndexNode[T] => {
+          val mayBeChildIndexLessThan = t1.findFirstChildIndexLessThan(t)
+          val searchInThisTree = mayBeChildIndexLessThan.fold(t1.children.last) { idx => t1.children(idx) }
+          findAndUpdate(searchInThisTree)
+        }
+        case t2: LeafNode[T, D] => {
+          t2.update(t, d)
+        }
+      }
+    }
+
+    findAndUpdate(_tree)
+  }
+
   override def getNodes() = _tree match {
     case t1: LeafNode[T, D] => t1.listOfNodes.toList
     case t2: IndexNode[T] => t2.listOfNodes.toList
@@ -252,6 +296,40 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int) extends BPlusTree[
 
     internalLeaves(_tree).toList
 
+  }
+
+  override def getAllValues(): List[D] = {
+
+    def walkTreeForValues(_theTree: TreeNode[T]): List[D] = _theTree match {
+      case t1: LeafNode[T, D] => t1.allValues
+      case t2: IndexNode[T] =>
+        val valuesForAllChildren = t2.children.flatMap {
+          walkTreeForValues(_)
+        }
+        valuesForAllChildren.toList
+    }
+
+    walkTreeForValues(_tree)
+
+  }
+
+  override def getAllKeyValues(): List[(T, D)] = {
+
+    def walkTreeKeyValues(_theTree: TreeNode[T]): List[(T, D)] = {
+      _theTree match {
+
+        case t1: LeafNode[T, D] => t1.allKeyValues()
+
+        case t2: IndexNode[T] => {
+          val keyValueAllChildren = t2.children.flatMap {
+            walkTreeKeyValues(_)
+          }
+          keyValueAllChildren.toList
+        }
+      }
+    }
+
+    walkTreeKeyValues(_tree)
   }
 
   override def treeHeight(): Int = TreeOps.treeHeight(_tree)

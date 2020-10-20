@@ -1,14 +1,14 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.al.{HashMapBasedALContainer, DefaultALNode}
+import hvd.edu.graph.al.{BplusTreeALContainer, DefaultALNode}
 import org.scalatest.{FlatSpec, Matchers}
 
-class GraphAlgoALSpecForHashMapBasedALContainer extends FlatSpec with Matchers {
+class GraphAlgoALSpecForBPlusTreeBasedALContainer extends FlatSpec with Matchers {
 
-  "Depth First Search on AL based on HashMapContainer" should "yield correct nodes on sample graph 1" in {
-
+  "Depth First Search on AL based on BplusTreeContainer" should "yield correct nodes on sample graph 1" in {
+    val fanout = 5
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
@@ -16,26 +16,28 @@ class GraphAlgoALSpecForHashMapBasedALContainer extends FlatSpec with Matchers {
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14)
-    expectedList.sorted shouldEqual actualList.sorted
+    expectedList shouldEqual actualList
 
   }
 
   it should "work on sample graph 2" in {
+    val fanout = 5
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     val walkDFFromNode = DefaultALNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 14, 15, 13)
-    expectedList.sorted shouldEqual actualList.sorted
+    expectedList shouldEqual actualList
 
   }
 
   it should "produce different list from different start vertices of the same graph" in {
+    val fanout = 5
     val inputString = "1,2 2,3 2,4 3, 4, 5,6 6,1 6,2 6,7 7, "
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     val walkDFFromNodeFrom1 = DefaultALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.dfs(walkDFFromNodeFrom1, graph)
@@ -54,16 +56,16 @@ class GraphAlgoALSpecForHashMapBasedALContainer extends FlatSpec with Matchers {
     val actualList5 = actualListNodes5.map(_.id)
     val expectedList5 = List(5, 6, 1, 2, 3, 4, 7)
 
-    expectedList1.sorted shouldEqual actualList1.sorted
-    expectedList6.sorted shouldEqual actualList6.sorted
-    expectedList5.sorted shouldEqual actualList5.sorted
+    expectedList1 shouldEqual actualList1
+    expectedList6 shouldEqual actualList6
+    expectedList5 shouldEqual actualList5
 
   }
 
-  "Breath First Search on AL Using HashMapContainer" should "yield correct nodes on sample graph 1" in {
-
+  "Breath First Search on AL Using BPLusTreeContainer" should "yield correct nodes on sample graph 1" in {
+    val fanout = 5
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
@@ -77,21 +79,23 @@ class GraphAlgoALSpecForHashMapBasedALContainer extends FlatSpec with Matchers {
   }
 
   it should "work on sample graph 2" in {
+    val fanout = 5
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     val walkDFFromNode = DefaultALNode(10, 10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14, 15)
-    expectedList.sorted shouldEqual actualList.sorted
+    expectedList shouldEqual actualList
 
   }
 
   it should "produce different list from different start vertices of the same graph" in {
+    val fanout = 5
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
-    val graph = GraphBuilder.buildFromString[DefaultALNode, HashMapBasedALContainer](inputString, " ", ",")
+    val graph = GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](inputString, " ", ",")
     graph shouldNot be(null)
     val walkDFFromNodeFrom1 = DefaultALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, graph)
@@ -111,9 +115,9 @@ class GraphAlgoALSpecForHashMapBasedALContainer extends FlatSpec with Matchers {
     val actualList5 = actualListNodes5.map(_.id)
     val expectedList5 = List(5, 6, 1, 2, 7, 3, 4, 8)
 
-    expectedList1.sorted shouldEqual actualList1.sorted
-    expectedList6.sorted shouldEqual actualList6.sorted
-    expectedList5.sorted shouldEqual actualList5.sorted
+    expectedList1 shouldEqual actualList1
+    expectedList6 shouldEqual actualList6
+    expectedList5 shouldEqual actualList5
 
   }
 

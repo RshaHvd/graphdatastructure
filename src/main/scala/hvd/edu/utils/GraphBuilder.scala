@@ -4,12 +4,13 @@ import hvd.edu.graph._
 
 object GraphBuilder {
 
-  def buildFromString[N<:Node, C <: GraphContainer[N]](s: String,
+  def buildFromString[N<:Node, C <: GraphContainer[N]](inputString: String,
                                                        firstDelimiter: String,
                                                        secondDelimiter: String)(implicit ev: ContainerMaker[N, C],
-                                                                                nodeMaker: NodeMaker[N]): Graph[N, C] = {
+                                                                                nodeMaker: NodeMaker[N],
+                                                                                fanout: Option[Int] = None): Graph[N, C] = {
 
-    val arrayEdges: Array[String] = s.split(firstDelimiter)
+    val arrayEdges: Array[String] = inputString.split(firstDelimiter)
 
     val graph = new Graph(arrayEdges.length, arrayEdges.length)
 

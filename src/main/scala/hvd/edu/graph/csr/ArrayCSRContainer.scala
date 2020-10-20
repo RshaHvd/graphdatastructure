@@ -2,7 +2,7 @@ package hvd.edu.graph.csr
 
 import hvd.edu.graph.GraphContainer
 
-class ArrayBasedCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
+class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
   private var vertexContainer = Array.ofDim[CSRNode](numVertex)
   private var edgeContainer = Array.ofDim[CSRNode](numEdges)
   private var vertexSize = 0

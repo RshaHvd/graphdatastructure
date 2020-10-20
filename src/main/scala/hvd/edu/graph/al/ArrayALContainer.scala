@@ -2,7 +2,7 @@ package hvd.edu.graph.al
 
 import hvd.edu.graph.GraphContainer
 
-class ArrayBasedALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode]{
+class ArrayALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode]{
 
   private var arrayLen = numVertex
   private var vertexContainer = Array.ofDim[SetBasedALNode](numVertex)
