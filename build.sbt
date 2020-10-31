@@ -2,13 +2,32 @@ import Dependencies._
 
 ThisBuild / scalaVersion     := "2.12.10"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
-ThisBuild / organizationName := "example"
 
-lazy val root = (project in file("."))
+lazy val root = project
+  .in(file("."))
   .settings(
     name := "graphdatastructures",
-    libraryDependencies += scalaTest % Test
-  )
+    settings,
+    libraryDependencies ++= commonDependencies)
+  .aggregate(core)
 
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
+lazy val core = project
+  .settings(
+    name := "core",
+    settings,
+    libraryDependencies ++= commonDependencies)
+
+scalafmtOnCompile := true
+
+lazy val settings =
+    scalafmtSettings
+
+lazy val scalafmtSettings = Seq(
+  scalafmtOnCompile := true
+)
+
+
+lazy val commonDependencies = Seq(
+  scalaTest % Test
+)
+
