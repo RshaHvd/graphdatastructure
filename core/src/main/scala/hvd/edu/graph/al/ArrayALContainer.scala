@@ -2,14 +2,14 @@ package hvd.edu.graph.al
 
 import hvd.edu.graph.GraphContainer
 
-class ArrayALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode] {
+case class ArrayALContainer(numVertex: Long) extends GraphContainer[SetBasedALNode] {
 
-  private var arrayLen = numVertex
-  private var vertexContainer = Array.ofDim[SetBasedALNode](numVertex)
+  private var arrayLen = numVertex.toInt
+  private var vertexContainer = Array.ofDim[SetBasedALNode](numVertex.toInt)
 
   def add(vertex: SetBasedALNode, edge: SetBasedALNode): Unit = {
     resizeContainer(vertex)
-    vertexContainer(vertex.id) = vertex
+    vertexContainer(vertex.id.toInt) = vertex
     addEdge(vertex, edge)
 
   }
@@ -20,13 +20,13 @@ class ArrayALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode] {
       case None => add(vertex, edge)
       case Some(c) =>
         resizeContainer(vertex)
-        vertexContainer(vertex.id).addEdge(edge)
+        vertexContainer(vertex.id.toInt).addEdge(edge)
     }
   }
 
   override def addVertex(vertex: SetBasedALNode): Unit = {
     resizeContainer(vertex)
-    vertexContainer(vertex.id) = vertex
+    vertexContainer(vertex.id.toInt) = vertex
   }
 
   override def allVertices: List[SetBasedALNode] = vertexContainer.toList
@@ -36,40 +36,49 @@ class ArrayALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode] {
       // println("resizing array .....")
       val doubleLen = arrayLen * 2
       val newLen = if (n.id < doubleLen) doubleLen else (n.id * 2)
-      val newArray = Array.ofDim[SetBasedALNode](newLen)
+      val newArray = Array.ofDim[SetBasedALNode](newLen.toInt)
       System.arraycopy(vertexContainer, 0, newArray, 0, arrayLen)
       //println(s"new array created with ${newLen} and previous array had size ${arrayLen} .....")
       vertexContainer = newArray
-      arrayLen = newLen
+      arrayLen = newLen.toInt
       //println(s"done resize")
     }
 
-  def vertex_?(vertex: SetBasedALNode): Option[SetBasedALNode] =
+  def vertex_?(vertex: SetBasedALNode): Option[SetBasedALNode] = {
     if (vertex.id >= vertexContainer.size) None
-    else
-      vertexContainer.collectFirst {
-        case v: SetBasedALNode if v.id == vertex.id => v
-      }
+    else {
+      val v1 = vertexContainer(vertex.id.toInt)
+      if (v1 == null) None else Option(v1)
+    }
+
+  }
 
   override def edgeLength: Int = {
-    val allEdges = for (i <- 0 to vertexLength - 1) yield nonEmptyVertexList(i).outgoingEdges().toList.size
+    val allEdges =
+      for (i <- 0 to vertexLength - 1)
+        yield nonEmptyVertexList(i).outgoingEdges().toList.size
     allEdges.sum
   }
 
   override def vertexLength: Int = nonEmptyVertexList.length
 
   override def nonEmptyVertexList = {
-    val nonEmpties = vertexContainer.collect { case v: SetBasedALNode => v }
-    nonEmpties.toList
+    val nonEmpties = vertexContainer.toList.filterNot(p => p == null)
+    nonEmpties
   }
 
   override def edgesForVertex(v: SetBasedALNode): List[SetBasedALNode] =
     v.outgoingEdges().toList.sortBy(_.id)
 
-  override def edgesForVertexId(vid: Int): List[SetBasedALNode] =
-    vertexContainer.collectFirst { case v: SetBasedALNode if v.id == vid => v }.fold(List.empty[SetBasedALNode]) {
-      edgesForVertex(_)
-    }
+  override def edgesForVertexId(vid: Long): List[SetBasedALNode] = {
+    //    vertexContainer.collectFirst { case v: SetBasedALNode if v.id == vid => v }.fold(List.empty[SetBasedALNode]) {
+    //      edgesForVertex(_)
+    //    }
+
+    val mayBeVertex = vertexContainer(vid.toInt)
+    if (mayBeVertex != null) { edgesForVertex(mayBeVertex) }
+    else { Nil }
+  }
 
   override def print(mayBeNumberOfVertex: Option[Int]): Unit = {
     val vlist: List[SetBasedALNode] = this.allVertices

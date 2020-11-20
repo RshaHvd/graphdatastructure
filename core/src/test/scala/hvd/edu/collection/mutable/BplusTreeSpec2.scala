@@ -1,7 +1,7 @@
 package hvd.edu.collection.mutable
 
 import hvd.edu.graph.al.DefaultALNode
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{ FlatSpec, Matchers }
 
 import scala.collection.mutable.ListBuffer
 
@@ -54,7 +54,9 @@ class BplusTreeSpec2 extends FlatSpec with Matchers {
     allLeaves shouldBe expectedChildNodesInOrder4
 
     val valuesFoundFor7Overidden = testTree.find(7)
-    println(s"Values Read for key 7 after override = ${valuesFoundFor7Overidden.mkString(",")}")
+    println(
+      s"Values Read for key 7 after override = ${valuesFoundFor7Overidden.mkString(",")}"
+    )
     val expectedvaluesFor7AfterOverride = Option(List(177, 188))
     valuesFoundFor7Overidden shouldEqual expectedvaluesFor7AfterOverride
 

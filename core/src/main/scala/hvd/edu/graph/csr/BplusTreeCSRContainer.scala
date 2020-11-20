@@ -6,7 +6,7 @@ import CSRNodeUtils._
 
 import scala.collection.mutable
 
-class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends GraphContainer[CSRNode] {
+case class BplusTreeCSRContainer(numVertex: Long, fanout: Option[Int]) extends GraphContainer[CSRNode] {
 
   val defaultFanout = 5
 
@@ -51,7 +51,8 @@ class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends GraphCo
   override def vertexLength: Int = allVertices.size
 
   override def edgesForVertex(v: CSRNode): List[CSRNode] = {
-    val foundEdge = vertexContainer.find(v).filterNot(eI => eI == vertexNoEdgesEdgeId)
+    val foundEdge =
+      vertexContainer.find(v).filterNot(eI => eI == vertexNoEdgesEdgeId)
     foundEdge
       .map { edgeIndex =>
         edgeContainer(edgeIndex)
@@ -59,15 +60,16 @@ class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends GraphCo
       .getOrElse(Nil)
   }
 
-  override def edgesForVertexId(vid: Int): List[CSRNode] = {
+  override def edgesForVertexId(vid: Long): List[CSRNode] = {
     val nodeToFind = CSRNode(vid, vid)
     edgesForVertex(nodeToFind)
   }
 
   override def nonEmptyVertexList: List[CSRNode] = {
     val allKV = vertexContainer.getAllKeyValues()
-    val nonEmptyKV = allKV.filterNot { case (k1, v1) =>
-      v1 == vertexNoEdgesEdgeId
+    val nonEmptyKV = allKV.filterNot {
+      case (k1, v1) =>
+        v1 == vertexNoEdgesEdgeId
     }
     nonEmptyKV.map(_._1)
   }

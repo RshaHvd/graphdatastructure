@@ -1,6 +1,6 @@
 package hvd.edu.graph.csr
 
-import hvd.edu.graph.{ContainerMaker, Graph, GraphContainer, Node}
+import hvd.edu.graph.{ ContainerMaker, Graph, GraphContainer, Node }
 
 /**
  * [ [0, 2], [1, 3], [2, 4], [3, 5], [4, 5], [2, 3]]
@@ -12,10 +12,20 @@ import hvd.edu.graph.{ContainerMaker, Graph, GraphContainer, Node}
  */
 
 trait CSRNodeDef extends Node {
-  def firstEdgeIndex: Int
+  def firstEdgeIndex: Long
 }
 
-case class CSRNode(override val id: Int, override val value: Int, firstEdgeIndex: Int = -1) extends CSRNodeDef
+case class CSRNode(override val id: Long, override val value: Long,
+                   firstEdgeIndex: Long = -1) extends CSRNodeDef {
+
+  private var nextEdgeId = -1
+  def setNextId(nid: Int): Unit = {
+    nextEdgeId = nid
+  }
+  def idAsInt = id.toInt
+  def firstEdgeIndexAsInt = firstEdgeIndex.toInt
+  def getNextId() = nextEdgeId
+}
 
 object CSRNodeUtils {
 

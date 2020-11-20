@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
+case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends GraphContainer[CSRNode] {
 
   private val vertexContainer = mutable.Map[CSRNode, String]()
   private val edgeContainer = mutable.Map[String, List[CSRNode]]()
@@ -53,7 +53,7 @@ class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphCo
     edgeList.collect { case p: CSRNode => p }
   }
 
-  override def edgesForVertexId(vid: Int): List[CSRNode] =
+  override def edgesForVertexId(vid: Long): List[CSRNode] =
     edgesForVertex(CSRNode(vid, vid))
 
   override def nonEmptyVertexList: List[CSRNode] =
