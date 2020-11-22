@@ -26,7 +26,6 @@ lazy val benchmark = project
       benchmarkDependencies)
   ).dependsOn(core)
 
-//enablePlugins(JmhPlugin)
 
 lazy val commonDependencies = Seq(
   scalatest % Test,
@@ -36,7 +35,9 @@ lazy val commonDependencies = Seq(
   enum
 )
 
-lazy val benchmarkDependencies = Seq()
+lazy val benchmarkDependencies = Seq(
+  csv
+)
 
 import scalariform.formatter.preferences._
 

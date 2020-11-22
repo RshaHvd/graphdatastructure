@@ -1,6 +1,7 @@
 package hvd.edu.benchmark
 
 import com.typesafe.scalalogging.LazyLogging
+import hvd.edu.benchmark.utils.{ BenchmarkCSVWriter, Table }
 import hvd.edu.benchmark.workload.{ WorkloadType, WorkloadTypes }
 import scopt.OptionParser
 import scopt.Read._
@@ -43,7 +44,8 @@ object BenchmarkEngine extends App with LazyLogging {
 
     val finalRecorder = threadSafeRecorder.get()
 
-    finalRecorder.drawTable()
+    logger.info(s"\n${Table.draw(finalRecorder.recordedDataAsSeq())}\n")
+    logger.info(s"\n${BenchmarkCSVWriter(config, finalRecorder.recordedDataAsSeq())}\n")
   }
 
 }
@@ -53,7 +55,8 @@ case class BenchmarkConfig(
   files:          List[String]       = List("cit-HepTh.txt"), // default file to bechmark on
   fileDelimiters: List[String]       = Nil, // default file to bechmark on
   workloadTypes:  List[WorkloadType] = Nil,
-  randomNodeFE:   List[Long]         = Nil) {
+  randomNodeFE:   List[Long]         = Nil,
+  csvFile:        Option[String]     = None) {
 
   def getRandomFor(file: String): Long = file match {
     case f1 if f1.equals("cit-HepTh.txt")       => 9603161
@@ -100,7 +103,13 @@ class BenchmarkConfigParser extends OptionParser[BenchmarkConfig]("hvd.edu.bench
     .action { (fd: Seq[String], c: BenchmarkConfig) =>
       c.copy(fileDelimiters = fd.toList)
     }
-    .text("FileUrl to down or Local path to read file")
+    .text("FileDelimiter in same sequence as files")
+
+  opt[String]('c', "csvFile")
+    .action { (csvFile: String, c: BenchmarkConfig) =>
+      c.copy(csvFile = Option(csvFile))
+    }
+    .text("CSVFilePath to write benchmarks to")
 
   opt[Seq[String]]('w', "workload").action {
     (ss: Seq[String], c: BenchmarkConfig) =>

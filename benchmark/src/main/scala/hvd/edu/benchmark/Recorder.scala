@@ -16,22 +16,17 @@ class Recorder(configForThisWorkload: BenchmarkConfig) extends LazyLogging {
     measuredTimeByGraph.append(w)
   }
 
-  def writeToCSV(): Unit = {}
-
   def flushToConsole(): Unit = {
     logger.info(measuredTimeByGraph.toList.mkString(","))
   }
 
-  def drawTable(): Unit = {
-
+  def recordedDataAsSeq(): Seq[Seq[Any]] = {
     val headers: Seq[Any] = Seq("DataSet", "WorkLoad", "Iteration", "GraphType", "TimeInMillis")
     val rows: Seq[Seq[Any]] = measuredTimeByGraph.map(
       rw => Seq(rw.dataSet, rw.workLoad.displayName, rw.iteration, rw.graphType.displayName, rw.duration.toMillis)
     )
-
     val finalSeq = Seq(headers) ++ rows
-    logger.info(s"\n${Table.draw(finalSeq)}\n")
-
+    finalSeq
   }
 }
 

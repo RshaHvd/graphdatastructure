@@ -11,3 +11,4 @@ lib_managed/
 .idea_modules
 out/
 *.iml
+./output/*.csv
