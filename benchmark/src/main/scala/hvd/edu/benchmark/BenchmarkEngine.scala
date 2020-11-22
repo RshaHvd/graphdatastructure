@@ -27,30 +27,58 @@ object BenchmarkEngine extends App with LazyLogging {
         )
       )
 
-    logger.info(s" config is ${config.toString}")
+    logger.info(s"Starting benchmark with these config: \n ${config.toString} \n")
 
     // keeping it threadsafe just in case we want to run all workloads in parallel ?
     val threadSafeRecorder = new ThreadLocal[Recorder] {
       override def initialValue(): Recorder = new Recorder(config)
     }
 
-    config.workloadTypes.foreach {
-      w => w.workLoad.benchmark(config, threadSafeRecorder.get())
+    config.files.zipWithIndex.map {
+      case (f, idx) =>
+        config.workloadTypes.foreach {
+          w => WorkLoad.run(config, threadSafeRecorder.get(), w, f, config.fileDelimiters(idx))
+        }
     }
+
+    val finalRecorder = threadSafeRecorder.get()
+
+    finalRecorder.drawTable()
   }
 
 }
 
 case class BenchmarkConfig(
-  numberRuns:    Int                = 1,
-  filePath:      String             = "cit-HepTh.txt", // default file to bechmark on
-  workloadTypes: List[WorkloadType] = Nil) {
+  numberRuns:     Int                = 1,
+  files:          List[String]       = List("cit-HepTh.txt"), // default file to bechmark on
+  fileDelimiters: List[String]       = Nil, // default file to bechmark on
+  workloadTypes:  List[WorkloadType] = Nil,
+  randomNodeFE:   List[Long]         = Nil) {
+
+  def getRandomFor(file: String): Long = file match {
+    case f1 if f1.equals("cit-HepTh.txt")       => 9603161
+    case f2 if f2.equals("wiki-Vote-part4.txt") => 29
+    case _                                      => throw new RuntimeException(s"No matching value for ${file}")
+  }
+
+  def bfsFromNode(file: String): Long = file match {
+    case f1 if f1.equals("cit-HepTh.txt")       => 9603161
+    case f2 if f2.equals("wiki-Vote-part4.txt") => 29
+    case _                                      => throw new RuntimeException(s"No matching value for ${file}")
+  }
+
+  def dfsFromNode(file: String): Long = file match {
+    case f1 if f1.equals("cit-HepTh.txt")       => 9603161
+    case f2 if f2.equals("wiki-Vote-part4.txt") => 29
+    case _                                      => throw new RuntimeException(s"No matching value for ${file}")
+  }
 
   override def toString: String =
     s"""
-       |numberRuns: ${numberRuns}
-       |filePath: ${filePath}
-       |workloadTypes: ${workloadTypes.mkString(",")}
+       |numberRuns:         ${numberRuns}
+       |files:              ${files.mkString(",")}
+       |delimiters:         ${fileDelimiters.mkString(",")}
+       |workloadTypes:      ${workloadTypes.mkString(",")}
        |""".stripMargin
 }
 
@@ -62,9 +90,15 @@ class BenchmarkConfigParser extends OptionParser[BenchmarkConfig]("hvd.edu.bench
     }
     .text("Number of repeats")
 
-  opt[String]('f', "filePath")
-    .action { (s: String, c: BenchmarkConfig) =>
-      c.copy(filePath = s)
+  opt[Seq[String]]('f', "filePath")
+    .action { (fs: Seq[String], c: BenchmarkConfig) =>
+      c.copy(files = fs.toList)
+    }
+    .text("FileUrl to down or Local path to read file")
+
+  opt[Seq[String]]('d', "fileDelimiter")
+    .action { (fd: Seq[String], c: BenchmarkConfig) =>
+      c.copy(fileDelimiters = fd.toList)
     }
     .text("FileUrl to down or Local path to read file")
 

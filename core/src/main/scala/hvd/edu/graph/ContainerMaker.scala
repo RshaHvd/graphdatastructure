@@ -9,38 +9,32 @@ trait ContainerMaker[N <: Node, C <: GraphContainer[N]] {
 
 object ContainerMaker {
 
-  implicit object ArrayBasedCSRContainerFactory
-    extends ContainerMaker[CSRNode, ArrayCSRContainer] {
+  implicit object ArrayBasedCSRContainerFactory extends ContainerMaker[CSRNode, ArrayCSRContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]) =
       ArrayCSRContainer(numVertex, numEdges)
   }
 
-  implicit object HashMapBasedCSRContainerFactory
-    extends ContainerMaker[CSRNode, HashMapCSRContainer] {
+  implicit object HashMapBasedCSRContainerFactory extends ContainerMaker[CSRNode, HashMapCSRContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]) =
       HashMapCSRContainer(numVertex, numEdges)
   }
 
-  implicit object BplusTreeBasedCSRContainerFactory
-    extends ContainerMaker[CSRNode, BplusTreeCSRContainer] {
+  implicit object BplusTreeBasedCSRContainerFactory extends ContainerMaker[CSRNode, BplusTreeCSRContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]): BplusTreeCSRContainer =
       BplusTreeCSRContainer(numVertex, fanout)
   }
 
-  implicit object ArrayBasedALContainerFactory
-    extends ContainerMaker[SetBasedALNode, ArrayALContainer] {
+  implicit object ArrayBasedALContainerFactory extends ContainerMaker[SetBasedALNode, ArrayALContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]) =
       ArrayALContainer(numVertex)
   }
 
-  implicit object HashMapBasedALContainerFactory
-    extends ContainerMaker[DefaultALNode, HashMapALContainer] {
+  implicit object HashMapBasedALContainerFactory extends ContainerMaker[DefaultALNode, HashMapALContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]) =
       HashMapALContainer(numVertex)
   }
 
-  implicit object BplusTreeBasedALContainerFactory
-    extends ContainerMaker[DefaultALNode, BplusTreeALContainer] {
+  implicit object BplusTreeBasedALContainerFactory extends ContainerMaker[DefaultALNode, BplusTreeALContainer] {
     override def make(numVertex: Long, numEdges: Long)(implicit fanout: Option[Int]): BplusTreeALContainer =
       BplusTreeALContainer(numVertex, fanout)
   }

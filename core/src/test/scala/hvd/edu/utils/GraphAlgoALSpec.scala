@@ -1,14 +1,15 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.al.{ ArrayALContainer, SetBasedALNode }
-import org.scalatest.{ FlatSpec, Matchers }
+import hvd.edu.graph.Graph
+import hvd.edu.graph.al.{ArrayALContainer, SetBasedALNode}
+import org.scalatest.{FlatSpec, Matchers}
 
 class GraphAlgoALSpec extends FlatSpec with Matchers {
 
   "Depth First Search on Adjacency List" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](
+    val graph: Graph[SetBasedALNode, ArrayALContainer] = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](
       inputString,
       " ",
       ","
@@ -16,7 +17,7 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = SetBasedALNode(10, 10)
+    val walkDFFromNode: SetBasedALNode = SetBasedALNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14)

@@ -13,8 +13,7 @@ object NodeMaker {
     override def make(id: Long, value: Long): CSRNode = CSRNode(id, value)
   }
 
-  implicit object ALNodeWithSetBasedEdgesMaker
-    extends NodeMaker[SetBasedALNode] {
+  implicit object ALNodeWithSetBasedEdgesMaker extends NodeMaker[SetBasedALNode] {
     override def make(id: Long, value: Long) = SetBasedALNode(id, value)
   }
 

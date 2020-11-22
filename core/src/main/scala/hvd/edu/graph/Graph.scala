@@ -26,15 +26,15 @@ trait GraphContainer[n <: Node] {
   def print(mayBeNumberOfVertex: Option[Int]): Unit
 }
 
-class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Long, numEdges: Long)(implicit ev: ContainerMaker[N, C], fanout: Option[Int] = None) {
+class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Long, numEdges: Long)(implicit
+  ev: ContainerMaker[N, C],
+                                                                                fanout: Option[Int] = None) {
 
   private val graphContainer = ContainerMaker.apply[N, C](numVertex, numEdges)
 
-  def addEdge(vertex: N, edgeNode: N): Unit =
-    graphContainer.addEdge(vertex, edgeNode)
+  def addEdge(vertex: N, edgeNode: N): Unit = graphContainer.addEdge(vertex, edgeNode)
 
-  def addVertex(vertex: N): Unit =
-    graphContainer.addVertex(vertex)
+  def addVertex(vertex: N): Unit = graphContainer.addVertex(vertex)
 
   def printGraph(mayBeVertexLen: Option[Int]): Unit = {
     println(s"************* Started Printing Graph *************")

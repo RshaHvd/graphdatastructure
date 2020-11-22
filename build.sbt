@@ -26,14 +26,7 @@ lazy val benchmark = project
       benchmarkDependencies)
   ).dependsOn(core)
 
-// scalafmtOnCompile := true
-//
-//lazy val settings =  scalafmtSettings
-//
-//lazy val scalafmtSettings = Seq(
-//  scalafmtOnCompile := true
-//)
-
+//enablePlugins(JmhPlugin)
 
 lazy val commonDependencies = Seq(
   scalatest % Test,
@@ -59,13 +52,12 @@ val formattingPreferences: IFormattingPreferences = {
     setPreference(CompactControlReadability, true).
     setPreference(CompactStringConcatenation, false).
     setPreference(DanglingCloseParenthesis, Preserve).
-//    setPreference(DoubleIndentMethodDeclaration, false).
     setPreference(FormatXml, true).
     setPreference(IndentLocalDefs, true).
     setPreference(IndentPackageBlocks, true).
     setPreference(IndentSpaces, 2).
     setPreference(MultilineScaladocCommentsStartOnFirstLine, false).
-//    setPreference(PreserveSpaceBeforeArguments, true).
+    setPreference(PreserveSpaceBeforeArguments, true).
     setPreference(RewriteArrowSymbols, false)
 //    setPreference(SpaceBeforeColon, false).
 //    setPreference(SpaceInsideBrackets, false).

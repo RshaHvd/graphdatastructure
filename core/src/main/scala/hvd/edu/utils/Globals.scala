@@ -1,6 +1,8 @@
 package hvd.edu.utils
 
-object Globals {
+import com.typesafe.scalalogging.LazyLogging
+
+object Globals extends LazyLogging {
 
   def timeAndLog[T](f: => T)(l: Long => Unit): T = {
     val t = System.currentTimeMillis
@@ -20,6 +22,15 @@ object Globals {
     val t = System.currentTimeMillis
     val r = f
     l.apply(System.currentTimeMillis - t)
+  }
+
+  def time[T](f: => T): Long = {
+    logger.debug("Start Recording Time")
+    val t = System.currentTimeMillis
+    val r = f // execute and return
+    val t2 = System.currentTimeMillis - t
+    logger.debug("End Recording Time")
+    t2
   }
 
 }

@@ -1,10 +1,9 @@
 package hvd.edu.benchmark.workload
 
 import enumeratum._
-import hvd.edu.benchmark.{ LoadGraphWorkLoad, WorkLoad }
 
 sealed abstract class WorkloadType(override val entryName: String) extends EnumEntry {
-  def workLoad: WorkLoad
+  def displayName = entryName
 }
 
 object WorkloadTypes extends Enum[WorkloadType] {
@@ -12,11 +11,19 @@ object WorkloadTypes extends Enum[WorkloadType] {
   val values = findValues
 
   case object LoadGraph extends WorkloadType("LG") {
-    override val workLoad: WorkLoad = LoadGraphWorkLoad
+    override val displayName = "Load"
   }
 
-  case object FindNeighbors extends WorkloadType("FN") {
-    override val workLoad: WorkLoad = LoadGraphWorkLoad
+  case object FindEdgesOfRandomNode extends WorkloadType("FE") {
+    override val displayName = "Edges"
+  }
+
+  case object BreadthFirstSearch extends WorkloadType("BFS") {
+    override val displayName = "BFS"
+  }
+
+  case object DepthFirstSearch extends WorkloadType("DFS") {
+    override val displayName = "DFS"
   }
 
 }

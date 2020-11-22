@@ -10,16 +10,15 @@ import scala.io.{ BufferedSource, Source }
 object GraphInputFileReader extends LazyLogging {
 
   def readFile2[N <: Node, C <: GraphContainer[N]](filePath: String, delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
-    val path = Paths.get(filePath)
+    val url = getClass.getClassLoader.getResource(filePath)
+    val path = Paths.get(url.toURI)
     val fileSize = Files.size(path)
     readFile(filePath, fileSize, delimiter)
   }
 
-  def readFile[N <: Node, C <: GraphContainer[N]](
-    filePath:   String,
-    fileLength: Long,
-    delimiter:  String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
-    Globals.timeAndLog2 {
+  def readFile[N <: Node, C <: GraphContainer[N]](filePath: String, fileLength: Long, delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
+
+    Globals.timeAndLog {
       val bufferedFileSource: BufferedSource = Source.fromResource(filePath)
       val br = bufferedFileSource.bufferedReader()
       var count = 0
@@ -36,14 +35,12 @@ object GraphInputFileReader extends LazyLogging {
           graph.addEdge(aln1, aln2)
         }
         count += 1
-        //println(s"read line ${count}")
         readLine = br.readLine()
       }
       br.close() // close the file always.
       graph
     } {
-      (g, ms) =>
-        logger.debug(s"Read lines : ${fileLength} to create graph in ${ms} ms")
+      ms => logger.debug(s"Read lines : ${fileLength} to create graph in ${ms} ms")
     }
   }
 

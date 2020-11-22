@@ -32,8 +32,7 @@ object GraphAlgos {
   }
 
   private def internalDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: List[N], graph: Graph[N, GC],
-                                                              accum:          ListBuffer[N],
-                                                              alreadyVisited: mutable.Set[Long]): List[N] =
+                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] =
     if (fromVertices.isEmpty)
       accum.toList
     else {
@@ -55,11 +54,8 @@ object GraphAlgos {
       accum.toList
     }
 
-  private def internalBFS[N <: Node, GC <: GraphContainer[N]](
-    fromNodes:      List[N],
-    graph:          Graph[N, GC],
-    accum:          ListBuffer[N],
-    alreadyVisited: mutable.Set[Long]): List[N] =
+  private def internalBFS[N <: Node, GC <: GraphContainer[N]](fromNodes: List[N], graph: Graph[N, GC],
+                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] =
     if (fromNodes.isEmpty)
       accum.toList
     else {
