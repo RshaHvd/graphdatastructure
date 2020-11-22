@@ -1,8 +1,8 @@
 package hvd.edu.graph
 
 trait Node {
-  def id: Int
-  def value: Int
+  def id: Long
+  def value: Long
 }
 
 trait GraphContainer[n <: Node] {
@@ -19,25 +19,22 @@ trait GraphContainer[n <: Node] {
 
   def edgesForVertex(v: n): List[n]
 
-  def edgesForVertexId(vid: Int): List[n]
+  def edgesForVertexId(vid: Long): List[n]
 
   def nonEmptyVertexList: List[n]
 
   def print(mayBeNumberOfVertex: Option[Int]): Unit
 }
 
-class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(implicit
+class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Long, numEdges: Long)(implicit
   ev: ContainerMaker[N, C],
-  fanout: Option[Int] = None
-) {
+                                                                                fanout: Option[Int] = None) {
 
   private val graphContainer = ContainerMaker.apply[N, C](numVertex, numEdges)
 
-  def addEdge(vertex: N, edgeNode: N): Unit =
-    graphContainer.addEdge(vertex, edgeNode)
+  def addEdge(vertex: N, edgeNode: N): Unit = graphContainer.addEdge(vertex, edgeNode)
 
-  def addVertex(vertex: N): Unit =
-    graphContainer.addVertex(vertex)
+  def addVertex(vertex: N): Unit = graphContainer.addVertex(vertex)
 
   def printGraph(mayBeVertexLen: Option[Int]): Unit = {
     println(s"************* Started Printing Graph *************")
@@ -53,8 +50,9 @@ class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(im
 
   def edgesForVertex(v: N): List[N] = graphContainer.edgesForVertex(v)
 
-  def edgesForVertexId(vid: Int): List[N] = graphContainer.edgesForVertexId(vid)
+  def edgesForVertexId(vid: Long): List[N] = graphContainer.edgesForVertexId(vid)
 
-  def findVertexById(i: Int): Option[N] = graphContainer.nonEmptyVertexList.find(v => v.id == i)
+  def findVertexById(i: Int): Option[N] =
+    graphContainer.nonEmptyVertexList.find(v => v.id == i)
 
 }

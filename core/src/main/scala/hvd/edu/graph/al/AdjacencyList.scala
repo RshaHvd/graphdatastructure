@@ -13,7 +13,7 @@ import scala.collection.mutable
  * [4 -> 5]
  */
 
-case class SetBasedALNode(override val id: Int, override val value: Int) extends Node {
+case class SetBasedALNode(override val id: Long, override val value: Long) extends Node {
 
   private var outgoingEdgeSet = mutable.Set[SetBasedALNode]()
 
@@ -22,7 +22,7 @@ case class SetBasedALNode(override val id: Int, override val value: Int) extends
   def addEdge(e: SetBasedALNode) = outgoingEdgeSet.add(e)
 }
 
-case class DefaultALNode(override val id: Int, override val value: Int) extends Node
+case class DefaultALNode(override val id: Long, override val value: Long) extends Node
 
 object ALNodeUtils {
 

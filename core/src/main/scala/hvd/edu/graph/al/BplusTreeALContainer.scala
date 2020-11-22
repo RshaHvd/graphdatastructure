@@ -9,11 +9,13 @@ import hvd.edu.graph.al.ALNodeUtils._
  * @param numVertex
  * @param fanout
  */
-class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends GraphContainer[DefaultALNode] {
+case class BplusTreeALContainer(numVertex: Long, fanout: Option[Int]) extends GraphContainer[DefaultALNode] {
 
   val defaultFanout = 5
 
-  private val container = new BPlusTreeImpl[DefaultALNode, List[DefaultALNode]](fanout.getOrElse(defaultFanout))
+  private val container = new BPlusTreeImpl[DefaultALNode, List[DefaultALNode]](
+    fanout.getOrElse(defaultFanout)
+  )
 
   override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
     val mayBeExistingEdges: Option[List[DefaultALNode]] = container.find(vertex)
@@ -36,7 +38,7 @@ class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends GraphCon
   override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] =
     container.find(v).getOrElse(Nil)
 
-  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
+  override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
     val nodeToFind = DefaultALNode(vid, vid)
     edgesForVertex(nodeToFind)
   }

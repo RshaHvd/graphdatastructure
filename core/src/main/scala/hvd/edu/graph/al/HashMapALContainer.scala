@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
+case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALNode] {
 
   private val adjacencyListMap = mutable.Map[DefaultALNode, List[DefaultALNode]]()
 
@@ -25,7 +25,8 @@ class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
   def vertex_?(vertex: DefaultALNode): Option[DefaultALNode] =
     adjacencyListMap.keys.find(_ == vertex)
 
-  def hasVertex(vertex: DefaultALNode): Boolean = adjacencyListMap.contains(vertex)
+  def hasVertex(vertex: DefaultALNode): Boolean =
+    adjacencyListMap.contains(vertex)
 
   override def edgeLength: Int =
     adjacencyListMap.values.flatten.size
@@ -35,7 +36,7 @@ class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
   override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] =
     adjacencyListMap.get(v).getOrElse(List.empty[DefaultALNode])
 
-  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
+  override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
     val mayBeALNode = adjacencyListMap.keySet.find { v =>
       v.id == vid
     }

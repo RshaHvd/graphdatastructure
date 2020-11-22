@@ -1,14 +1,18 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.csr.{BplusTreeCSRContainer, CSRNode}
-import org.scalatest.{FlatSpec, Matchers}
+import hvd.edu.graph.csr.{ BplusTreeCSRContainer, CSRNode }
+import org.scalatest.{ FlatSpec, Matchers }
 
 class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
 
   "Depth First Search on all CSR Containers" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
     csrGraph shouldNot be(null)
     csrGraph.vertexLength should be(5)
     csrGraph.edgeLength should be(6)
@@ -23,7 +27,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
   it should "work on sample graph 2" in {
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
     csrGraph shouldNot be(null)
     val walkDFFromNode = CSRNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
@@ -34,7 +42,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
 
   it should "produce different list from different start vertices of the same graph" in {
     val inputString = "1,2 2,3 2,4 3, 4, 5,6 6,1 6,2 6,7 7, "
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
 
     csrGraph shouldNot be(null)
 
@@ -64,7 +76,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
   "Breath First Search on CSR" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
     csrGraph shouldNot be(null)
     csrGraph.vertexLength should be(5)
     csrGraph.edgeLength should be(6)
@@ -80,7 +96,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
   it should "work on sample graph 2" in {
     val inputString =
       "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
     csrGraph shouldNot be(null)
     val walkDFFromNode = CSRNode(10, 10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
@@ -91,7 +111,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
 
   it should "produce different list from different start vertices of the same graph" in {
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
-    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](inputString, " ", ",")
+    val csrGraph = GraphBuilder.buildFromString[CSRNode, BplusTreeCSRContainer](
+      inputString,
+      " ",
+      ","
+    )
     csrGraph shouldNot be(null)
     val walkDFFromNodeFrom1 = CSRNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, csrGraph)

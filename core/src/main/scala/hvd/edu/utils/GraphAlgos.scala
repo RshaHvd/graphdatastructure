@@ -1,6 +1,6 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.{Graph, GraphContainer, Node}
+import hvd.edu.graph.{ Graph, GraphContainer, Node }
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -12,9 +12,7 @@ object GraphAlgos {
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
     }
-
-    internalBFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
-
+    internalBFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
   }
 
   def dfs[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
@@ -22,8 +20,7 @@ object GraphAlgos {
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
     }
-
-    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
+    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
   }
 
   def dfsFromNodeId[N <: Node, GC <: GraphContainer[N]](nodeId: Int, graph: Graph[N, GC]): List[N] = {
@@ -31,16 +28,11 @@ object GraphAlgos {
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == nodeId)
     }
-
-    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
+    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
   }
 
-  private def internalDFS[N <: Node, GC <: GraphContainer[N]](
-    fromVertices: List[N],
-    graph: Graph[N, GC],
-    accum: ListBuffer[N],
-    alreadyVisited: mutable.Set[Int]
-  ): List[N] =
+  private def internalDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: List[N], graph: Graph[N, GC],
+                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] =
     if (fromVertices.isEmpty)
       accum.toList
     else {
@@ -55,18 +47,15 @@ object GraphAlgos {
               visitNextBuffer += toVisit
           }
           internalDFS(visitNextBuffer.toList, graph, accum, alreadyVisited)
-        } else
+        }
+        else
           Nil
       }
       accum.toList
     }
 
-  private def internalBFS[N <: Node, GC <: GraphContainer[N]](
-    fromNodes: List[N],
-    graph: Graph[N, GC],
-    accum: ListBuffer[N],
-    alreadyVisited: mutable.Set[Int]
-  ): List[N] =
+  private def internalBFS[N <: Node, GC <: GraphContainer[N]](fromNodes: List[N], graph: Graph[N, GC],
+                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] =
     if (fromNodes.isEmpty)
       accum.toList
     else {

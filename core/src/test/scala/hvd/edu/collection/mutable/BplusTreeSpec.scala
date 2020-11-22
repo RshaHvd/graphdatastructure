@@ -1,6 +1,6 @@
 package hvd.edu.collection.mutable
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{ FlatSpec, Matchers }
 
 import scala.collection.mutable.ListBuffer
 
@@ -237,7 +237,8 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     val allLeaves12 = testTree.getLeaves()
     // println(s"Leaves: ${allLeaves12.mkString(",")}")
-    val expectedLeaves12 = List(4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18)
+    val expectedLeaves12 =
+      List(4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18)
     allLeaves12 shouldBe expectedLeaves12
 
     println("Adding 19,20,21,22,23,25")
@@ -281,7 +282,8 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     val allLeaves15 = testTree.getLeaves()
     // println(s"Leaves: ${allLeaves15.mkString(",")}")
-    val expectedLeaves15 = List(4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25)
+    val expectedLeaves15 = List(4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17,
+      18, 19, 20, 21, 22, 23, 25)
     allLeaves15 shouldBe expectedLeaves15
 
     println("Adding 3,2,1")
@@ -322,7 +324,8 @@ class BplusTreeSpec extends FlatSpec with Matchers {
 
     val allLeaves16 = testTree.getLeaves()
     // println(s"Leaves: ${allLeaves16.mkString(",")}")
-    val expectedLeaves16 = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25)
+    val expectedLeaves16 = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15,
+      16, 17, 18, 19, 20, 21, 22, 23, 25)
     allLeaves16 shouldBe expectedLeaves16
 
     val foundFor19 = testTree.find(19)
