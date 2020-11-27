@@ -24,11 +24,20 @@ case class SetBasedALNode(override val id: Long, override val value: Long) exten
 
 case class DefaultALNode(override val id: Long, override val value: Long) extends Node
 
+case class SpecializedDefaultALNode[@specialized(Long) A](idS: A, valueS: A)
+
 object ALNodeUtils {
 
+  implicit def converter(d: DefaultALNode) = {
+    SpecializedDefaultALNode(d.id, d.value)
+  }
+
   implicit val defaultALNodeOrdering = new Ordering[DefaultALNode] {
-    override def compare(x: DefaultALNode, y: DefaultALNode): Int =
-      x.id.compare(y.id)
+    override def compare(x: DefaultALNode, y: DefaultALNode): Int = {
+      val xs = converter(x)
+      val ys = converter(y)
+      xs.idS.compareTo(ys.idS)
+    }
   }
 
 }

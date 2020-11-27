@@ -15,14 +15,15 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
   override val workLoadType = DepthFirstSearch
 
   override def benchmark[N <: Node](benchmarkConfig: BenchmarkConfig, recorder: Recorder,
-                                    gt: GraphType, iteration: Int, file: String, delimiter: String): Unit = {
+                                    gt: GraphType, iteration: Int, file: String, delimiter: String,
+                                    linesInFile: Int): Unit = {
 
     val nodeIdToWalkFrom = benchmarkConfig.dfsFromNode(file)
 
     val recordedTime = gt match {
 
       case GraphTypes.ALArrayType => {
-        val g = GraphInputFileReader.readFile2[SetBasedALNode, ArrayALContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = SetBasedALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)
@@ -30,7 +31,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         }
       }
       case GraphTypes.ALMapType => {
-        val g = GraphInputFileReader.readFile2[DefaultALNode, HashMapALContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[DefaultALNode, HashMapALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = DefaultALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)
@@ -38,7 +39,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         }
       }
       case GraphTypes.ALTreeType => {
-        val g = GraphInputFileReader.readFile2[DefaultALNode, BplusTreeALContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[DefaultALNode, BplusTreeALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = DefaultALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)
@@ -46,7 +47,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         }
       }
       case GraphTypes.CSRArrayType => {
-        val g = GraphInputFileReader.readFile2[CSRNode, ArrayCSRContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)
@@ -54,7 +55,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         }
       }
       case GraphTypes.CSRMapType => {
-        val g = GraphInputFileReader.readFile2[CSRNode, HashMapCSRContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)
@@ -62,7 +63,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         }
       }
       case GraphTypes.CSRTreeType => {
-        val g = GraphInputFileReader.readFile2[CSRNode, BplusTreeCSRContainer](filePath = file, delimiter = delimiter)
+        val g = GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
           val foundNodes = GraphAlgos.dfs(n, g)

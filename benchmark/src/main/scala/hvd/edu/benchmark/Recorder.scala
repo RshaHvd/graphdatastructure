@@ -21,9 +21,20 @@ class Recorder(configForThisWorkload: BenchmarkConfig) extends LazyLogging {
   }
 
   def recordedDataAsSeq(): Seq[Seq[Any]] = {
-    val headers: Seq[Any] = Seq("DataSet", "WorkLoad", "Iteration", "GraphType", "TimeInMillis")
+
+    val nodesByDataSet = configForThisWorkload.files.zip(configForThisWorkload.nodesInGraph).toMap
+    val edgesByDataSet = configForThisWorkload.files.zip(configForThisWorkload.edgesInGraph).toMap
+
+    val headers: Seq[Any] = Seq("DataSet", "Nodes", "Edges", "WorkLoad", "Iteration", "GraphType", "TimeInMillis")
     val rows: Seq[Seq[Any]] = measuredTimeByGraph.map(
-      rw => Seq(rw.dataSet, rw.workLoad.displayName, rw.iteration, rw.graphType.displayName, rw.duration.toMillis)
+      rw => Seq(
+        rw.dataSet,
+        nodesByDataSet.get(rw.dataSet).getOrElse(-1),
+        edgesByDataSet.get(rw.dataSet).getOrElse(-1),
+        rw.workLoad.displayName,
+        rw.iteration,
+        rw.graphType.displayName,
+        rw.duration.toMillis)
     )
     val finalSeq = Seq(headers) ++ rows
     finalSeq

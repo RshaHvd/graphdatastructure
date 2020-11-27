@@ -20,7 +20,8 @@ object GraphAlgos {
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
     }
-    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    retLB.toList
   }
 
   def dfsFromNodeId[N <: Node, GC <: GraphContainer[N]](nodeId: Int, graph: Graph[N, GC]): List[N] = {
@@ -28,13 +29,14 @@ object GraphAlgos {
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == nodeId)
     }
-    internalDFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    retLB.toList
   }
 
-  private def internalDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: List[N], graph: Graph[N, GC],
-                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] =
+  private def internalDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: mutable.ListBuffer[N], graph: Graph[N, GC],
+                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): ListBuffer[N] =
     if (fromVertices.isEmpty)
-      accum.toList
+      accum
     else {
       fromVertices.foreach { n =>
         if (!alreadyVisited.contains(n.id)) {
@@ -46,12 +48,10 @@ object GraphAlgos {
             if (!alreadyVisited.contains(toVisit.id))
               visitNextBuffer += toVisit
           }
-          internalDFS(visitNextBuffer.toList, graph, accum, alreadyVisited)
+          internalDFS(visitNextBuffer, graph, accum, alreadyVisited)
         }
-        else
-          Nil
       }
-      accum.toList
+      internalDFS(ListBuffer.empty, graph, accum, alreadyVisited)
     }
 
   private def internalBFS[N <: Node, GC <: GraphContainer[N]](fromNodes: List[N], graph: Graph[N, GC],
@@ -63,7 +63,7 @@ object GraphAlgos {
       fromNodes.foreach { thisNode =>
         if (!alreadyVisited.contains(thisNode.id))
           accum += thisNode
-        alreadyVisited += thisNode.id
+        alreadyVisited += thisNode.id // ok, as this is a set.
       }
       val visitNextBuffer = mutable.ListBuffer[N]()
       fromNodes.foreach { n =>

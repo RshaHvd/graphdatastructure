@@ -6,16 +6,17 @@ import scala.collection.mutable
 
 case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALNode] {
 
-  private val adjacencyListMap = mutable.Map[DefaultALNode, List[DefaultALNode]]()
+  private val adjacencyListMap = mutable.Map[DefaultALNode, mutable.ListBuffer[DefaultALNode]]()
 
   override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
     val findVertex = adjacencyListMap.get(vertex)
     findVertex.fold {
       // throw new RuntimeException("Cannot find the vertex to add edge too")}
-      adjacencyListMap(vertex) = List(edge)
+      adjacencyListMap(vertex) = mutable.ListBuffer(edge)
     } { existingList =>
-      val newLL = existingList.+:(edge)
-      adjacencyListMap(vertex) = newLL
+      //val newLL =
+      existingList += edge
+      // adjacencyListMap(vertex) = newLL
     }
   }
 
@@ -33,15 +34,12 @@ case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALN
 
   override def vertexLength: Int = adjacencyListMap.keySet.size
 
-  override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] =
-    adjacencyListMap.get(v).getOrElse(List.empty[DefaultALNode])
+  override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] = {
+    adjacencyListMap.get(v).fold(List.empty[DefaultALNode])(_.toList)
+  }
 
   override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
-    val mayBeALNode = adjacencyListMap.keySet.find { v =>
-      v.id == vid
-    }
-
-    mayBeALNode.fold(List.empty[DefaultALNode])(edgesForVertex(_))
+    edgesForVertex(DefaultALNode(vid, vid))
   }
 
   override def nonEmptyVertexList: List[DefaultALNode] = allVertices
@@ -49,5 +47,5 @@ case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALN
   override def print(mayBeNumberOfVertex: Option[Int]): Unit = ???
 
   override def addVertex(vertex: DefaultALNode): Unit =
-    adjacencyListMap(vertex) = List.empty[DefaultALNode]
+    adjacencyListMap(vertex) = mutable.ListBuffer[DefaultALNode]()
 }

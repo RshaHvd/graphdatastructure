@@ -27,7 +27,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allChildNodesInOrder = child2.flatMap(_.listOfNodes)
     // // println(allChildNodesInOrder.mkString(","))
     val expectedChildNodesInOrder = ListBuffer(4, 6, 7, 8)
-    allChildNodesInOrder shouldBe expectedChildNodesInOrder
+    allChildNodesInOrder.sorted shouldBe expectedChildNodesInOrder
 
     println("Adding 5")
     testTree.add(5, 5)
@@ -36,7 +36,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allChildrenInOrder3 = child3.flatMap(_.listOfNodes)
     // println(allChildrenInOrder3.mkString(","))
     val expectedChildNodesInOrder3 = ListBuffer(4, 5, 6, 7, 8)
-    allChildrenInOrder3 shouldBe expectedChildNodesInOrder3
+    allChildrenInOrder3.sorted shouldBe expectedChildNodesInOrder3
 
     println("Adding 9")
     testTree.add(9, 9)
@@ -45,7 +45,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allChildrenInOrder4 = child4.flatMap(_.listOfNodes)
     // println(allChildrenInOrder4.mkString(","))
     val expectedChildNodesInOrder4 = ListBuffer(6, 8)
-    allChildrenInOrder4 shouldBe expectedChildNodesInOrder4
+    allChildrenInOrder4.sorted shouldBe expectedChildNodesInOrder4
 
     println("Adding 10")
     testTree.add(10, 10)
@@ -58,7 +58,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allLeaves5 = testTree.getLeaves()
     // println(s"${allLeaves5.mkString(",")}")
     val expectedLeaves5 = List(4, 5, 6, 7, 8, 9, 10)
-    allLeaves5 shouldBe expectedLeaves5
+    allLeaves5.sorted shouldBe expectedLeaves5
 
     println("Adding 11")
     testTree.add(11, 11)
@@ -74,7 +74,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allLeaves6 = testTree.getLeaves()
     // println(s"${allLeaves6.mkString(",")}")
     val expectedLeaves6 = List(4, 5, 6, 7, 8, 9, 10, 11)
-    allLeaves6 shouldBe expectedLeaves6
+    allLeaves6.sorted shouldBe expectedLeaves6
 
     println("Adding 12")
     testTree.add(12, 12)
@@ -313,7 +313,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     val allGrandChildNodes16 = allGrandChild16.flatMap(_.listOfNodes)
     // println(s"GrandChildren = ${allGrandChildNodes16.mkString(",")}")
     val expectedGrandChildren16 = List(4, 7, 11, 16, 20, 22)
-    expectedGrandChildren16 shouldBe (allGrandChildNodes16)
+    expectedGrandChildren16 shouldBe (allGrandChildNodes16.sorted)
 
     val allGGChild16 = allGrandChild16.flatMap(TreeOps.immediateIndexNodes(_))
     allGGChild15.size shouldBe 9

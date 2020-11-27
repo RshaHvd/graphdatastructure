@@ -47,26 +47,14 @@ object GraphTypes extends Enum[GraphType] {
  */
 object GraphTypeUtils {
 
-  def readGraphFromFile(gt: GraphType, filePath: String, delimiter: String) = {
+  def readGraphFromFile(gt: GraphType, filePath: String, delimiter: String, linesInFile: Int) = {
     gt match {
-      case GraphTypes.ALArrayType  => GraphInputFileReader.readFile2[SetBasedALNode, ArrayALContainer](filePath = filePath, delimiter = delimiter)
-      case GraphTypes.ALMapType    => GraphInputFileReader.readFile2[DefaultALNode, HashMapALContainer](filePath = filePath, delimiter = delimiter)
-      case GraphTypes.ALTreeType   => GraphInputFileReader.readFile2[DefaultALNode, BplusTreeALContainer](filePath = filePath, delimiter = delimiter)
-      case GraphTypes.CSRArrayType => GraphInputFileReader.readFile2[CSRNode, ArrayCSRContainer](filePath = filePath, delimiter = delimiter)
-      case GraphTypes.CSRMapType   => GraphInputFileReader.readFile2[CSRNode, HashMapCSRContainer](filePath = filePath, delimiter = delimiter)
-      case GraphTypes.CSRTreeType  => GraphInputFileReader.readFile2[CSRNode, BplusTreeCSRContainer](filePath = filePath, delimiter = delimiter)
-    }
-
-  }
-
-  def createNode(gt: GraphType, id: Long) = {
-    gt match {
-      case GraphTypes.ALArrayType  => SetBasedALNode(id, id)
-      case GraphTypes.ALMapType    => DefaultALNode(id, id)
-      case GraphTypes.ALTreeType   => DefaultALNode(id, id)
-      case GraphTypes.CSRArrayType => CSRNode(id, id)
-      case GraphTypes.CSRMapType   => CSRNode(id, id)
-      case GraphTypes.CSRTreeType  => CSRNode(id, id)
+      case GraphTypes.ALArrayType  => GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
+      case GraphTypes.ALMapType    => GraphInputFileReader.readFile[DefaultALNode, HashMapALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
+      case GraphTypes.ALTreeType   => GraphInputFileReader.readFile[DefaultALNode, BplusTreeALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
+      case GraphTypes.CSRArrayType => GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
+      case GraphTypes.CSRMapType   => GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
+      case GraphTypes.CSRTreeType  => GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
     }
 
   }

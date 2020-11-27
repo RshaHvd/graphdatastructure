@@ -17,27 +17,28 @@ object LoadGraphWorkLoad extends WorkLoad with LazyLogging {
 
   override def benchmark[N <: Node](benchmarkConfig: BenchmarkConfig, recorder: Recorder,
                                     gt: GraphType, iteration: Int,
-                                    filePath: String, delimiter: String): Unit = {
+                                    filePath: String, delimiter: String,
+                                    linesInFile: Int): Unit = {
 
     val recordedTime: Long = gt match {
 
       case ALArrayType => Globals.time {
-        GraphInputFileReader.readFile2[SetBasedALNode, ArrayALContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
       case ALMapType => Globals.time {
-        GraphInputFileReader.readFile2[DefaultALNode, HashMapALContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[DefaultALNode, HashMapALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
       case ALTreeType => Globals.time {
-        GraphInputFileReader.readFile2[DefaultALNode, BplusTreeALContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[DefaultALNode, BplusTreeALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
       case CSRArrayType => Globals.time {
-        GraphInputFileReader.readFile2[CSRNode, ArrayCSRContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
       case CSRMapType => Globals.time {
-        GraphInputFileReader.readFile2[CSRNode, HashMapCSRContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
       case CSRTreeType => Globals.time {
-        GraphInputFileReader.readFile2[CSRNode, BplusTreeCSRContainer](filePath = filePath, delimiter = delimiter)
+        GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
       }
 
     }

@@ -1,5 +1,7 @@
 package hvd.edu.collection.mutable
 
+import com.typesafe.scalalogging.LazyLogging
+
 import scala.Ordering.Implicits._
 import scala.collection.{ immutable, mutable }
 import scala.collection.mutable.ListBuffer
@@ -22,7 +24,7 @@ trait LeafNode[T, D] extends TreeNode[T] {
       s"Leaf Nodes cannot be added without data. Invalid call."
     )
 
-  def getDataForKeys(findKeys: T*): Map[T, D]
+  def getDataForKeys(findKeys: T*): mutable.ListBuffer[(T, D)]
 
   def update(t: T, d: D): Unit
 
@@ -32,32 +34,41 @@ trait LeafNode[T, D] extends TreeNode[T] {
 
 }
 
-abstract class IndexNode[T: Ordering] extends TreeNode[T] {
+abstract class IndexNode[T: Ordering] extends TreeNode[T] with LazyLogging {
 
   def children: mutable.ListBuffer[TreeNode[T]]
 
   def setChildren(newChildren: mutable.ListBuffer[TreeNode[T]]): Unit
 
   def findFirstChildIndexLessThan(t: T): Option[Int] = {
-    val mayBeChildListIndex: Option[(T, Int)] =
-      this.listOfNodes.zipWithIndex.find {
-        case (tIdx, idx) =>
-          t < tIdx
+    var found = false
+    var i = 0
+    for (tdIx <- this.listOfNodes; if !found) {
+      if (t < tdIx) {
+        found = true
       }
-    mayBeChildListIndex.map(_._2)
+      else {
+        i += 1
+      }
+    }
+    if (!found) {
+      None
+    }
+    else {
+      Option(i)
+    }
+
   }
 }
 
-class DefaultIndexNode[T: Ordering](
-  inputNodes: ListBuffer[T]                   = mutable.ListBuffer[T](),
-  childNode:  mutable.ListBuffer[TreeNode[T]] = ListBuffer.empty[TreeNode[T]]
-) extends IndexNode[T] {
+class DefaultIndexNode[T: Ordering](inputNodes: ListBuffer[T] = mutable.ListBuffer[T](), childNode: mutable.ListBuffer[TreeNode[T]] = ListBuffer.empty[TreeNode[T]])
+  extends IndexNode[T] {
 
   private var _children = childNode
 
   val nodes = inputNodes
 
-  def listOfNodes = nodes.sorted
+  def listOfNodes = nodes
 
   def children = _children
 
@@ -69,10 +80,7 @@ class DefaultIndexNode[T: Ordering](
 
 }
 
-class DefaultLeafNode[T: Ordering, D](
-  inputNodes:   List[T]     = Nil,
-  dataForNodes: Seq[(T, D)] = Seq.empty[(T, D)]
-) extends LeafNode[T, D] {
+class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil, dataForNodes: Seq[(T, D)] = Seq.empty[(T, D)]) extends LeafNode[T, D] {
 
   val nodes = mutable.ListBuffer[T](inputNodes: _*)
 
@@ -87,8 +95,19 @@ class DefaultLeafNode[T: Ordering, D](
     dataByKey(t) = d
   }
 
-  override def getDataForKeys(findKeys: T*): Map[T, D] =
-    dataByKey.filterKeys(_k => findKeys.contains(_k)).toMap
+  override def getDataForKeys(findKeys: T*): mutable.ListBuffer[(T, D)] = {
+    //dataByKey.filterKeys(_k => findKeys.contains(_k)).toMap
+
+    val lb = mutable.ListBuffer[(T, D)]()
+    findKeys.foreach{
+      k =>
+        val found = dataByKey.get(k)
+        if (found.nonEmpty) {
+          lb += ((k, found.get))
+        }
+    }
+    lb
+  }
 
   override def update(t: T, d: D) =
     if (nodes.contains(t) && dataByKey.contains(t))
@@ -127,8 +146,7 @@ trait BPlusTree[T, D] {
   def getAllKeyValues(): List[(T, D)]
 }
 
-class BPlusTreeImpl[T: Ordering, D](override val fanout: Int)
-  extends BPlusTree[T, D] {
+class BPlusTreeImpl[T: Ordering, D](override val fanout: Int) extends BPlusTree[T, D] {
 
   private var _tree: TreeNode[T] = new DefaultLeafNode[T, D]()
   private val nodeElementsSize = fanout - 1
@@ -269,7 +287,7 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int)
               mayBeChildIndexLessThan.fold(t1.children.last)(idx =>
                 t1.children(idx))
             findInThisTree(searchInThisTree)
-          case t2: LeafNode[T, D] => t2.getDataForKeys(t).values.toList.headOption
+          case t2: LeafNode[T, D] => t2.getDataForKeys(t).headOption.map(_._2)
         }
 
     findInThisTree(_tree)
@@ -279,14 +297,12 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int)
 
       def findAndUpdate(theTree: TreeNode[T]): Unit =
         theTree match {
-          case t1: IndexNode[T] =>
+          case t1: IndexNode[T] => {
             val mayBeChildIndexLessThan = t1.findFirstChildIndexLessThan(t)
-            val searchInThisTree =
-              mayBeChildIndexLessThan.fold(t1.children.last)(idx =>
-                t1.children(idx))
+            val searchInThisTree = mayBeChildIndexLessThan.fold(t1.children.last)(idx => t1.children(idx))
             findAndUpdate(searchInThisTree)
-          case t2: LeafNode[T, D] =>
-            t2.update(t, d)
+          }
+          case t2: LeafNode[T, D] => t2.update(t, d)
         }
 
     findAndUpdate(_tree)
@@ -420,15 +436,8 @@ object TreeOps {
     (allNodes, allChildrenInOrder)
   }
 
-  def addAndSplitIndexNodes[T: Ordering, D](
-    key:           T,
-    lChild:        TreeNode[T],
-    rChild:        TreeNode[T],
-    childPosition: Int,
-    indexNodeTree: IndexNode[T],
-    numNodes:      Int
-  ) = {
-
+  def addAndSplitIndexNodes[T: Ordering, D](key: T, lChild: TreeNode[T], rChild: TreeNode[T],
+                                            childPosition: Int, indexNodeTree: IndexNode[T], numNodes: Int) = {
     val (allNodes, allChildren) =
       createAllNodesAndChildren(
         List(key),
@@ -442,10 +451,7 @@ object TreeOps {
 
   def createRootAndIndexNode[T: Ordering, D](
     allNodesSorted: List[T],
-    allChildren:    ListBuffer[TreeNode[T]],
-    numNode:        Int
-  ) = {
-
+    allChildren:    ListBuffer[TreeNode[T]], numNode: Int) = {
     val midNode: T = allNodesSorted(numNode)
     // split Nodes
     val n1Nodes: List[T] = allNodesSorted.slice(0, numNode)
@@ -473,12 +479,7 @@ object TreeOps {
     (midNode, leftIndexNode, rightIndexNode)
   }
 
-  def addAndSplitLeafNodes[T: Ordering, D](
-    t:            T,
-    d:            D,
-    leafNodeTree: LeafNode[T, D],
-    numNode:      Int
-  ) = {
+  def addAndSplitLeafNodes[T: Ordering, D](t: T, d: D, leafNodeTree: LeafNode[T, D], numNode: Int) = {
     leafNodeTree.add(t, d)
     val sortedNodes: List[T] = leafNodeTree.listOfNodes.toList
     val midNode: T = sortedNodes(numNode)
@@ -486,11 +487,11 @@ object TreeOps {
     val rightN = sortedNodes.slice(numNode, sortedNodes.size)
     val node1: TreeNode[T] = new DefaultLeafNode(
       leftN,
-      leafNodeTree.getDataForKeys(leftN: _*).toSeq
+      leafNodeTree.getDataForKeys(leftN: _*)
     )
     val node2: TreeNode[T] = new DefaultLeafNode(
       rightN,
-      leafNodeTree.getDataForKeys(rightN: _*).toSeq
+      leafNodeTree.getDataForKeys(rightN: _*)
     )
     (midNode, node1, node2)
   }
