@@ -6,7 +6,8 @@ import hvd.edu.graph.Node
 
 trait WorkLoad {
   def benchmark[N <: Node](benchmarkConfig: BenchmarkConfig, recorder: Recorder,
-                           gt: GraphType, iteration: Int, file: String, delimiter: String)
+                           gt: GraphType, iteration: Int, file: String, delimiter: String,
+                           linesInFile: Int)
   def workLoadType: WorkloadType
 }
 
@@ -23,13 +24,13 @@ object WorkLoad extends LazyLogging {
   }
 
   def run(benchmarkConfig: BenchmarkConfig, recorder: Recorder, w: WorkloadType,
-          file: String, delimiter: String) = {
+          file: String, delimiter: String, linesInFile: Int) = {
     val resolvedWL = resolveWork(w).getOrElse(throw new RuntimeException(s"Must pass a workload to benchmark"))
 
-    GraphTypes.values.foreach { gt =>
+    benchmarkConfig.graphTypes.foreach { gt =>
       var runCounter = 1
       while (runCounter <= benchmarkConfig.numberRuns) {
-        resolvedWL.benchmark(benchmarkConfig, recorder, gt, runCounter, file, delimiter)
+        resolvedWL.benchmark(benchmarkConfig, recorder, gt, runCounter, file, delimiter, linesInFile)
         runCounter += 1
       }
     }

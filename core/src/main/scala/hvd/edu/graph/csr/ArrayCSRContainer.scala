@@ -103,9 +103,9 @@ case class ArrayCSRContainer(val numVertex: Long, val numEdges: Long) extends Gr
     } { nn =>
       (v.firstEdgeIndexAsInt, nn.firstEdgeIndexAsInt) match {
         case (-1, _) => List.empty[CSRNode]
-        case (x, -1) if lastVertexOrAllFollowingVertexHaveNoEdges(v) => allEdges.slice(x, edgeLength)
-        case (x, -1) => List(allEdges(x))
-        case (x, y) => allEdges.slice(x, y)
+        case (x, -1) if lastVertexOrAllFollowingVertexHaveNoEdges(v) => edgeContainer.slice(x, edgeLength).toList
+        case (x, -1) => List(edgeContainer(x))
+        case (x, y) => edgeContainer.slice(x, y).toList
       }
     }
     ret

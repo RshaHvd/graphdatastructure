@@ -24,8 +24,8 @@ case class BplusTreeCSRContainer(numVertex: Long, fanout: Option[Int]) extends G
       // insert into edgeContainer
       edgeContainer += List(edge)
     } { edgeIndex =>
-      val existingEdges: List[CSRNode] = edgeContainer(edgeIndex)
-      val newEdges = existingEdges.:+(edge)
+      val existingEdges = edgeContainer(edgeIndex)
+      val newEdges = (edge :: existingEdges)
       edgeContainer(edgeIndex) = newEdges
       edgeContainer
     }
@@ -51,13 +51,12 @@ case class BplusTreeCSRContainer(numVertex: Long, fanout: Option[Int]) extends G
   override def vertexLength: Int = allVertices.size
 
   override def edgesForVertex(v: CSRNode): List[CSRNode] = {
-    val foundEdge =
-      vertexContainer.find(v).filterNot(eI => eI == vertexNoEdgesEdgeId)
-    foundEdge
-      .map { edgeIndex =>
-        edgeContainer(edgeIndex)
-      }
-      .getOrElse(Nil)
+    val foundEdge = vertexContainer.find(v).filterNot(eI => eI == vertexNoEdgesEdgeId)
+    val ll = foundEdge.map { edgeIndex =>
+      edgeContainer(edgeIndex)
+    }.getOrElse(Nil)
+
+    ll.sorted
   }
 
   override def edgesForVertexId(vid: Long): List[CSRNode] = {

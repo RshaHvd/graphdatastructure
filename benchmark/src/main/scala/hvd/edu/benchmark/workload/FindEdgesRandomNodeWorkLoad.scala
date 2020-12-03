@@ -13,10 +13,11 @@ object FindEdgesRandomNodeWorkLoad extends WorkLoad with LazyLogging {
   override val workLoadType = FindEdgesOfRandomNode
 
   override def benchmark[N <: Node](benchmarkConfig: BenchmarkConfig, recorder: Recorder,
-                                    gt: GraphType, iteration: Int, file: String, delimiter: String): Unit = {
+                                    gt: GraphType, iteration: Int, file: String,
+                                    delimiter: String, linesInFile: Int): Unit = {
 
     // first read graph
-    val readGraph = GraphTypeUtils.readGraphFromFile(gt, file, delimiter)
+    val readGraph = GraphTypeUtils.readGraphFromFile(gt, file, delimiter, linesInFile)
     val randomNodeIdToRead = benchmarkConfig.getRandomFor(file)
 
     Globals.timeAndLog2 {

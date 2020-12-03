@@ -4,6 +4,8 @@ import hvd.edu.collection.mutable.BPlusTreeImpl
 import hvd.edu.graph.GraphContainer
 import hvd.edu.graph.al.ALNodeUtils._
 
+import scala.collection.mutable
+
 /**
  * We store the vertex as the key of Leaf node and the edges as the values of the leafNode of a BplusTree
  * @param numVertex
@@ -13,21 +15,22 @@ case class BplusTreeALContainer(numVertex: Long, fanout: Option[Int]) extends Gr
 
   val defaultFanout = 5
 
-  private val container = new BPlusTreeImpl[DefaultALNode, List[DefaultALNode]](
+  private val container = new BPlusTreeImpl[DefaultALNode, mutable.ListBuffer[DefaultALNode]](
     fanout.getOrElse(defaultFanout)
   )
 
   override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
-    val mayBeExistingEdges: Option[List[DefaultALNode]] = container.find(vertex)
+    val mayBeExistingEdges = container.find(vertex)
 
-    mayBeExistingEdges.fold(container.add(vertex, List(edge))) { eList =>
-      val updatedEdges = eList.:+(edge)
-      container.update(vertex, updatedEdges)
+    mayBeExistingEdges.fold(container.add(vertex, mutable.ListBuffer(edge))) { eList =>
+      eList += edge
+      // you dont need update as the data of leaf nodes of this tree are
+      // ListBuffers- so data can be updated and it has not size restrictions..
     }
   }
 
   override def addVertex(vertex: DefaultALNode): Unit =
-    container.add(vertex, Nil)
+    container.add(vertex, mutable.ListBuffer[DefaultALNode]())
 
   override def allVertices: List[DefaultALNode] = container.getLeaves()
 
@@ -36,7 +39,7 @@ case class BplusTreeALContainer(numVertex: Long, fanout: Option[Int]) extends Gr
   override def vertexLength: Int = allVertices.size
 
   override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] =
-    container.find(v).getOrElse(Nil)
+    container.find(v).fold(List.empty[DefaultALNode])(_.toList)
 
   override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
     val nodeToFind = DefaultALNode(vid, vid)

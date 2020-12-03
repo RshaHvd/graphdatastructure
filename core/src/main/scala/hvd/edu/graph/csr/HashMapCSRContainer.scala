@@ -7,7 +7,7 @@ import scala.collection.mutable
 case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends GraphContainer[CSRNode] {
 
   private val vertexContainer = mutable.Map[CSRNode, String]()
-  private val edgeContainer = mutable.Map[String, List[CSRNode]]()
+  private val edgeContainer = mutable.Map[String, mutable.ListBuffer[CSRNode]]()
   private val vertexNoEdgesEdgeId = "-1"
 
   override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
@@ -16,11 +16,13 @@ case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends 
       val edgeId = s"V${vertex.id}_E${edge.id}"
       vertexContainer(vertex) = edgeId
       edgeId
-    }(existingIndex => existingIndex)
+    }{ existingIndex => existingIndex }
 
-    val edges = edgeContainer.get(edgesKey).toList.flatten
-    val updatedEdges = edges.:+(edge)
-    edgeContainer(edgesKey) = updatedEdges
+    edgeContainer.get(edgesKey).fold{
+      edgeContainer(edgesKey) = mutable.ListBuffer(edge)
+    }{ existingEdges =>
+      existingEdges += edge
+    }
   }
 
   def vertex_?(vertex: CSRNode): Option[CSRNode] =
@@ -41,16 +43,15 @@ case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends 
   override def edgeLength: Int = allEdges.size
 
   override def edgesForVertex(v: CSRNode): List[CSRNode] = {
-    val edgeList = vertexContainer
-      .get(v)
-      .flatMap { edgeId =>
-        edgeContainer.get(edgeId)
-      }
-      .getOrElse(List.empty[CSRNode])
+    val edgeList = vertexContainer.get(v).flatMap { edgeId =>
+      edgeContainer.get(edgeId)
+    }
+
+    edgeList.fold(List.empty[CSRNode])(lb => lb.toList)
 
     //edgeList.filterNot(_ == EmptyCSRNode)
 
-    edgeList.collect { case p: CSRNode => p }
+    // edgeList.collect { case p: CSRNode => p }
   }
 
   override def edgesForVertexId(vid: Long): List[CSRNode] =
