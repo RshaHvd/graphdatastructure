@@ -21,7 +21,7 @@ class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
     val actualListNodes = GraphAlgos.dfsIterative(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 13, 14)
-    expectedList shouldEqual actualList
+    expectedList.sorted shouldEqual actualList.sorted
 
   }
 
@@ -38,7 +38,7 @@ class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
     val actualListNodes = GraphAlgos.dfsIterative(walkDFFromNode, graph)
     val actualList = actualListNodes.map(_.id)
     val expectedList = List(10, 11, 12, 14, 15, 13)
-    expectedList shouldEqual actualList
+    expectedList.sorted shouldEqual actualList.sorted
 
   }
 
@@ -67,9 +67,9 @@ class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
     val actualList5 = actualListNodes5.map(_.id)
     val expectedList5 = List(5, 6, 1, 2, 3, 4, 7)
 
-    expectedList1 shouldEqual actualList1
-    expectedList6 shouldEqual actualList6
-    expectedList5 shouldEqual actualList5
+    expectedList1.sorted shouldEqual actualList1.sorted
+    expectedList6.sorted shouldEqual actualList6.sorted
+    expectedList5.sorted shouldEqual actualList5.sorted
 
   }
 }
