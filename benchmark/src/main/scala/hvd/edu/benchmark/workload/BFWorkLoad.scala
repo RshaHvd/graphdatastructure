@@ -50,16 +50,10 @@ object BFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          //          if (file == "cit-HepTh.txt" || file == "com-youtube.ungraph.txt") // FileType needed - we can exclude certain runs !! for now hardcoded
-          //          {
-          //            logger.info(s"SKIPPING BFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} as it takes too long")
-          //          }
-          //          else {
           val foundNodes = GraphAlgos.bfs(n, g)
           logger.info(s"BFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
-      //}
       case GraphTypes.CSRMapType => {
         val g = GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)

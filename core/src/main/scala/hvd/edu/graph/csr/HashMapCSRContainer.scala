@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends GraphContainer[CSRNode] {
+case class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
 
   private val vertexContainer = mutable.Map[CSRNode, String]()
   private val edgeContainer = mutable.Map[String, mutable.ListBuffer[CSRNode]]()
@@ -16,11 +16,11 @@ case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends 
       val edgeId = s"V${vertex.id}_E${edge.id}"
       vertexContainer(vertex) = edgeId
       edgeId
-    }{ existingIndex => existingIndex }
+    } { existingIndex => existingIndex }
 
-    edgeContainer.get(edgesKey).fold{
+    edgeContainer.get(edgesKey).fold {
       edgeContainer(edgesKey) = mutable.ListBuffer(edge)
-    }{ existingEdges =>
+    } { existingEdges =>
       existingEdges += edge
     }
   }
@@ -48,17 +48,11 @@ case class HashMapCSRContainer(val numVertex: Long, val numEdges: Long) extends 
     }
 
     edgeList.fold(List.empty[CSRNode])(lb => lb.toList)
-
-    //edgeList.filterNot(_ == EmptyCSRNode)
-
-    // edgeList.collect { case p: CSRNode => p }
   }
 
-  override def edgesForVertexId(vid: Long): List[CSRNode] =
-    edgesForVertex(CSRNode(vid, vid))
+  override def edgesForVertexId(vid: Int): List[CSRNode] = edgesForVertex(CSRNode(vid, vid))
 
-  override def nonEmptyVertexList: List[CSRNode] =
-    allVertices
+  override def nonEmptyVertexList: List[CSRNode] = allVertices
 
   override def print(mayBeNumberOfVertex: Option[Int]): Unit = ???
 }

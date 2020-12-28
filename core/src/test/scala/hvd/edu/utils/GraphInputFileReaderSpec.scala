@@ -21,6 +21,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
     actualEdge10Indices should equal(expectedEdge10Indidces)
   }
 
+  /*
   it should "Generate a valid HashMapBased CSR graph" in {
 
     val readGraph = GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](
@@ -100,5 +101,5 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
       List(67, 142, 169, 200, 277, 285, 291, 323, 332)
     actualEdge10IndicesALBTree.sorted should equal(expectedEdge10Indidces)
   }
-
+*/
 }

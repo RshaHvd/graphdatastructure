@@ -1,12 +1,6 @@
 package hvd.edu.graph
 
-import hvd.edu.graph.al.{
-  ArrayALContainer,
-  BplusTreeALContainer,
-  DefaultALNode,
-  HashMapALContainer,
-  SetBasedALNode
-}
+import hvd.edu.graph.al._
 import hvd.edu.utils.GraphBuilder
 import org.scalatest.{ FlatSpec, Matchers }
 

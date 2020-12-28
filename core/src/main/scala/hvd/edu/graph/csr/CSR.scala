@@ -15,7 +15,7 @@ trait CSRNodeDef extends Node {
   def firstEdgeIndex: Long
 }
 
-case class CSRNode(override val id: Long, override val value: Long,
+case class CSRNode(override val id: Int, override val value: Int,
                    firstEdgeIndex: Long = -1) extends CSRNodeDef {
 
   private var nextEdgeId = -1

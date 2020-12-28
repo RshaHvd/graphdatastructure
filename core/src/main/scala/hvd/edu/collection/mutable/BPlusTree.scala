@@ -99,7 +99,7 @@ class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil, dataForNodes: S
     //dataByKey.filterKeys(_k => findKeys.contains(_k)).toMap
 
     val lb = mutable.ListBuffer[(T, D)]()
-    findKeys.foreach{
+    findKeys.foreach {
       k =>
         val found = dataByKey.get(k)
         if (found.nonEmpty) {

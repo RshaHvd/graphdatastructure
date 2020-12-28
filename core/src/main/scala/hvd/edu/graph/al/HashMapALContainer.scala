@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALNode] {
+case class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
 
   private val adjacencyListMap = mutable.Map[DefaultALNode, mutable.ListBuffer[DefaultALNode]]()
 
@@ -38,7 +38,7 @@ case class HashMapALContainer(numVertex: Long) extends GraphContainer[DefaultALN
     adjacencyListMap.get(v).fold(List.empty[DefaultALNode])(_.toList)
   }
 
-  override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
+  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
     edgesForVertex(DefaultALNode(vid, vid))
   }
 

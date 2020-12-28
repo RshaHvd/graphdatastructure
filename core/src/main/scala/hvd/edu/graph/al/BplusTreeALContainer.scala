@@ -11,7 +11,7 @@ import scala.collection.mutable
  * @param numVertex
  * @param fanout
  */
-case class BplusTreeALContainer(numVertex: Long, fanout: Option[Int]) extends GraphContainer[DefaultALNode] {
+case class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends GraphContainer[DefaultALNode] {
 
   val defaultFanout = 5
 
@@ -41,7 +41,7 @@ case class BplusTreeALContainer(numVertex: Long, fanout: Option[Int]) extends Gr
   override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] =
     container.find(v).fold(List.empty[DefaultALNode])(_.toList)
 
-  override def edgesForVertexId(vid: Long): List[DefaultALNode] = {
+  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
     val nodeToFind = DefaultALNode(vid, vid)
     edgesForVertex(nodeToFind)
   }

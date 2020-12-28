@@ -63,27 +63,33 @@ case class BenchmarkConfig(
   numLinesInFile: List[Int]          = Nil,
   workloadTypes:  List[WorkloadType] = List(LoadGraph),
   graphTypes:     List[GraphType]    = GraphTypes.values.toList,
-  randomNodeFE:   List[Long]         = Nil,
+  randomNodeFE:   List[Int]          = Nil,
   csvFile:        Option[String]     = None) {
 
-  def getRandomFor(file: String): Long = file match {
+  def getRandomFor(file: String): Int = file match {
     case f1 if f1.equals("cit-HepTh.txt") => 9603161
     case f2 if f2.equals("wiki-Vote-part4.txt") => 29
     case f2 if f2.equals("com-youtube.ungraph.txt") => 268337
+    case f2 if f2.equals("email-Enron.txt") => 36597
+    case f2 if f2.equals("amazon0601.txt") => 169879
     case _ => throw new RuntimeException(s"No matching value for ${file}")
   }
 
-  def bfsFromNode(file: String): Long = file match {
+  def bfsFromNode(file: String): Int = file match {
     case f1 if f1.equals("cit-HepTh.txt") => 9603161
     case f2 if f2.equals("wiki-Vote-part4.txt") => 29
     case f2 if f2.equals("com-youtube.ungraph.txt") => 268337
+    case f2 if f2.equals("email-Enron.txt") => 36597
+    case f2 if f2.equals("amazon0601.txt") => 169879
     case _ => throw new RuntimeException(s"No matching value for ${file}")
   }
 
-  def dfsFromNode(file: String): Long = file match {
+  def dfsFromNode(file: String): Int = file match {
     case f1 if f1.equals("cit-HepTh.txt") => 9603161
     case f2 if f2.equals("wiki-Vote-part4.txt") => 29
     case f2 if f2.equals("com-youtube.ungraph.txt") => 268337
+    case f2 if f2.equals("email-Enron.txt") => 36597
+    case f2 if f2.equals("amazon0601.txt") => 169879
     case _ => throw new RuntimeException(s"No matching value for ${file}")
   }
 
