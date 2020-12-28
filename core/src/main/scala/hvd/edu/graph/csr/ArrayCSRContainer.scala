@@ -2,7 +2,7 @@ package hvd.edu.graph.csr
 
 import hvd.edu.graph.GraphContainer
 
-case class ArrayCSRContainer(val numVertex: Long, val numEdges: Long) extends GraphContainer[CSRNode] {
+case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
   private var vertexContainer = Array.ofDim[CSRNode](numVertex.toInt)
   private var edgeContainer = Array.ofDim[CSRNode](numEdges.toInt)
   private var vertexSize = 0
@@ -111,7 +111,7 @@ case class ArrayCSRContainer(val numVertex: Long, val numEdges: Long) extends Gr
     ret
   }
 
-  override def edgesForVertexId(vid: Long): List[CSRNode] = {
+  override def edgesForVertexId(vid: Int): List[CSRNode] = {
     val mayBeVertex = vertexContainer(vid.toInt)
     if (mayBeVertex == null) {
       Nil

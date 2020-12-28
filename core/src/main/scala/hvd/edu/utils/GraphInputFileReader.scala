@@ -16,7 +16,7 @@ object GraphInputFileReader extends LazyLogging {
   //    readFile(filePath, fileSize, delimiter)
   //  }
 
-  def readFile[N <: Node, C <: GraphContainer[N]](filePath: String, fileLength: Long, delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
+  def readFile[N <: Node, C <: GraphContainer[N]](filePath: String, fileLength: Int, delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
 
     Globals.timeAndLog {
       val bufferedFileSource: BufferedSource = Source.fromResource(filePath)

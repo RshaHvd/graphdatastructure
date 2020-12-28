@@ -6,7 +6,7 @@ import CSRNodeUtils._
 
 import scala.collection.mutable
 
-case class BplusTreeCSRContainer(numVertex: Long, fanout: Option[Int]) extends GraphContainer[CSRNode] {
+case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends GraphContainer[CSRNode] {
 
   val defaultFanout = 5
 
@@ -59,7 +59,7 @@ case class BplusTreeCSRContainer(numVertex: Long, fanout: Option[Int]) extends G
     ll.sorted
   }
 
-  override def edgesForVertexId(vid: Long): List[CSRNode] = {
+  override def edgesForVertexId(vid: EdgeIndex): List[CSRNode] = {
     val nodeToFind = CSRNode(vid, vid)
     edgesForVertex(nodeToFind)
   }

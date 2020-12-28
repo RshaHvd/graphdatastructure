@@ -2,7 +2,7 @@ package hvd.edu.graph.al
 
 import hvd.edu.graph.GraphContainer
 
-case class ArrayALContainer(numVertex: Long) extends GraphContainer[SetBasedALNode] {
+case class ArrayALContainer(numVertex: Int) extends GraphContainer[SetBasedALNode] {
 
   private var arrayLen = numVertex.toInt
   private var vertexContainer = Array.ofDim[SetBasedALNode](numVertex.toInt)
@@ -70,11 +70,7 @@ case class ArrayALContainer(numVertex: Long) extends GraphContainer[SetBasedALNo
   override def edgesForVertex(v: SetBasedALNode): List[SetBasedALNode] =
     v.outgoingEdges().toList.sortBy(_.id)
 
-  override def edgesForVertexId(vid: Long): List[SetBasedALNode] = {
-    //    vertexContainer.collectFirst { case v: SetBasedALNode if v.id == vid => v }.fold(List.empty[SetBasedALNode]) {
-    //      edgesForVertex(_)
-    //    }
-
+  override def edgesForVertexId(vid: Int): List[SetBasedALNode] = {
     val mayBeVertex = vertexContainer(vid.toInt)
     if (mayBeVertex != null) { edgesForVertex(mayBeVertex) }
     else { Nil }

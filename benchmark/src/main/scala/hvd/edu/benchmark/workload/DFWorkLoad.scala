@@ -26,7 +26,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = SetBasedALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
@@ -34,7 +34,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[DefaultALNode, HashMapALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = DefaultALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
@@ -42,7 +42,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[DefaultALNode, BplusTreeALContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = DefaultALNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
@@ -50,7 +50,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
@@ -58,7 +58,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }
@@ -66,7 +66,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
         val g = GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](filePath = file, linesInFile, delimiter = delimiter)
         val n = CSRNode(nodeIdToWalkFrom, nodeIdToWalkFrom)
         Globals.time {
-          val foundNodes = GraphAlgos.dfs(n, g)
+          val foundNodes = GraphAlgos.dfsIterative(n, g)
           logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")
         }
       }

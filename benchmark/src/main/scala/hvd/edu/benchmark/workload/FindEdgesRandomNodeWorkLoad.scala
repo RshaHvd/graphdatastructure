@@ -21,7 +21,7 @@ object FindEdgesRandomNodeWorkLoad extends WorkLoad with LazyLogging {
     val randomNodeIdToRead = benchmarkConfig.getRandomFor(file)
 
     Globals.timeAndLog2 {
-      readGraph.edgesForVertexId( /*9603161*/ randomNodeIdToRead)
+      readGraph.edgesForVertexId(randomNodeIdToRead)
     } { (foundNodes, recordedTime) =>
       logger.info(s"FoundNodes ${foundNodes.size}  in ${recordedTime} ms")
       val rw = RecordableWorkload(file, workLoadType, iteration, gt, Duration(recordedTime, MILLISECONDS))

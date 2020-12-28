@@ -38,7 +38,8 @@ lazy val commonDependencies = Seq(
   scopt,
   logbackClassic,
   scalalog,
-  enum
+  enum,
+  jolJava
 )
 
 lazy val benchmarkDependencies = Seq(
@@ -48,26 +49,5 @@ lazy val benchmarkDependencies = Seq(
 import scalariform.formatter.preferences._
 
 val formatSettings =   {
-  scalariformPreferences := formattingPreferences
-}
-
-val formattingPreferences: IFormattingPreferences = {
-  import scalariform.formatter.preferences._
-  FormattingPreferences().
-    setPreference(AlignParameters, true).
-    setPreference(AlignSingleLineCaseStatements, true).
-    setPreference(CompactControlReadability, true).
-    setPreference(CompactStringConcatenation, false).
-    setPreference(DanglingCloseParenthesis, Preserve).
-    setPreference(FormatXml, true).
-    setPreference(IndentLocalDefs, true).
-    setPreference(IndentPackageBlocks, true).
-    setPreference(IndentSpaces, 2).
-    setPreference(MultilineScaladocCommentsStartOnFirstLine, false).
-    setPreference(PreserveSpaceBeforeArguments, true).
-    setPreference(RewriteArrowSymbols, false)
-//    setPreference(SpaceBeforeColon, false).
-//    setPreference(SpaceInsideBrackets, false).
-//    setPreference(SpaceInsideParentheses, false).
-//    setPreference(SpacesWithinPatternBinders, true)
+  scalariformPreferences := Format.formattingPreferences
 }

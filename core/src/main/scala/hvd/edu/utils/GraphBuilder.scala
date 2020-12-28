@@ -1,11 +1,14 @@
 package hvd.edu.utils
 
+import com.typesafe.scalalogging.LazyLogging
 import hvd.edu.graph._
+import org.openjdk.jol.info.ClassLayout
 
-object GraphBuilder {
+object GraphBuilder extends LazyLogging {
 
-  def buildFromString[N <: Node, C <: GraphContainer[N]](
-    inputString: String, firstDelimiter: String, secondDelimiter: String)(implicit ev: ContainerMaker[N, C], nodeMaker: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
+  def buildFromString[N <: Node, C <: GraphContainer[N]](inputString: String, firstDelimiter: String, secondDelimiter: String)(
+    implicit
+    ev: ContainerMaker[N, C], nodeMaker: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
 
     val arrayEdges: Array[String] = inputString.split(firstDelimiter)
     val graph = new Graph(arrayEdges.length, arrayEdges.length)
@@ -27,6 +30,11 @@ object GraphBuilder {
         // do nothing
       }
     }
+    //    logger.warn(
+    //      s"""
+    //         |The Size of the Graph
+    //         |${ClassLayout.parseInstance(graph).}
+    //         |""".stripMargin)
     graph
   }
 
