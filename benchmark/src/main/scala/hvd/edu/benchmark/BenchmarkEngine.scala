@@ -1,9 +1,9 @@
 package hvd.edu.benchmark
 
 import com.typesafe.scalalogging.LazyLogging
-import hvd.edu.benchmark.utils.{BenchmarkCSVWriter, Table}
+import hvd.edu.benchmark.utils.{ BenchmarkCSVWriter, Table }
 import hvd.edu.benchmark.workload.WorkloadTypes.LoadGraph
-import hvd.edu.benchmark.workload.{GraphTypes, WorkloadType, WorkloadTypes}
+import hvd.edu.benchmark.workload.{ GraphTypes, WorkloadType, WorkloadTypes }
 import scopt.OptionParser
 import scopt.Read._
 

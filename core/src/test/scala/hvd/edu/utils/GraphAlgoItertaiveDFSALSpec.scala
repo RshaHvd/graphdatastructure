@@ -1,8 +1,8 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.SetBasedALNodeMaker
-import hvd.edu.graph.al.{ArrayALContainer, SetBasedALNode}
-import org.scalatest.{FlatSpec, Matchers}
+import hvd.edu.graph.al.{ ArrayALContainer, SetBasedALNode }
+import org.scalatest.{ FlatSpec, Matchers }
 
 class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
 
