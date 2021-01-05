@@ -3,6 +3,7 @@ package hvd.edu.benchmark
 import com.typesafe.scalalogging.LazyLogging
 import hvd.edu.benchmark.utils.Table
 import hvd.edu.benchmark.workload.{ GraphType, WorkloadType }
+import hvd.edu.graph.Node
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -10,9 +11,9 @@ import scala.concurrent.duration.Duration
 
 class Recorder(configForThisWorkload: BenchmarkConfig) extends LazyLogging {
 
-  private val measuredTimeByGraph: ListBuffer[RecordableWorkload] = mutable.ListBuffer[RecordableWorkload]()
+  private val measuredTimeByGraph: ListBuffer[RecordableWorkload[_]] = mutable.ListBuffer[RecordableWorkload[_]]()
 
-  def recordTimeForGraph(w: RecordableWorkload) = {
+  def recordTimeForGraph(w: RecordableWorkload[_]) = {
     measuredTimeByGraph.append(w)
   }
 
@@ -41,8 +42,8 @@ class Recorder(configForThisWorkload: BenchmarkConfig) extends LazyLogging {
   }
 }
 
-case class RecordableWorkload(dataSet: String, workLoad: WorkloadType,
-                              iteration: Int, graphType: GraphType, duration: Duration) {
+case class RecordableWorkload[N <: Node](dataSet: String, workLoad: WorkloadType,
+                                         iteration: Int, graphType: GraphType[N], duration: Duration) {
   override def toString: String = s"${dataSet}:${workLoad.entryName}:${iteration}:${graphType.entryName}:${duration.toMillis}"
 }
 

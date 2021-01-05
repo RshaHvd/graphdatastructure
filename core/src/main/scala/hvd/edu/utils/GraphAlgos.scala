@@ -1,32 +1,30 @@
 package hvd.edu.utils
 
-import java.util
-
-import hvd.edu.graph.{ Graph, GraphContainer, Node }
+import hvd.edu.graph.{ Graph, Node }
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 object GraphAlgos {
 
-  def bfs[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
+  def bfs[N <: Node](fromNode: N, graph: Graph[N]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
     }
-    internalBFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    internalBFS(foundVertex, graph, mutable.ListBuffer[N](), mutable.Set[Int]())
   }
 
-  def dfs[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
+  def dfs[N <: Node](fromNode: N, graph: Graph[N]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
     }
-    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Int]())
     retLB.toList
   }
 
-  def bfsIterative[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
+  def bfsIterative[N <: Node](fromNode: N, graph: Graph[N]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
@@ -35,7 +33,7 @@ object GraphAlgos {
     retLB.toList
   }
 
-  def dfsIterative[N <: Node, GC <: GraphContainer[N]](fromNode: N, graph: Graph[N, GC]): List[N] = {
+  def dfsIterative[N <: Node](fromNode: N, graph: Graph[N]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == fromNode.id)
@@ -44,17 +42,17 @@ object GraphAlgos {
     retLB.toList
   }
 
-  def dfsFromNodeId[N <: Node, GC <: GraphContainer[N]](nodeId: Int, graph: Graph[N, GC]): List[N] = {
+  def dfsFromNodeId[N <: Node](nodeId: Int, graph: Graph[N]): List[N] = {
 
     val foundVertex: List[N] = graph.vertexList.filter { thisNode =>
       (thisNode.id == nodeId)
     }
-    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Long]())
+    val retLB = internalDFS(ListBuffer(foundVertex: _*), graph, mutable.ListBuffer[N](), mutable.Set[Int]())
     retLB.toList
   }
 
-  private def internalDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: mutable.ListBuffer[N], graph: Graph[N, GC],
-                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): ListBuffer[N] = {
+  private def internalDFS[N <: Node](fromVertices: mutable.ListBuffer[N], graph: Graph[N],
+                                     accum: ListBuffer[N], alreadyVisited: mutable.Set[Int]): ListBuffer[N] = {
     if (fromVertices.isEmpty)
       accum
     else {
@@ -75,8 +73,8 @@ object GraphAlgos {
     }
   }
 
-  private def internalBFS[N <: Node, GC <: GraphContainer[N]](fromNodes: List[N], graph: Graph[N, GC],
-                                                              accum: ListBuffer[N], alreadyVisited: mutable.Set[Long]): List[N] = {
+  private def internalBFS[N <: Node](fromNodes: List[N], graph: Graph[N],
+                                     accum: ListBuffer[N], alreadyVisited: mutable.Set[Int]): List[N] = {
     if (fromNodes.isEmpty)
       accum.toList
     else {
@@ -98,9 +96,9 @@ object GraphAlgos {
     }
   }
 
-  private def interativeDFS[N <: Node, GC <: GraphContainer[N]](fromVertices: mutable.ListBuffer[N], graph: Graph[N, GC]): ListBuffer[N] = {
+  private def interativeDFS[N <: Node](fromVertices: mutable.ListBuffer[N], graph: Graph[N]): ListBuffer[N] = {
     val accum = mutable.ListBuffer[N]()
-    val alreadyVisited = mutable.Set[Long]()
+    val alreadyVisited = mutable.Set[Int]()
     val visitNextBuffer = mutable.Stack(fromVertices: _*)
     while (visitNextBuffer.nonEmpty) {
       val n = visitNextBuffer.pop()
@@ -117,9 +115,9 @@ object GraphAlgos {
     accum
   }
 
-  private def interativeBFS[N <: Node, GC <: GraphContainer[N]](fromNodes: List[N], graph: Graph[N, GC]): ListBuffer[N] = {
+  private def interativeBFS[N <: Node](fromNodes: List[N], graph: Graph[N]): ListBuffer[N] = {
     val accum = mutable.ListBuffer[N]()
-    val alreadyVisited = mutable.Set[Long]()
+    val alreadyVisited = mutable.Set[Int]()
     val visitNextBufferQueue = mutable.Queue[N](fromNodes: _*)
     while (visitNextBufferQueue.nonEmpty) {
       val thisNode = visitNextBufferQueue.dequeue()

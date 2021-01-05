@@ -8,8 +8,10 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
 
   "Adjacency list" should "be generated from simple string" in {
     val inputString = "0,2 1,3 2,3 2,4 3,5 4,5"
-    val generatedAL = GraphBuilder
-      .buildFromString[SetBasedALNode, ArrayALContainer](inputString, " ", ",")
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = ArrayALContainer(arrayEdges.length)
+    val nm = SetBasedALNodeMaker
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, nm)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -18,8 +20,9 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
 
   "it" should "generate graph where some vertices do not have outgoingedges" in {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val generatedAL = GraphBuilder
-      .buildFromString[SetBasedALNode, ArrayALContainer](inputString, " ", ",")
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = ArrayALContainer(arrayEdges.length)
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, SetBasedALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -29,8 +32,9 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
 
   "Adjacency list using HashMap" should "be generated from simple string" in {
     val inputString = "0,2 1,3 2,3 2,4 3,5 4,5"
-    val generatedAL = GraphBuilder
-      .buildFromString[DefaultALNode, HashMapALContainer](inputString, " ", ",")
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = HashMapALContainer(arrayEdges.length)
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -39,9 +43,9 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
 
   "it" should "generate graph where some vertices do not have outgoingedges for HashMapBasedContainer" in {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val fanout = 2 // implicit
-    val generatedAL = GraphBuilder
-      .buildFromString[DefaultALNode, HashMapALContainer](inputString, " ", ",")
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = HashMapALContainer(arrayEdges.length)
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -52,12 +56,9 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
   "Adjacency list using BPlusTree" should "be generated from simple string" in {
     val inputString = "0,2 1,3 2,3 2,4 3,5 4,5"
     val fanout = 5 // implicit
-    val generatedAL =
-      GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](
-        inputString,
-        " ",
-        ","
-      )
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = BplusTreeALContainer(arrayEdges.length, Option(fanout))
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -66,12 +67,9 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
 
   "it" should "generate graph where some vertices do not have outgoingedges for BplusTreeBasedALContainer" in {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val generatedAL =
-      GraphBuilder.buildFromString[DefaultALNode, BplusTreeALContainer](
-        inputString,
-        " ",
-        ","
-      )
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = BplusTreeALContainer(arrayEdges.length, None)
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)

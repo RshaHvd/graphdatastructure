@@ -1,10 +1,9 @@
 package hvd.edu.benchmark
 
 import com.typesafe.scalalogging.LazyLogging
-import hvd.edu.benchmark.utils.{ BenchmarkCSVWriter, Table }
-import hvd.edu.benchmark.workload.GraphTypes.ALArrayType
+import hvd.edu.benchmark.utils.{BenchmarkCSVWriter, Table}
 import hvd.edu.benchmark.workload.WorkloadTypes.LoadGraph
-import hvd.edu.benchmark.workload.{ GraphType, GraphTypes, LoadGraphWorkLoad, WorkloadType, WorkloadTypes }
+import hvd.edu.benchmark.workload.{GraphTypes, WorkloadType, WorkloadTypes}
 import scopt.OptionParser
 import scopt.Read._
 
@@ -62,7 +61,7 @@ case class BenchmarkConfig(
   edgesInGraph:   List[Int]          = Nil,
   numLinesInFile: List[Int]          = Nil,
   workloadTypes:  List[WorkloadType] = List(LoadGraph),
-  graphTypes:     List[GraphType]    = GraphTypes.values.toList,
+  graphTypes:     List[String]       = GraphTypes.ALL.map(_.entryName),
   randomNodeFE:   List[Int]          = Nil,
   csvFile:        Option[String]     = None) {
 
@@ -159,8 +158,7 @@ class BenchmarkConfigParser extends OptionParser[BenchmarkConfig]("hvd.edu.bench
 
   opt[Seq[String]]('g', "graphTypes")
     .action { (gt: Seq[String], c: BenchmarkConfig) =>
-      val gTypes = gt.flatMap(GraphTypes.withNameOption(_))
-      c.copy(graphTypes = gTypes.toList)
+      c.copy(graphTypes = gt.toList)
     }
     .text("Graph Types to run workload on")
 

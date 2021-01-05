@@ -7,21 +7,14 @@ trait NodeMaker[N <: Node] {
   def make(id: Int, value: Int): N
 }
 
-object NodeMaker {
+object CSRNodeMaker extends NodeMaker[CSRNode] {
+  override def make(id: Int, value: Int): CSRNode = CSRNode(id, value)
+}
 
-  implicit object CSRNodeMaker extends NodeMaker[CSRNode] {
-    override def make(id: Int, value: Int): CSRNode = CSRNode(id, value)
-  }
+object SetBasedALNodeMaker extends NodeMaker[SetBasedALNode] {
+  override def make(id: Int, value: Int) = SetBasedALNode(id, value)
+}
 
-  implicit object ALNodeWithSetBasedEdgesMaker extends NodeMaker[SetBasedALNode] {
-    override def make(id: Int, value: Int) = SetBasedALNode(id, value)
-  }
-
-  implicit object DefaultALNodeMaker extends NodeMaker[DefaultALNode] {
-    override def make(id: Int, value: Int) = DefaultALNode(id, value)
-  }
-
-  def apply[N <: Node](id: Int, value: Int)(implicit nodeMaker: NodeMaker[N]): N =
-    nodeMaker.make(id, value)
-
+object DefaultALNodeMaker extends NodeMaker[DefaultALNode] {
+  override def make(id: Int, value: Int) = DefaultALNode(id, value)
 }

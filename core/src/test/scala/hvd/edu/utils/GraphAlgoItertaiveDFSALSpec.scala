@@ -1,19 +1,17 @@
 package hvd.edu.utils
 
-import hvd.edu.graph.Graph
-import hvd.edu.graph.al.{ ArrayALContainer, SetBasedALNode }
-import org.scalatest.{ FlatSpec, Matchers }
+import hvd.edu.graph.SetBasedALNodeMaker
+import hvd.edu.graph.al.{ArrayALContainer, SetBasedALNode}
+import org.scalatest.{FlatSpec, Matchers}
 
 class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
 
   "Depth First Search on Adjacency List" should "yield correct nodes on sample graph 1" in {
 
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
-    val graph: Graph[SetBasedALNode, ArrayALContainer] = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](
-      inputString,
-      " ",
-      ","
-    )
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = ArrayALContainer(arrayEdges.length)
+    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, SetBasedALNodeMaker)
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
@@ -26,13 +24,10 @@ class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
   }
 
   it should "work on sample graph 2" in {
-    val inputString =
-      "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
-    val graph = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](
-      inputString,
-      " ",
-      ","
-    )
+    val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = ArrayALContainer(arrayEdges.length)
+    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, SetBasedALNodeMaker)
     graph shouldNot be(null)
     val walkDFFromNode = SetBasedALNode(10, 10)
     val actualListNodes = GraphAlgos.dfsIterative(walkDFFromNode, graph)
@@ -44,11 +39,9 @@ class GraphAlgoItertaiveDFSALSpec extends FlatSpec with Matchers {
 
   it should "produce different list from different start vertices of the same graph" in {
     val inputString = "1,2 2,3 2,4 3, 4, 5,6 6,1 6,2 6,7 7, "
-    val graph = GraphBuilder.buildFromString[SetBasedALNode, ArrayALContainer](
-      inputString,
-      " ",
-      ","
-    )
+    val arrayEdges: Array[String] = inputString.split(" ")
+    val gc = ArrayALContainer(arrayEdges.length)
+    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, SetBasedALNodeMaker)
     graph shouldNot be(null)
     val walkDFFromNodeFrom1 = SetBasedALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.dfsIterative(walkDFFromNodeFrom1, graph)
