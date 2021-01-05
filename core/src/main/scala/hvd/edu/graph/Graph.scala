@@ -26,11 +26,7 @@ trait GraphContainer[n <: Node] {
   def print(mayBeNumberOfVertex: Option[Int]): Unit
 }
 
-class Graph[N <: Node, C <: GraphContainer[N]](numVertex: Int, numEdges: Int)(
-  implicit
-  ev: ContainerMaker[N, C], fanout: Option[Int] = None) {
-
-  private val graphContainer = ContainerMaker.apply[N, C](numVertex, numEdges)
+class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def addEdge(vertex: N, edgeNode: N): Unit = graphContainer.addEdge(vertex, edgeNode)
 

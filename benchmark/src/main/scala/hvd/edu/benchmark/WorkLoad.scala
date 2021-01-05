@@ -1,13 +1,15 @@
 package hvd.edu.benchmark
 
 import com.typesafe.scalalogging.LazyLogging
-import hvd.edu.benchmark.workload.{ BFWorkLoad, DFWorkLoad, FindEdgesRandomNodeWorkLoad, GraphType, GraphTypes, LoadGraphWorkLoad, WorkloadType }
+import hvd.edu.benchmark.workload.GraphTypes._
+import hvd.edu.benchmark.workload._
 import hvd.edu.graph.Node
 
 trait WorkLoad {
   def benchmark[N <: Node](benchmarkConfig: BenchmarkConfig, recorder: Recorder,
-                           gt: GraphType, iteration: Int, file: String, delimiter: String,
+                           gt: GraphType[N], iteration: Int, file: String, delimiter: String,
                            linesInFile: Int)
+
   def workLoadType: WorkloadType
 }
 
@@ -30,7 +32,15 @@ object WorkLoad extends LazyLogging {
     benchmarkConfig.graphTypes.foreach { gt =>
       var runCounter = 1
       while (runCounter <= benchmarkConfig.numberRuns) {
-        resolvedWL.benchmark(benchmarkConfig, recorder, gt, runCounter, file, delimiter, linesInFile)
+        gt match {
+          case ALArrayType.entryName  => resolvedWL.benchmark(benchmarkConfig, recorder, ALArrayType, runCounter, file, delimiter, linesInFile)
+          case ALMapType.entryName    => resolvedWL.benchmark(benchmarkConfig, recorder, ALMapType, runCounter, file, delimiter, linesInFile)
+          case ALTreeType.entryName   => resolvedWL.benchmark(benchmarkConfig, recorder, ALTreeType, runCounter, file, delimiter, linesInFile)
+          case CSRArrayType.entryName => resolvedWL.benchmark(benchmarkConfig, recorder, CSRArrayType, runCounter, file, delimiter, linesInFile)
+          case CSRMapType.entryName   => resolvedWL.benchmark(benchmarkConfig, recorder, CSRMapType, runCounter, file, delimiter, linesInFile)
+          case CSRTreeType.entryName  => resolvedWL.benchmark(benchmarkConfig, recorder, CSRTreeType, runCounter, file, delimiter, linesInFile)
+          case _                      => throw new RuntimeException(s"Invalid graph type :${gt}")
+        }
         runCounter += 1
       }
     }

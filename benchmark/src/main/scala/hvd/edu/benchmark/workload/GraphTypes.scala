@@ -1,62 +1,50 @@
 package hvd.edu.benchmark.workload
 
-import enumeratum._
-import hvd.edu.graph.al._
+import hvd.edu.graph._
+import hvd.edu.graph.al.{ ArrayALContainer, HashMapALContainer, _ }
 import hvd.edu.graph.csr.{ ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer }
-import hvd.edu.utils.GraphInputFileReader
+import hvd.edu.utils.{ GraphAlgos, GraphInputFileReader }
 
-sealed abstract class GraphType(override val entryName: String) extends EnumEntry {
+sealed abstract class GraphType[N <: Node](val entryName: String, val nodeMaker: NodeMaker[N]) {
   def displayName = entryName
+  def graphContainer(linesInFile: Int): GraphContainer[N]
+  def readG(filePath: String, delimiter: String, linesInFile: Int): Graph[N] = {
+    GraphInputFileReader.readFile(filePath, linesInFile, delimiter, graphContainer(linesInFile), nodeMaker)
+  }
 }
 
-object GraphTypes extends Enum[GraphType] {
+object GraphTypes {
 
-  val values = findValues
+  val ALL = List(ALArrayType, ALMapType, ALTreeType, CSRArrayType, CSRMapType, CSRTreeType)
 
-  case object ALArrayType extends GraphType("ALA") {
+  case object ALArrayType extends GraphType[SetBasedALNode]("ALA", SetBasedALNodeMaker) {
     override val displayName: String = "AL-Array"
+    override def graphContainer(linesInFile: Int): GraphContainer[SetBasedALNode] = ArrayALContainer(linesInFile)
   }
 
-  case object ALMapType extends GraphType("ALM") {
+  case object ALMapType extends GraphType[DefaultALNode]("ALM", DefaultALNodeMaker) {
     override val displayName: String = "AL-Map"
-
+    override def graphContainer(linesInFile: Int): GraphContainer[DefaultALNode] = HashMapALContainer(linesInFile)
   }
 
-  case object ALTreeType extends GraphType("ALT") {
+  case object ALTreeType extends GraphType[DefaultALNode]("ALT", DefaultALNodeMaker) {
     override val displayName: String = "AL-Tree"
+    override def graphContainer(linesInFile: Int): GraphContainer[DefaultALNode] = BplusTreeALContainer(linesInFile, None)
   }
 
-  case object CSRArrayType extends GraphType("CSRA") {
+  case object CSRArrayType extends GraphType[CSRNode]("CSRA", CSRNodeMaker) {
     override val displayName: String = "CSR-Array"
-
+    override def graphContainer(linesInFile: Int): GraphContainer[CSRNode] = ArrayCSRContainer(linesInFile, linesInFile)
   }
 
-  case object CSRMapType extends GraphType("CSRM") {
+  case object CSRMapType extends GraphType[CSRNode]("CSRM", CSRNodeMaker) {
     override val displayName: String = "CSR-Map"
-
+    override def graphContainer(linesInFile: Int): GraphContainer[CSRNode] = HashMapCSRContainer(linesInFile, linesInFile)
   }
 
-  case object CSRTreeType extends GraphType("CSRT") {
+  case object CSRTreeType extends GraphType[CSRNode]("CSRT", CSRNodeMaker) {
     override val displayName: String = "CSR-Tree"
-
-  }
-}
-
-/**
- * Utility to link GraphType Enums in benchmarks to Graphs and Nodes definitions
- */
-object GraphTypeUtils {
-
-  def readGraphFromFile(gt: GraphType, filePath: String, delimiter: String, linesInFile: Int) = {
-    gt match {
-      case GraphTypes.ALArrayType  => GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-      case GraphTypes.ALMapType    => GraphInputFileReader.readFile[DefaultALNode, HashMapALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-      case GraphTypes.ALTreeType   => GraphInputFileReader.readFile[DefaultALNode, BplusTreeALContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-      case GraphTypes.CSRArrayType => GraphInputFileReader.readFile[CSRNode, ArrayCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-      case GraphTypes.CSRMapType   => GraphInputFileReader.readFile[CSRNode, HashMapCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-      case GraphTypes.CSRTreeType  => GraphInputFileReader.readFile[CSRNode, BplusTreeCSRContainer](filePath = filePath, linesInFile, delimiter = delimiter)
-    }
-
+    override def graphContainer(linesInFile: Int): GraphContainer[CSRNode] = BplusTreeCSRContainer(linesInFile, None)
   }
 
 }

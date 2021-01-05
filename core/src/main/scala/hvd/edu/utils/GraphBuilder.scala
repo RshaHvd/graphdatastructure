@@ -6,12 +6,15 @@ import org.openjdk.jol.info.ClassLayout
 
 object GraphBuilder extends LazyLogging {
 
-  def buildFromString[N <: Node, C <: GraphContainer[N]](inputString: String, firstDelimiter: String, secondDelimiter: String)(
-    implicit
-    ev: ContainerMaker[N, C], nodeMaker: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
+  def buildFromString[N <: Node](
+    inputString:     String,
+    firstDelimiter:  String,
+    secondDelimiter: String,
+    graphContainer:  GraphContainer[N],
+    nodeMaker:       NodeMaker[N]): Graph[N] = {
 
     val arrayEdges: Array[String] = inputString.split(firstDelimiter)
-    val graph = new Graph(arrayEdges.length, arrayEdges.length)
+    val graph = new Graph(graphContainer)
     arrayEdges.foreach { currEdge =>
       val currEdgeArray: Array[String] = currEdge.split(secondDelimiter)
       if (currEdgeArray.length == 2 && currEdgeArray(1).nonEmpty) {
