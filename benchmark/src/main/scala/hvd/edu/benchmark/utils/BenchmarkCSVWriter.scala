@@ -15,4 +15,14 @@ object BenchmarkCSVWriter extends LazyLogging {
     writer.close()
   }
 
+  def apply(fileName: String, data: Seq[Seq[Any]]) = {
+    val timeLong = System.currentTimeMillis()
+    //val csvFileName = s"./output/mem_benchmark${fileName}.csv"
+    val csvFileName = s"${fileName}.csv"
+    logger.info(s"Writing CSV file :${csvFileName}")
+    val writer = CSVWriter.open(csvFileName)
+    writer.writeAll(data)
+    writer.close()
+  }
+
 }
