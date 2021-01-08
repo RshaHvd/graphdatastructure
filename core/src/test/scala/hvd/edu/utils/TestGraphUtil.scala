@@ -1,7 +1,7 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.CSRNodeMaker
-import hvd.edu.graph.csr.{ArrayCSRContainer, HashMapCSRContainer}
+import hvd.edu.graph.csr.{ ArrayCSRContainer, HashMapCSRContainer }
 
 object TestGraphUtil {
 

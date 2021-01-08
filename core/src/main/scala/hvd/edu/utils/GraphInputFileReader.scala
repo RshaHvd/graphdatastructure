@@ -31,11 +31,18 @@ object GraphInputFileReader extends LazyLogging {
       while (readLine != null) {
         if (!readLine.startsWith("#")) {
           val edgesInLine = readLine.split(delimiter) // we know there are only 2
-          val firstE: Int = edgesInLine(0).toInt
-          val secondE: Int = edgesInLine(1).toInt
-          val aln1 = nodeMaker.make(firstE, firstE)
-          val aln2 = nodeMaker.make(secondE, secondE)
-          graph.addEdge(aln1, aln2)
+          if (edgesInLine.length == 2) {
+            val firstE: Int = edgesInLine(0).toInt
+            val secondE: Int = edgesInLine(1).toInt
+            val aln1 = nodeMaker.make(firstE, firstE)
+            val aln2 = nodeMaker.make(secondE, secondE)
+            graph.addEdge(aln1, aln2)
+          }
+          else {
+            val firstE: Int = edgesInLine(0).toInt
+            val aln1 = nodeMaker.make(firstE, firstE)
+            graph.addVertex(aln1)
+          }
         }
         count += 1
         readLine = br.readLine()

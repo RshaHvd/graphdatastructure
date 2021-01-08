@@ -30,7 +30,7 @@ lazy val benchmark = project
     libraryDependencies ++= (
       commonDependencies ++
       benchmarkDependencies)
-  ).dependsOn(core)
+  ).dependsOn(core).enablePlugins(JmhPlugin)
 
 
 lazy val commonDependencies = Seq(

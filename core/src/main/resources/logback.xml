@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="false" debug="false">
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%.-3p [%d{yyyyMMdd-HH:mm:ss.SSS}] [%.30t] %c{1} %m%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="StdoutNoLossAsyncAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>1024</queueSize>
+        <!-- Do not drop any events. -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- AsyncAppender can only reference one other "destination" appender -->
+        <appender-ref ref="stdout"/>
+    </appender>
+
+   <logger name="ch.qos" level="ERROR"/>
+
+    <root level="info">
+        <appender-ref ref="StdoutNoLossAsyncAppender" />
+    </root>
+</configuration>
