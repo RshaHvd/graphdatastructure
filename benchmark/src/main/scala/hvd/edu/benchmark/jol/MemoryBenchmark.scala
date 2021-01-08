@@ -17,7 +17,6 @@ trait MemoryBenchmark {
 
   def loadALArray(fileName: String, lineCount: Int) = {
     val g = ALArrayType.readG(fileName, "\\t", lineCount)
-    //println(GraphLayout.parseInstance(g).toFootprint)
     recorder.append((ALArrayType, fileName, GraphLayout.parseInstance(g).totalSize()))
   }
 
@@ -75,7 +74,7 @@ object MemoryBenchmark1KNodes extends MemoryBenchmark {
     "generated/generated1k/generated1000_1000000.txt" -> 631568
   )
 
-  override val outputFileName = "1KNodes"
+  override val outputFileName = "./output/mem_benchmark1KNodes"
 }
 
 object MemoryBenchmark10KNodes extends MemoryBenchmark {
@@ -87,7 +86,7 @@ object MemoryBenchmark10KNodes extends MemoryBenchmark {
     "generated/generated10k/generated10000_1000000.txt" -> 995170
   )
 
-  override val outputFileName = "10KNodes"
+  override val outputFileName = "./output/mem_benchmark10KNodes"
 }
 
 object MemoryBenchmark100KNodes extends MemoryBenchmark {
@@ -99,5 +98,5 @@ object MemoryBenchmark100KNodes extends MemoryBenchmark {
     "generated/generated100k/generated100000_1000000.txt" -> 999942
   )
 
-  override val outputFileName = "100KNodes"
+  override val outputFileName = "./output/mem_benchmark100KNodes"
 }
