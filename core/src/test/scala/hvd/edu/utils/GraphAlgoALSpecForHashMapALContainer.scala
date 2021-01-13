@@ -1,7 +1,7 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.DefaultALNodeMaker
-import hvd.edu.graph.al.{ BplusTreeALContainer, DefaultALNode, HashMapALContainer }
+import hvd.edu.graph.al.{ BplusTreeALContainer, ALNode, HashMapALContainer }
 import org.scalatest.{ FlatSpec, Matchers }
 
 class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
@@ -15,9 +15,9 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = DefaultALNode(10, 10)
+    val walkDFFromNode = ALNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14)
     expectedList.sorted shouldEqual actualList.sorted
 
@@ -29,9 +29,9 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     val gc = HashMapALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNode = DefaultALNode(10, 10)
+    val walkDFFromNode = ALNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, graph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 14, 15, 13)
     expectedList.sorted shouldEqual actualList.sorted
 
@@ -43,21 +43,21 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     val gc = HashMapALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNodeFrom1 = DefaultALNode(1, 1)
+    val walkDFFromNodeFrom1 = ALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.dfs(walkDFFromNodeFrom1, graph)
-    val walkDFFromNode6 = DefaultALNode(6, 6)
+    val walkDFFromNode6 = ALNode(6, 6)
     val actualListNodes6 = GraphAlgos.dfs(walkDFFromNode6, graph)
 
-    val walkDFFromNode5 = DefaultALNode(5, 5)
+    val walkDFFromNode5 = ALNode(5, 5)
     val actualListNodes5 = GraphAlgos.dfs(walkDFFromNode5, graph)
 
-    val actualList1 = actualListNodesFrom1.map(_.id)
+    val actualList1 = actualListNodesFrom1
     val expectedList1 = List(1, 2, 3, 4)
 
-    val actualList6 = actualListNodes6.map(_.id)
+    val actualList6 = actualListNodes6
     val expectedList6 = List(6, 1, 2, 3, 4, 7)
 
-    val actualList5 = actualListNodes5.map(_.id)
+    val actualList5 = actualListNodes5
     val expectedList5 = List(5, 6, 1, 2, 3, 4, 7)
 
     expectedList1.sorted shouldEqual actualList1.sorted
@@ -75,10 +75,10 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = DefaultALNode(10, 10)
+    val walkDFFromNode = ALNode(10, 10)
     val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, graph)
 
-    val actualBFSList = actualBFSListNodes.map(_.id)
+    val actualBFSList = actualBFSListNodes
     val expectedBFSList = List(10, 11, 12, 13, 14)
 
     expectedBFSList.sorted shouldEqual actualBFSList.sorted
@@ -90,9 +90,9 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     val gc = HashMapALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNode = DefaultALNode(10, 10)
+    val walkDFFromNode = ALNode(10, 10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, graph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14, 15)
     expectedList.sorted shouldEqual actualList.sorted
 
@@ -104,22 +104,22 @@ class GraphAlgoALSpecForHashMapALContainer extends FlatSpec with Matchers {
     val gc = HashMapALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNodeFrom1 = DefaultALNode(1, 1)
+    val walkDFFromNodeFrom1 = ALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, graph)
 
-    val walkDFFromNode6 = DefaultALNode(6, 6)
+    val walkDFFromNode6 = ALNode(6, 6)
     val actualListNodes6 = GraphAlgos.bfs(walkDFFromNode6, graph)
 
-    val walkDFFromNode5 = DefaultALNode(5, 5)
+    val walkDFFromNode5 = ALNode(5, 5)
     val actualListNodes5 = GraphAlgos.bfs(walkDFFromNode5, graph)
 
-    val actualList1 = actualListNodesFrom1.map(_.id)
+    val actualList1 = actualListNodesFrom1
     val expectedList1 = List(1, 2, 3, 4, 5, 6, 7, 8)
 
-    val actualList6 = actualListNodes6.map(_.id)
+    val actualList6 = actualListNodes6
     val expectedList6 = List(6, 1, 2, 7, 3, 4, 8, 5)
 
-    val actualList5 = actualListNodes5.map(_.id)
+    val actualList5 = actualListNodes5
     val expectedList5 = List(5, 6, 1, 2, 7, 3, 4, 8)
 
     expectedList1.sorted shouldEqual actualList1.sorted

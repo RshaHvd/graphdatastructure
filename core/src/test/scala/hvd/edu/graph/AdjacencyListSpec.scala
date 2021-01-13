@@ -10,7 +10,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "0,2 1,3 2,3 2,4 3,5 4,5"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val nm = SetBasedALNodeMaker
+    val nm = DefaultALNodeMaker
     val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, nm)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
@@ -22,7 +22,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, SetBasedALNodeMaker)
+    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)

@@ -17,7 +17,7 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     csrGraph.edgeLength should be(6)
     val walkDFFromNode = CSRNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14)
     expectedList shouldEqual actualList
 
@@ -31,7 +31,7 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     csrGraph shouldNot be(null)
     val walkDFFromNode = CSRNode(10, 10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 14, 15, 13)
     expectedList shouldEqual actualList
   }
@@ -53,13 +53,13 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val walkDFFromNode5 = CSRNode(5, 5)
     val actualListNodes5 = GraphAlgos.dfs(walkDFFromNode5, csrGraph)
 
-    val actualList1 = actualListNodesFrom1.map(_.id)
+    val actualList1 = actualListNodesFrom1
     val expectedList1 = List(1, 2, 3, 4)
 
-    val actualList6 = actualListNodes6.map(_.id)
+    val actualList6 = actualListNodes6
     val expectedList6 = List(6, 1, 2, 3, 4, 7)
 
-    val actualList5 = actualListNodes5.map(_.id)
+    val actualList5 = actualListNodes5
     val expectedList5 = List(5, 6, 1, 2, 3, 4, 7)
 
     expectedList1 shouldEqual actualList1
@@ -79,7 +79,7 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val walkDFFromNode = CSRNode(10, 10)
     val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
 
-    val actualBFSList = actualBFSListNodes.map(_.id)
+    val actualBFSList = actualBFSListNodes
     val expectedBFSList = List(10, 11, 12, 13, 14)
 
     expectedBFSList shouldEqual actualBFSList
@@ -93,7 +93,7 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     csrGraph shouldNot be(null)
     val walkDFFromNode = CSRNode(10, 10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
-    val actualList = actualListNodes.map(_.id)
+    val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14, 15)
     expectedList shouldEqual actualList
   }
@@ -107,7 +107,7 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val walkDFFromNodeFrom1 = CSRNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, csrGraph)
 
-    val actualList1 = actualListNodesFrom1.map(_.id)
+    val actualList1 = actualListNodesFrom1
     val expectedList1 = List(1, 2, 3, 4, 5, 6, 7, 8)
 
     expectedList1 shouldEqual actualList1

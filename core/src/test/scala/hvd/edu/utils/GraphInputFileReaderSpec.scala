@@ -1,7 +1,6 @@
 package hvd.edu.utils
 
 import hvd.edu.graph.CSRNodeMaker
-import hvd.edu.graph.al.{ ArrayALContainer, BplusTreeALContainer, DefaultALNode, HashMapALContainer, SetBasedALNode }
 import hvd.edu.graph.csr.{ ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer }
 import org.scalatest.{ FlatSpec, Matchers }
 
@@ -14,7 +13,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
       "facebook_combined.txt", 88234, " ", gc, CSRNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10 = readGraph.edgesForVertexId(10)
-    val actualEdge10Indices = edgesForNode10.map(_.id)
+    val actualEdge10Indices = edgesForNode10
     val expectedEdge10Indidces =
       List(67, 142, 169, 200, 277, 285, 291, 323, 332)
     actualEdge10Indices should equal(expectedEdge10Indidces)
@@ -56,7 +55,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
   it should "Generate a valid Adjacency List graph" in {
 
     val readGraph =
-      GraphInputFileReader.readFile[SetBasedALNode, ArrayALContainer](
+      GraphInputFileReader.readFile[ALNode, ArrayALContainer](
         "facebook_combined.txt",
         88234,
         " "

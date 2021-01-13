@@ -4,29 +4,27 @@ import hvd.edu.graph.GraphContainer
 
 import scala.collection.mutable
 
-case class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNode] {
+case class HashMapALContainer(numVertex: Int) extends GraphContainer[ALNode] {
 
-  private val adjacencyListMap = mutable.Map[DefaultALNode, mutable.ListBuffer[DefaultALNode]]()
+  private val adjacencyListMap = mutable.Map[ALNode, mutable.ListBuffer[Int]]()
 
-  override def addEdge(vertex: DefaultALNode, edge: DefaultALNode): Unit = {
+  override def addEdge(vertex: ALNode, edge: ALNode): Unit = {
     val findVertex = adjacencyListMap.get(vertex)
     findVertex.fold {
       // throw new RuntimeException("Cannot find the vertex to add edge too")}
-      adjacencyListMap(vertex) = mutable.ListBuffer(edge)
+      adjacencyListMap(vertex) = mutable.ListBuffer(edge.id)
     } { existingList =>
-      //val newLL =
-      existingList += edge
-      // adjacencyListMap(vertex) = newLL
+      existingList += edge.id
     }
   }
 
-  override def allVertices: List[DefaultALNode] =
+  override def allVertices: List[ALNode] =
     adjacencyListMap.keys.toList
 
-  def vertex_?(vertex: DefaultALNode): Option[DefaultALNode] =
+  def vertex_?(vertex: ALNode): Option[ALNode] =
     adjacencyListMap.keys.find(_ == vertex)
 
-  def hasVertex(vertex: DefaultALNode): Boolean =
+  def hasVertex(vertex: ALNode): Boolean =
     adjacencyListMap.contains(vertex)
 
   override def edgeLength: Int =
@@ -34,18 +32,18 @@ case class HashMapALContainer(numVertex: Int) extends GraphContainer[DefaultALNo
 
   override def vertexLength: Int = adjacencyListMap.keySet.size
 
-  override def edgesForVertex(v: DefaultALNode): List[DefaultALNode] = {
-    adjacencyListMap.get(v).fold(List.empty[DefaultALNode])(_.toList)
+  override def edgesForVertex(v: ALNode): List[Int] = {
+    adjacencyListMap.get(v).fold(List.empty[Int])(_.toList)
   }
 
-  override def edgesForVertexId(vid: Int): List[DefaultALNode] = {
-    edgesForVertex(DefaultALNode(vid, vid))
+  override def edgesForVertexId(vid: Int): List[Int] = {
+    edgesForVertex(ALNode(vid, vid))
   }
 
-  override def nonEmptyVertexList: List[DefaultALNode] = allVertices
+  override def nonEmptyVertexList: List[ALNode] = allVertices
 
   override def print(mayBeNumberOfVertex: Option[Int]): Unit = ???
 
-  override def addVertex(vertex: DefaultALNode): Unit =
-    adjacencyListMap(vertex) = mutable.ListBuffer[DefaultALNode]()
+  override def addVertex(vertex: ALNode): Unit =
+    adjacencyListMap(vertex) = mutable.ListBuffer[Int]()
 }
