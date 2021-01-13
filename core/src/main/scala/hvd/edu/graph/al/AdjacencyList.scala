@@ -13,21 +13,30 @@ import scala.collection.mutable
  * [4 -> 5]
  */
 
-final case class SetBasedALNode(override val id: Int, override val value: Int) extends Node {
+//final case class ALNode(override val id: Int, override val value: Int) extends Node {
+//
+//  private val outgoingEdgeSet = mutable.Set[ALNode]()
+//
+//  def outgoingEdges() = outgoingEdgeSet.toSet
+//
+//  def addEdge(e: ALNode) = outgoingEdgeSet.add(e)
+//}
 
-  private val outgoingEdgeSet = mutable.Set[SetBasedALNode]()
+//final case class ALNode(override val id: Int, override val value: Int) extends Node {
+//
+//  private val outgoingEdgeSet = mutable.ListBuffer[Int]()
+//
+//  def outgoingEdges() = outgoingEdgeSet
+//
+//  def addEdge(e: ALNode) = outgoingEdgeSet.append(e.id)
+//}
 
-  def outgoingEdges() = outgoingEdgeSet.toSet
-
-  def addEdge(e: SetBasedALNode) = outgoingEdgeSet.add(e)
-}
-
-final case class DefaultALNode(override val id: Int, override val value: Int) extends Node
+final case class ALNode(override val id: Int, override val value: Int) extends Node
 
 object ALNodeUtils {
 
-  implicit val defaultALNodeOrdering = new Ordering[DefaultALNode] {
-    override def compare(x: DefaultALNode, y: DefaultALNode): Int = {
+  implicit val defaultALNodeOrdering = new Ordering[ALNode] {
+    override def compare(x: ALNode, y: ALNode): Int = {
       x.id.compareTo(y.id)
     }
   }

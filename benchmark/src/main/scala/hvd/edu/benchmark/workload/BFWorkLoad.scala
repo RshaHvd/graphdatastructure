@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.LazyLogging
 import hvd.edu.benchmark.workload.WorkloadTypes.BreadthFirstSearch
 import hvd.edu.benchmark.{ BenchmarkConfig, RecordableWorkload, Recorder, WorkLoad }
 import hvd.edu.graph.{ Graph, Node, NodeMaker }
-import hvd.edu.graph.al.SetBasedALNode
+import hvd.edu.graph.al.ALNode
 import hvd.edu.utils.{ Globals, GraphAlgos }
 
 import scala.concurrent.duration.{ Duration, _ }

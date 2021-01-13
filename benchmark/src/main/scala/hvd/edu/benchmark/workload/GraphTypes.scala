@@ -17,19 +17,19 @@ object GraphTypes {
 
   val ALL = List(ALArrayType, ALMapType, ALTreeType, CSRArrayType, CSRMapType, CSRTreeType)
 
-  case object ALArrayType extends GraphType[SetBasedALNode]("ALA", SetBasedALNodeMaker) {
+  case object ALArrayType extends GraphType[ALNode]("ALA", DefaultALNodeMaker) {
     override val displayName: String = "AL-Array"
-    override def graphContainer(linesInFile: Int): GraphContainer[SetBasedALNode] = ArrayALContainer(linesInFile)
+    override def graphContainer(linesInFile: Int): GraphContainer[ALNode] = ArrayALContainer(linesInFile)
   }
 
-  case object ALMapType extends GraphType[DefaultALNode]("ALM", DefaultALNodeMaker) {
+  case object ALMapType extends GraphType[ALNode]("ALM", DefaultALNodeMaker) {
     override val displayName: String = "AL-Map"
-    override def graphContainer(linesInFile: Int): GraphContainer[DefaultALNode] = HashMapALContainer(linesInFile)
+    override def graphContainer(linesInFile: Int): GraphContainer[ALNode] = HashMapALContainer(linesInFile)
   }
 
-  case object ALTreeType extends GraphType[DefaultALNode]("ALT", DefaultALNodeMaker) {
+  case object ALTreeType extends GraphType[ALNode]("ALT", DefaultALNodeMaker) {
     override val displayName: String = "AL-Tree"
-    override def graphContainer(linesInFile: Int): GraphContainer[DefaultALNode] = BplusTreeALContainer(linesInFile, None)
+    override def graphContainer(linesInFile: Int): GraphContainer[ALNode] = BplusTreeALContainer(linesInFile, None)
   }
 
   case object CSRArrayType extends GraphType[CSRNode]("CSRA", CSRNodeMaker) {

@@ -12,7 +12,8 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   type EdgeIndex = Int
   private val vertexContainer = new BPlusTreeImpl[CSRNode, EdgeIndex](fanout.getOrElse(defaultFanout))
-  private val edgeContainer = mutable.ArrayBuffer[List[CSRNode]]()
+  // TODO !! ArrayBuffer causing performance issues ?
+  private val edgeContainer = mutable.ArrayBuffer[List[Int]]()
   private val vertexNoEdgesEdgeId = -1
 
   override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
@@ -22,10 +23,10 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
     mayBeExistingEdgeIndex.fold {
       vertexContainer.add(vertex, edgeContainer.size)
       // insert into edgeContainer
-      edgeContainer += List(edge)
+      edgeContainer += List(edge.id)
     } { edgeIndex =>
       val existingEdges = edgeContainer(edgeIndex)
-      val newEdges = (edge :: existingEdges)
+      val newEdges = (edge.id :: existingEdges)
       edgeContainer(edgeIndex) = newEdges
       edgeContainer
     }
@@ -50,7 +51,7 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   override def vertexLength: Int = allVertices.size
 
-  override def edgesForVertex(v: CSRNode): List[CSRNode] = {
+  override def edgesForVertex(v: CSRNode): List[Int] = {
     val foundEdge = vertexContainer.find(v).filterNot(eI => eI == vertexNoEdgesEdgeId)
     val ll = foundEdge.map { edgeIndex =>
       edgeContainer(edgeIndex)
@@ -59,7 +60,7 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
     ll.sorted
   }
 
-  override def edgesForVertexId(vid: EdgeIndex): List[CSRNode] = {
+  override def edgesForVertexId(vid: EdgeIndex): List[Int] = {
     val nodeToFind = CSRNode(vid, vid)
     edgesForVertex(nodeToFind)
   }

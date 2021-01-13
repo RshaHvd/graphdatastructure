@@ -1,6 +1,6 @@
 package hvd.edu.collection.mutable
 
-import hvd.edu.graph.al.DefaultALNode
+import hvd.edu.graph.al.ALNode
 import org.scalatest.{ FlatSpec, Matchers }
 
 import scala.collection.mutable.ListBuffer

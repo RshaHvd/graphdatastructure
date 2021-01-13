@@ -4,7 +4,7 @@ import hvd.edu.graph.GraphContainer
 
 case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends GraphContainer[CSRNode] {
   private var vertexContainer = Array.ofDim[CSRNode](numVertex.toInt)
-  private var edgeContainer = Array.ofDim[CSRNode](numEdges.toInt)
+  private var edgeContainer = Array.ofDim[Int](numEdges.toInt)
   private var vertexSize = 0
   private var lastEdgePointer: Int = -1
   private var currentVid: Option[Int] = None
@@ -40,7 +40,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
 
   private def addToEdgeContainer(edgeNode: CSRNode, nextEdgePointer: Int) = {
     resizeEdgeContainer(nextEdgePointer)
-    edgeContainer(nextEdgePointer) = edgeNode
+    edgeContainer(nextEdgePointer) = edgeNode.id
     lastEdgePointer = nextEdgePointer
   }
 
@@ -81,7 +81,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
     if (lastEdgePointer >= edgeContainer.size) {
       val currLen = edgeContainer.size
       val doubleLen = currLen * 2
-      val newArray = Array.ofDim[CSRNode](doubleLen)
+      val newArray = Array.ofDim[Int](doubleLen)
       System.arraycopy(edgeContainer, 0, newArray, 0, lastEdgePointer)
       edgeContainer = newArray
     }
@@ -92,17 +92,17 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
   def lastVertexOrAllFollowingVertexHaveNoEdges(v: CSRNode): Boolean =
     (v.idAsInt == vertexLength) || verticesWithEdges.filter(_.idAsInt > v.idAsInt).isEmpty
 
-  override def edgesForVertex(v: CSRNode): List[CSRNode] = {
+  override def edgesForVertex(v: CSRNode): List[Int] = {
     val readNextNode = v.getNextId()
     val nextNodeForThisNode = if (readNextNode == -1) None else Option(vertexContainer(readNextNode))
-    val ret: List[CSRNode] = nextNodeForThisNode.fold {
+    val ret: List[Int] = nextNodeForThisNode.fold {
       if (nextNodeForThisNode.isEmpty && v.firstEdgeIndexAsInt != -1) // penultimate node
         allEdges.slice(v.firstEdgeIndexAsInt, edgeLength)
       else
-        List.empty[CSRNode] // last node
+        List.empty[Int] // last node
     } { nn =>
       (v.firstEdgeIndexAsInt, nn.firstEdgeIndexAsInt) match {
-        case (-1, _) => List.empty[CSRNode]
+        case (-1, _) => List.empty[Int]
         case (x, -1) if lastVertexOrAllFollowingVertexHaveNoEdges(v) => edgeContainer.slice(x, edgeLength).toList
         case (x, -1) => List(edgeContainer(x))
         case (x, y) => edgeContainer.slice(x, y).toList
@@ -111,7 +111,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
     ret
   }
 
-  override def edgesForVertexId(vid: Int): List[CSRNode] = {
+  override def edgesForVertexId(vid: Int): List[Int] = {
     val mayBeVertex = vertexContainer(vid.toInt)
     if (mayBeVertex == null) {
       Nil

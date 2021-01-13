@@ -17,9 +17,9 @@ trait GraphContainer[n <: Node] {
 
   def vertexLength: Int
 
-  def edgesForVertex(v: n): List[n]
+  def edgesForVertex(v: n): List[Int]
 
-  def edgesForVertexId(vid: Int): List[n]
+  def edgesForVertexId(vid: Int): List[Int]
 
   def nonEmptyVertexList: List[n]
 
@@ -44,9 +44,9 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def edgeLength: Int = graphContainer.edgeLength
 
-  def edgesForVertex(v: N): List[N] = graphContainer.edgesForVertex(v)
+  def edgesForVertex(v: N): List[Int] = graphContainer.edgesForVertex(v)
 
-  def edgesForVertexId(vid: Int): List[N] = graphContainer.edgesForVertexId(vid)
+  def edgesForVertexId(vid: Int): List[Int] = graphContainer.edgesForVertexId(vid)
 
   def findVertexById(i: Int): Option[N] =
     graphContainer.nonEmptyVertexList.find(v => v.id == i)
