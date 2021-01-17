@@ -100,3 +100,13 @@ object MemoryBenchmark100KNodes extends MemoryBenchmark {
 
   override val outputFileName = "./output/mem_benchmark100KNodes"
 }
+
+object MemoryBenchmarksRealDataSets extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "realdata/amazon0601.txt" -> 3387392,
+    "realdata/email-Enron.txt" -> 367666,
+    "realdata/cit-HepTh.txt" -> 352811)
+
+  override val outputFileName = "./output/mem_benchmarkRealDataSets"
+}
