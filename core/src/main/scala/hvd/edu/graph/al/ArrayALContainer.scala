@@ -9,21 +9,7 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
   private var arrayLen = numVertex.toInt
   private var vertexContainer = Array.ofDim[mutable.ListBuffer[Int]](numVertex.toInt)
 
-  //  def add(vertex: ALNode, edge: ALNode): Unit = {
-  //    resizeContainer(vertex)
-  //   // vertexContainer(vertex.id) = vertex
-  //    addEdge(vertex, edge)
-  //
-  //  }
-
   override def addEdge(vertex: ALNode, edge: ALNode): Unit = {
-    //    val mayBeVertex = vertex_?(vertex)
-    //    mayBeVertex match {
-    //      case None => add(vertex, edge)
-    //      case Some(c) =>
-    //        resizeContainer(vertex)
-    //        vertexContainer(vertex.id).addEdge(edge)
-    //    }
     resizeContainer(vertex)
     val v1 = vertexContainer(vertex.id)
     if (v1 == null) {
@@ -41,12 +27,7 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
   }
 
   override def allVertices: List[ALNode] = {
-    //    val ids = vertexContainer.toList.zipWithIndex{
-    //      case (idx, _) => if(idx == null) None else Option(idx)
-    //    }
-    // ids.map(ALNode(_, _))
     nonEmptyVertexList
-
   }
 
   def resizeContainer(n: ALNode) =
@@ -56,20 +37,10 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
       val newLen = if (n.id < doubleLen) doubleLen else (n.id * 2)
       val newArray = Array.ofDim[mutable.ListBuffer[Int]](newLen.toInt)
       System.arraycopy(vertexContainer, 0, newArray, 0, arrayLen)
-      //println(s"new array created with ${newLen} and previous array had size ${arrayLen} .....")
       vertexContainer = newArray
       arrayLen = newLen.toInt
       //println(s"done resize")
     }
-
-  //  def vertex_?(vertex: ALNode): Option[ALNode] = {
-  //    if (vertex.id >= vertexContainer.size) None
-  //    else {
-  //      val v1 = vertexContainer(vertex.id)
-  //      if (v1 == null) None else Option(v1)
-  //    }
-  //
-  //  }
 
   override def edgeLength: Int = {
     val allEdges = for (i <- 0 to vertexContainer.size - 1; if vertexContainer(i) != null) yield {
@@ -88,8 +59,6 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
   }
 
   override def edgesForVertex(v: ALNode): List[Int] = {
-    //  val e = vertexContainer(v.id)
-    // if(e != null) e.toList else List.empty[Int]
     edgesForVertexId(v.id)
   }
 

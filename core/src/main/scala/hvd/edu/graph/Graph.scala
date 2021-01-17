@@ -48,7 +48,7 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def edgesForVertexId(vid: Int): List[Int] = graphContainer.edgesForVertexId(vid)
 
-  def findVertexById(i: Int): Option[N] =
-    graphContainer.nonEmptyVertexList.find(v => v.id == i)
+  // why did I implement it this way ?
+  def findVertexById(i: Int): Option[N] = graphContainer.nonEmptyVertexList.find(v => v.id == i)
 
 }
