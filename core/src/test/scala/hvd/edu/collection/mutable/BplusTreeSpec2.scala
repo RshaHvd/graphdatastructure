@@ -55,8 +55,7 @@ class BplusTreeSpec2 extends FlatSpec with Matchers {
 
     val valuesFoundFor7Overidden = testTree.find(7)
     println(
-      s"Values Read for key 7 after override = ${valuesFoundFor7Overidden.mkString(",")}"
-    )
+      s"Values Read for key 7 after override = ${valuesFoundFor7Overidden.mkString(",")}")
     val expectedvaluesFor7AfterOverride = Option(List(177, 188))
     valuesFoundFor7Overidden shouldEqual expectedvaluesFor7AfterOverride
 
