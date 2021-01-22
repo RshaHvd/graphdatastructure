@@ -71,8 +71,7 @@ object MemoryBenchmark1KNodes extends MemoryBenchmark {
     "generated/generated1k/generated1000_1000.txt" -> 1488,
     "generated/generated1k/generated1000_10000.txt" -> 9941,
     "generated/generated1k/generated1000_100000.txt" -> 95174,
-    "generated/generated1k/generated1000_1000000.txt" -> 631568
-  )
+    "generated/generated1k/generated1000_1000000.txt" -> 631568)
 
   override val outputFileName = "./output/mem_benchmark1KNodes"
 }
@@ -83,8 +82,7 @@ object MemoryBenchmark10KNodes extends MemoryBenchmark {
     "generated/generated10k/generated10000_1000.txt" -> 10488,
     "generated/generated10k/generated10000_10000.txt" -> 14942,
     "generated/generated10k/generated10000_100000.txt" -> 99926,
-    "generated/generated10k/generated10000_1000000.txt" -> 995170
-  )
+    "generated/generated10k/generated10000_1000000.txt" -> 995170)
 
   override val outputFileName = "./output/mem_benchmark10KNodes"
 }
@@ -95,8 +93,7 @@ object MemoryBenchmark100KNodes extends MemoryBenchmark {
     "generated/generated100k/generated100000_1000.txt" -> 100500,
     "generated/generated100k/generated100000_10000.txt" -> 104981,
     "generated/generated100k/generated100000_100000.txt" -> 149977,
-    "generated/generated100k/generated100000_1000000.txt" -> 999942
-  )
+    "generated/generated100k/generated100000_1000000.txt" -> 999942)
 
   override val outputFileName = "./output/mem_benchmark100KNodes"
 }

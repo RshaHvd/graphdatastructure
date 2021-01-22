@@ -35,8 +35,7 @@ class Recorder(configForThisWorkload: BenchmarkConfig) extends LazyLogging {
         rw.workLoad.displayName,
         rw.iteration,
         rw.graphType.displayName,
-        rw.duration.toMillis)
-    )
+        rw.duration.toMillis))
     val finalSeq = Seq(headers) ++ rows
     finalSeq
   }

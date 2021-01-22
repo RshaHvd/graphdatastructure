@@ -25,9 +25,7 @@ object BenchmarkEngine extends App with LazyLogging {
             | - Examples:
             |
             |     BenchmarkEngine --repeat 5 --filePath
-      """.stripMargin
-        )
-      )
+      """.stripMargin))
 
     logger.info(s"Starting benchmark with these config: \n ${config.toString} \n")
 

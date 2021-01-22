@@ -46,8 +46,6 @@ lazy val benchmarkDependencies = Seq(
   csv
 )
 
-import scalariform.formatter.preferences._
-
 val formatSettings =   {
   scalariformPreferences := Format.formattingPreferences
 }

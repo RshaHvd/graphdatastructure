@@ -13,8 +13,7 @@ object TestGraphUtil {
         CSRNodeMaker),
       GraphBuilder.buildFromString(inputStr, delimiter1, delimiter2,
         HashMapCSRContainer(arrayEdges.length, arrayEdges.length),
-        CSRNodeMaker)
-    )
+        CSRNodeMaker))
   }
 
 }

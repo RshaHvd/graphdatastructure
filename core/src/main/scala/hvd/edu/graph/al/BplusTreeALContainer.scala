@@ -15,9 +15,7 @@ case class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends Gra
 
   val defaultFanout = 5
 
-  private val container = new BPlusTreeImpl[ALNode, mutable.ListBuffer[Int]](
-    fanout.getOrElse(defaultFanout)
-  )
+  private val container = new BPlusTreeImpl[ALNode, mutable.ListBuffer[Int]](fanout.getOrElse(defaultFanout))
 
   override def addEdge(vertex: ALNode, edge: ALNode): Unit = {
     val mayBeExistingEdges = container.find(vertex)

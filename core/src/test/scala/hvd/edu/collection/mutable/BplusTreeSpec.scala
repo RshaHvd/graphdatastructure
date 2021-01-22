@@ -22,7 +22,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     testTree.add(7, 7)
     val nodesList3 = testTree.getNodes()
     nodesList3 shouldEqual (List(6, 7))
-    val child2 = testTree.getImmediateIndexNodes()
+    val child2: List[TreeNode[Int]] = testTree.getImmediateIndexNodes()
     child2.size shouldBe 3
     val allChildNodesInOrder = child2.flatMap(_.listOfNodes)
     // // println(allChildNodesInOrder.mkString(","))
@@ -108,7 +108,7 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     // println(allChildrenInOrder8.mkString(","))
     val expectedChildNodesInOrder8 = ListBuffer(7, 11)
     allChildrenInOrder8 shouldBe expectedChildNodesInOrder8
-    val allGrandChild8 = child8.flatMap(TreeOps.immediateIndexNodes(_))
+    val allGrandChild8: List[TreeNode[Int]] = child8.flatMap(TreeOps.immediateIndexNodes(_))
     allGrandChild8.size shouldBe 4
 
     val allGrandChildNodes = allGrandChild8.flatMap(_.listOfNodes)
@@ -332,6 +332,21 @@ class BplusTreeSpec extends FlatSpec with Matchers {
     println(s"Found value for key 19 ${foundFor19}")
     val expectedFor19 = Option(191)
     foundFor19 shouldBe (expectedFor19)
+
+    testRangeQueriesOnTree(testTree)
+
+  }
+
+  def testRangeQueriesOnTree(tree: BPlusTree[Int, Int]) = {
+
+    val range1 = tree.range(5, 7)
+    println(s"Range1 found ${range1.mkString(",")}")
+    val expectedValueForRange1 = List(5, 6, 7)
+    range1 shouldBe (expectedValueForRange1)
+    val range2 = tree.range(15, 17)
+    println(s"Range2 found ${range2.mkString(",")}")
+    val expectedValueForRange2 = List(15, 161, 171)
+    range2 shouldBe (expectedValueForRange2)
 
   }
 
