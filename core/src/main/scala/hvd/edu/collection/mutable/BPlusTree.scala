@@ -47,7 +47,6 @@ abstract class IndexNode[T: Ordering] extends TreeNode[T] with LazyLogging {
 
   def lessThanEqualToCompare(t1: T, t2: T) = t1 <= t2
 
-  //findFirstChildIndexLessThan
   // first index for which t is greater equal to nodes values
   def findFirstChildIndexLessThanEqT(t: T): Option[Int] = {
     findFirstChildIndex(t, greaterThanEqualToCompare)
@@ -111,7 +110,7 @@ class DefaultIndexNode[T: Ordering](inputNodes: ListBuffer[T] = mutable.ListBuff
 
 class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil, dataForNodes: Seq[(T, D)] = Seq.empty[(T, D)]) extends LeafNode[T, D] {
 
-  val nodes = mutable.ListBuffer[T](inputNodes: _*)
+  private val nodes = mutable.ListBuffer[T](inputNodes: _*)
 
   val dataByKey = mutable.Map[T, D](dataForNodes: _*)
 
@@ -145,9 +144,9 @@ class DefaultLeafNode[T: Ordering, D](inputNodes: List[T] = Nil, dataForNodes: S
     }
   }
 
-  override val allValues: List[D] = dataByKey.values.toList
+  override lazy val allValues: List[D] = dataByKey.values.toList
 
-  override val allKeyValues: List[(T, D)] = dataByKey.toList
+  override lazy val allKeyValues: List[(T, D)] = dataByKey.toList
 
   override def setNextNode(nNode: LeafNode[T, D]) = {
     nextNode = Option(nNode)
