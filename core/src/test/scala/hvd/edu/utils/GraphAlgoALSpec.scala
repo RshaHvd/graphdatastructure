@@ -24,8 +24,7 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   }
 
   it should "work on sample graph 2" in {
-    val inputString =
-      "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
+    val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
@@ -86,8 +85,7 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
   }
 
   it should "work on sample graph 2" in {
-    val inputString =
-      "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
+    val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
     val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
@@ -127,7 +125,5 @@ class GraphAlgoALSpec extends FlatSpec with Matchers {
     expectedList1 shouldEqual actualList1
     expectedList6 shouldEqual actualList6
     expectedList5 shouldEqual actualList5
-
   }
-
 }

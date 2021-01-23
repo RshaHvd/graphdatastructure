@@ -129,7 +129,5 @@ class GraphAlgoALSpecForBPlusTreeBasedALContainer extends FlatSpec with Matchers
     expectedList1 shouldEqual actualList1
     expectedList6 shouldEqual actualList6
     expectedList5 shouldEqual actualList5
-
   }
-
 }

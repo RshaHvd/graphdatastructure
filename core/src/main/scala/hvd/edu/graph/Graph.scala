@@ -23,7 +23,9 @@ trait GraphContainer[n <: Node] {
 
   def nonEmptyVertexList: List[n]
 
-  def print(mayBeNumberOfVertex: Option[Int]): Unit
+  def range(vid1: Int, vid2: Int): List[Int]
+
+  //def print(mayBeNumberOfVertex: Option[Int]): Unit
 }
 
 class Graph[N <: Node](graphContainer: GraphContainer[N]) {
@@ -32,11 +34,11 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def addVertex(vertex: N): Unit = graphContainer.addVertex(vertex)
 
-  def printGraph(mayBeVertexLen: Option[Int]): Unit = {
-    println(s"************* Started Printing Graph *************")
-    graphContainer.print(mayBeVertexLen)
-    println(s"************* Finished Printing Graph *************")
-  }
+  //  def printGraph(mayBeVertexLen: Option[Int]): Unit = {
+  //    println(s"************* Started Printing Graph *************")
+  //    graphContainer.print(mayBeVertexLen)
+  //    println(s"************* Finished Printing Graph *************")
+  //  }
 
   def vertexList: List[N] = graphContainer.nonEmptyVertexList
 
@@ -47,6 +49,8 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
   def edgesForVertex(v: N): List[Int] = graphContainer.edgesForVertex(v)
 
   def edgesForVertexId(vid: Int): List[Int] = graphContainer.edgesForVertexId(vid)
+
+  def rangeEdges(vid1: Int, vid2: Int): List[Int] = graphContainer.range(vid1, vid2)
 
   // why did I implement it this way ?
   def findVertexById(i: Int): Option[N] = graphContainer.nonEmptyVertexList.find(v => v.id == i)

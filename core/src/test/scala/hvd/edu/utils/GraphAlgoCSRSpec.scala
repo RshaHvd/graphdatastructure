@@ -19,7 +19,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 13, 14)
-      expectedList shouldEqual actualList
+      expectedList.sorted shouldEqual actualList.sorted
     }
 
   }
@@ -34,7 +34,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 14, 15, 13)
-      expectedList shouldEqual actualList
+      expectedList.sorted shouldEqual actualList.sorted
     }
   }
 
@@ -64,9 +64,9 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       val actualList5 = actualListNodes5
       val expectedList5 = List(5, 6, 1, 2, 3, 4, 7)
 
-      expectedList1 shouldEqual actualList1
-      expectedList6 shouldEqual actualList6
-      expectedList5 shouldEqual actualList5
+      expectedList1.sorted shouldEqual actualList1.sorted
+      expectedList6.sorted shouldEqual actualList6.sorted
+      expectedList5.sorted shouldEqual actualList5.sorted
     }
 
   }
@@ -105,7 +105,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 13, 14, 15)
-      expectedList shouldEqual actualList
+      expectedList.sorted shouldEqual actualList.sorted
     }
   }
 
@@ -122,7 +122,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       val actualList1 = actualListNodesFrom1
       val expectedList1 = List(1, 2, 3, 4, 5, 6, 7, 8)
 
-      expectedList1 shouldEqual actualList1
+      expectedList1.sorted shouldEqual actualList1.sorted
     }
 
   }
