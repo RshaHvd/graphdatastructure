@@ -23,11 +23,6 @@ case class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
     } { existingEdges => existingEdges += edge.id }
   }
 
-  //  def vertex_?(vertex: CSRNode): Option[CSRNode] = {
-  //    val allVids = vertexContainer.keys.find(_ == vertex)
-  //    allVids.map(v => CSRNode(v, v))
-  //  }
-
   override def addVertex(vertex: CSRNode): Unit = {
     vertexContainer(vertex.id) = vertexNoEdgesEdgeId
   }
@@ -48,7 +43,6 @@ case class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
   }
 
   override def edgesForVertexId(vid: Int): List[Int] = {
-    // edgesForVertex(CSRNode(vid, vid))
     val edgeList = vertexContainer.get(vid).flatMap { edgeId =>
       edgeContainer.get(edgeId)
     }

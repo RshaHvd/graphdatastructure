@@ -63,15 +63,13 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
       edgeContainer(edgeIndex)
     }.getOrElse(Nil)
 
-    //ll.sorted
     ll
   }
 
   override def nonEmptyVertexList: List[CSRNode] = {
     val allKV = vertexContainer.getAllKeyValues()
     val nonEmptyKV = allKV.filterNot {
-      case (k1, v1) =>
-        v1 == vertexNoEdgesEdgeId
+      case (k1, v1) => v1 == vertexNoEdgesEdgeId
     }
     nonEmptyKV.map(v => CSRNode(v._1, v._1))
   }

@@ -39,7 +39,6 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
       System.arraycopy(vertexContainer, 0, newArray, 0, arrayLen)
       vertexContainer = newArray
       arrayLen = newLen.toInt
-      //println(s"done resize")
     }
 
   override def edgeLength: Int = {

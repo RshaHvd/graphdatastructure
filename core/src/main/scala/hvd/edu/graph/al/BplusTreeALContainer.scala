@@ -41,13 +41,10 @@ case class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends Gra
   override def vertexLength: Int = allVertices.size
 
   override def edgesForVertex(v: ALNode): List[Int] = {
-    //container.find(v.id).fold(List.empty[Int])(_.toList)
     edgesForVertexId(v.id)
   }
 
   override def edgesForVertexId(vid: Int): List[Int] = {
-    // val nodeToFind = ALNode(vid, vid)
-    // edgesForVertex(nodeToFind)
     container.find(vid).fold(List.empty[Int])(_.toList)
   }
 
