@@ -22,11 +22,13 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL: Graph[ALNode] = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
     generatedAL.edgeLength should be(6)
+    val rangeEdgesFound = generatedAL.rangeEdges(10, 13)
+    rangeEdgesFound.sorted shouldEqual (List(11, 12, 13, 12, 11, 14).sorted)
 
   }
 

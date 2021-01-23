@@ -67,16 +67,23 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
     if (mayBeVertex != null) { mayBeVertex.toList } else { Nil }
   }
 
-  override def print(mayBeNumberOfVertex: Option[Int]): Unit = {
-    val vlist: List[ALNode] = this.allVertices
-    val vlenToUse = mayBeNumberOfVertex.getOrElse(vertexLength - 1)
+  //  override def print(mayBeNumberOfVertex: Option[Int]): Unit = {
+  //    val vlist: List[ALNode] = this.allVertices
+  //    val vlenToUse = mayBeNumberOfVertex.getOrElse(vertexLength - 1)
+  //
+  //    for (i <- 0 to vlenToUse) {
+  //      val n1 = vlist(i)
+  //      val outGoingEdges = vertexContainer(n1.id)
+  //      println(
+  //        s"[ ${n1.id} -> ( ${outGoingEdges.toList.sorted.mkString(",")} ) ]"
+  //      )
+  //    }
+  //  }
 
-    for (i <- 0 to vlenToUse) {
-      val n1 = vlist(i)
-      val outGoingEdges = vertexContainer(n1.id)
-      println(
-        s"[ ${n1.id} -> ( ${outGoingEdges.toList.sorted.mkString(",")} ) ]"
-      )
+  override def range(vid1: Int, vid2: Int): List[Int] = {
+    val allRangeEdges = for (v <- vid1 to vid2) yield {
+      edgesForVertexId(v)
     }
+    allRangeEdges.flatten.toList
   }
 }

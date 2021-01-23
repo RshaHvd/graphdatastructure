@@ -18,7 +18,6 @@ final case class CSRNode(override val id: Int, override val value: Int,
   def setNextId(nid: Int): Unit = {
     nextEdgeId = nid
   }
-  def idAsInt = id.toInt
   def firstEdgeIndexAsInt = firstEdgeIndex.toInt
   def getNextId() = nextEdgeId
 }

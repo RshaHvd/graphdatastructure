@@ -17,10 +17,10 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
     // set the nextVertex of prevvertex
     val currVertex = currentVid.foreach { cvid =>
       val cVertex = vertexContainer(cvid)
-      cVertex.setNextId(vertex.idAsInt)
+      cVertex.setNextId(vertex.id)
     }
     vertexSize += 1
-    currentVid = Option(vertex.idAsInt)
+    currentVid = Option(vertex.id)
     addToEdgeContainer(edge, nextEdgePointer)
   }
 
@@ -35,7 +35,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
 
   def addVertex(vertex: CSRNode) = {
     resizeVertexContainer(vertex)
-    vertexContainer(vertex.idAsInt) = vertex
+    vertexContainer(vertex.id) = vertex
   }
 
   private def addToEdgeContainer(edgeNode: CSRNode, nextEdgePointer: Int) = {
@@ -48,7 +48,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
     if (vertex.id >= vertexContainer.size)
       None
     else {
-      val mayBeVId = vertexContainer(vertex.idAsInt)
+      val mayBeVId = vertexContainer(vertex.id)
       if (mayBeVId == null) {
         None
       }
@@ -66,18 +66,19 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
 
   def edgeLength = lastEdgePointer + 1 // as it starts at 0
 
-  private def resizeVertexContainer(n: CSRNode) =
-    if (n.idAsInt >= vertexContainer.size) {
+  private def resizeVertexContainer(n: CSRNode) = {
+    if (n.id >= vertexContainer.size) {
       val currLen = vertexContainer.size
       val doubleLen = currLen * 2
-      val newLen = if (n.idAsInt < doubleLen) doubleLen else (n.idAsInt * 2)
+      val newLen = if (n.id < doubleLen) doubleLen else (n.id * 2)
       val newArray = Array.ofDim[CSRNode](newLen)
       System.arraycopy(vertexContainer, 0, newArray, 0, currLen)
       vertexContainer = newArray
       vertexSize = newLen
     }
+  }
 
-  private def resizeEdgeContainer(lastEdgePointer: Int) =
+  private def resizeEdgeContainer(lastEdgePointer: Int) = {
     if (lastEdgePointer >= edgeContainer.size) {
       val currLen = edgeContainer.size
       val doubleLen = currLen * 2
@@ -85,12 +86,15 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
       System.arraycopy(edgeContainer, 0, newArray, 0, lastEdgePointer)
       edgeContainer = newArray
     }
+  }
 
-  private def verticesWithEdges =
+  private def verticesWithEdges = {
     nonEmptyVertexList.filter(c => c.firstEdgeIndex != -1)
+  }
 
-  def lastVertexOrAllFollowingVertexHaveNoEdges(v: CSRNode): Boolean =
-    (v.idAsInt == vertexLength) || verticesWithEdges.filter(_.idAsInt > v.idAsInt).isEmpty
+  def lastVertexOrAllFollowingVertexHaveNoEdges(v: CSRNode): Boolean = {
+    (v.id == vertexLength) || verticesWithEdges.filter(_.id > v.id).isEmpty
+  }
 
   override def edgesForVertex(v: CSRNode): List[Int] = {
     val readNextNode = v.getNextId()
@@ -112,7 +116,7 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
   }
 
   override def edgesForVertexId(vid: Int): List[Int] = {
-    val mayBeVertex = vertexContainer(vid.toInt)
+    val mayBeVertex = vertexContainer(vid)
     if (mayBeVertex == null) {
       Nil
     }
@@ -127,39 +131,11 @@ case class ArrayCSRContainer(val numVertex: Int, val numEdges: Int) extends Grap
     //collect { case p: CSRNode => p }
   }
 
-  override def print(mayBeVertexLen: Option[Int]) = {
-    //    val unVlist = this.nonEmptyVertexList
-    //    val vlist = unVlist
-    //    println(s"Total vertex len: ${vlist.size}")
-    //    val edgeList = this.allEdges
-    //    println(s"Total Edges : ${edgeList.size}")
-    //
-    //    val zippedVertices = vlist.zip(vlist.tail)
-    //
-    //    val vListPair = mayBeVertexLen.fold(zippedVertices) { x =>
-    //      zippedVertices.take(x + 1)
-    //    }
-    //
-    //    vListPair.foreach {
-    //      case (n1, n2) =>
-    //        val edgeStartIndex = n1.firstEdgeIndex
-    //        val edgeEndIndex = n2.firstEdgeIndex
-    //        //if (n2 != EmptyCSRNode) {
-    //        val edgeListForN1 =
-    //          for (i <- edgeStartIndex until edgeEndIndex)
-    //            yield if (i != -1) edgeList(i).id else -1
-    //
-    //        println(s"[ ${n1.id} -> ( ${edgeListForN1.mkString(",")} ) ]")
-    //    }
-    //
-    //    // print the last vertex now
-    //    val lastNode: CSRNode = vlist(this.vertexLength - 1)
-    //    val edgesForLast =
-    //      (lastNode.firstEdgeIndex until edgeList.size).iterator.takeWhile { j =>
-    //        edgeList(j).isInstanceOf[CSRNode] // TODO: Fix this !!!
-    //      }
-    //
-    //    println(s"[ ${lastNode.id} -> ( ${edgesForLast.map(edgeList(_).id).mkString(",")} ) ]"
-    //    )
+  override def range(vid1: Int, vid2: Int): List[Int] = {
+    val allRangeEdges = for (v <- vid1 to vid2) yield {
+      edgesForVertexId(v)
+    }
+    allRangeEdges.flatten.toList
+
   }
 }
