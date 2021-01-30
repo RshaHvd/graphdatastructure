@@ -40,8 +40,8 @@ object FindEdgesBenchmark100KNodes1MEdges {
 
     @Benchmark
     def findInGraph1() = {
-      val m = for (nid <- randomNodes) yield {
-        nid -> graph.edgesForVertexId(nid)
+      for (nid <- randomNodes) yield {
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -63,7 +63,7 @@ object FindEdgesBenchmark100KNodes1MEdges {
     @Benchmark
     def findInGraph2() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -85,7 +85,7 @@ object FindEdgesBenchmark100KNodes1MEdges {
     @Benchmark
     def findInGraph3() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -107,7 +107,7 @@ object FindEdgesBenchmark100KNodes1MEdges {
     @Benchmark
     def findInGraph4() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -125,10 +125,11 @@ object FindEdgesBenchmark100KNodes1MEdges {
       12652, 88075, 57703, 62944, 17720, 48042, 27404, 2119, 92483, 89891, 318, 2506, 70496, 61830, 19232, 29497,
       10710, 49352, 42202, 55334, 76074, 83551, 97162,
       41890, 56577, 24650, 57056, 12840, 99646, 95, 87430, 50356, 15722, 27215, 96454, 38598)
+
     @Benchmark
     def findInGraph5() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -146,10 +147,11 @@ object FindEdgesBenchmark100KNodes1MEdges {
       12652, 88075, 57703, 62944, 17720, 48042, 27404, 2119, 92483, 89891, 318, 2506, 70496, 61830, 19232, 29497,
       10710, 49352, 42202, 55334, 76074, 83551, 97162,
       41890, 56577, 24650, 57056, 12840, 99646, 95, 87430, 50356, 15722, 27215, 96454, 38598)
+
     @Benchmark
     def findInGraph6() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
       //      val mString = m.map {
       //        case (k, v) => s"${k} = ${v.map(_.id).mkString(",")};"

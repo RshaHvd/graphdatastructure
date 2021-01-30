@@ -10,6 +10,9 @@ case class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
   private val edgeContainer = mutable.Map[String, mutable.ListBuffer[Int]]()
   private val vertexNoEdgesEdgeId = "-1"
 
+  // we store the first edge of vertex and the value of vertex key
+  // next time when edge is added to a vertext - we
+  // get key with vertex id and add rest of the edged.
   override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
     val mayBeAlreadyAdded = vertexContainer.get(vertex.id)
     val edgesKey = mayBeAlreadyAdded.fold {

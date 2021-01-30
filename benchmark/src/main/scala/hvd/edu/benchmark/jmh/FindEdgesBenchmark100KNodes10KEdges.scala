@@ -35,8 +35,8 @@ object FindEdgesBenchmark100KNodes10KEdges {
 
     @Benchmark
     def findInGraph1() = {
-      val m = for (nid <- randomNodes) yield {
-        nid -> graph.edgesForVertexId(nid)
+      for (nid <- randomNodes) yield {
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -58,7 +58,7 @@ object FindEdgesBenchmark100KNodes10KEdges {
     @Benchmark
     def findInGraph2() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -80,7 +80,7 @@ object FindEdgesBenchmark100KNodes10KEdges {
     @Benchmark
     def findInGraph3() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -102,7 +102,7 @@ object FindEdgesBenchmark100KNodes10KEdges {
     @Benchmark
     def findInGraph4() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -123,7 +123,7 @@ object FindEdgesBenchmark100KNodes10KEdges {
     @Benchmark
     def findInGraph5() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
     }
   }
@@ -144,7 +144,7 @@ object FindEdgesBenchmark100KNodes10KEdges {
     @Benchmark
     def findInGraph6() = {
       for (nid <- randomNodes) {
-        nid -> graph.edgesForVertexId(nid)
+        graph.edgesForVertexId(nid)
       }
       //      val mString = m.map {
       //        case (k, v) => s"${k} = ${v.map(_.id).mkString(",")};"

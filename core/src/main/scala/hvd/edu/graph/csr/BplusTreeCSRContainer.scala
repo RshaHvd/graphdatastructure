@@ -12,28 +12,36 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
   type EdgeIndex = Int
   private val vertexContainer = new BPlusTreeImpl[Int, EdgeIndex](fanout.getOrElse(defaultFanout))
   // TODO !! ArrayBuffer causing performance issues ?
-  private val edgeContainer = mutable.ArrayBuffer[List[Int]]()
+  private var edgeContainer = Array.ofDim[List[Int]](numVertex.toInt)
+  private var lastEdgePointer = -1
   private val vertexNoEdgesEdgeId = -1
 
   override def addEdge(vertex: CSRNode, edge: CSRNode): Unit = {
 
+    // just use the first edgeId as the value in the BplusTree to look up data in edgeContainer.
     val mayBeExistingEdgeIndex: Option[EdgeIndex] = vertexContainer.find(vertex.id)
 
     mayBeExistingEdgeIndex.fold {
-      vertexContainer.add(vertex.id, edgeContainer.size)
-      // insert into edgeContainer
-      edgeContainer += List(edge.id)
+      incrementEdgePointer()
+      vertexContainer.add(vertex.id, lastEdgePointer)
+      // insert into edgeContainer - resize edgeContainer if needed.
+      edgeContainer(lastEdgePointer) = List(edge.id)
     } { edgeIndex =>
       val existingEdges = edgeContainer(edgeIndex)
       val newEdges = (edge.id :: existingEdges)
       edgeContainer(edgeIndex) = newEdges
-      edgeContainer
     }
+  }
+
+  def incrementEdgePointer() = {
+    lastEdgePointer += 1
   }
 
   override def addVertex(vertex: CSRNode): Unit = {
     // does not check for existence of value - so can add duplciates...
-    vertexContainer.add(vertex.id, vertexNoEdgesEdgeId)
+    incrementEdgePointer()
+    vertexContainer.add(vertex.id, lastEdgePointer)
+    edgeContainer(lastEdgePointer) = List.empty[Int]
   }
 
   override def allVertices: List[CSRNode] = {
