@@ -47,13 +47,14 @@ trait MemoryBenchmark {
 
   def benchmark(): Unit = {
 
-    for ((k, v) <- fileName_lineCount) yield {
-      loadALArray(k, v)
-      loadALHashMap(k, v)
-      loadALBTree(k, v)
-      loadCSRArray(k, v)
-      loadCSRMap(k, v)
-      loadCSRBplusTree(k, v)
+    fileName_lineCount.foreach {
+      case (k, v) =>
+        loadALArray(k, v)
+        loadALHashMap(k, v)
+        loadALBTree(k, v)
+        loadCSRArray(k, v)
+        loadCSRMap(k, v)
+        loadCSRBplusTree(k, v)
     }
 
     val header: Seq[Seq[Any]] = Seq(Seq("Benchmark", "FileName", "TotalSize (In bytes)"))
@@ -71,7 +72,8 @@ object MemoryBenchmark1KNodes extends MemoryBenchmark {
     "generated/generated1k/generated1000_1000.txt" -> 1488,
     "generated/generated1k/generated1000_10000.txt" -> 9941,
     "generated/generated1k/generated1000_100000.txt" -> 95174,
-    "generated/generated1k/generated1000_1000000.txt" -> 631568)
+    "generated/generated1k/generated1000_1000000.txt" -> 631568,
+    "generated/generated1k/generated1000_10000000.txt" -> 998954)
 
   override val outputFileName = "./output/mem_benchmark1KNodes"
 }
@@ -82,7 +84,8 @@ object MemoryBenchmark10KNodes extends MemoryBenchmark {
     "generated/generated10k/generated10000_1000.txt" -> 10488,
     "generated/generated10k/generated10000_10000.txt" -> 14942,
     "generated/generated10k/generated10000_100000.txt" -> 99926,
-    "generated/generated10k/generated10000_1000000.txt" -> 995170)
+    "generated/generated10k/generated10000_1000000.txt" -> 995170,
+    "generated/generated10k/generated10000_10000000.txt" -> 9517247)
 
   override val outputFileName = "./output/mem_benchmark10KNodes"
 }
@@ -93,17 +96,80 @@ object MemoryBenchmark100KNodes extends MemoryBenchmark {
     "generated/generated100k/generated100000_1000.txt" -> 100500,
     "generated/generated100k/generated100000_10000.txt" -> 104981,
     "generated/generated100k/generated100000_100000.txt" -> 149977,
-    "generated/generated100k/generated100000_1000000.txt" -> 999942)
+    "generated/generated100k/generated100000_1000000.txt" -> 999942,
+    "generated/generated100k/generated100000_10000000.txt" -> 9995030)
 
   override val outputFileName = "./output/mem_benchmark100KNodes"
 }
 
-object MemoryBenchmarksRealDataSets extends MemoryBenchmark {
+object MemoryBenchmark1MNodes extends MemoryBenchmark {
 
   override val fileName_lineCount: Map[String, Int] = Map(
-    "realdata/amazon0601.txt" -> 3387392,
-    "realdata/email-Enron.txt" -> 367666,
-    "realdata/cit-HepTh.txt" -> 352811)
+    "generated/generated1000k/generated1000000_1000.txt" -> 1000486,
+    "generated/generated1000k/generated1000000_10000.txt" -> 1004935,
+    "generated/generated1000k/generated1000000_100000.txt" -> 1050084,
+    "generated/generated1000k/generated1000000_1000000.txt" -> 1499588,
+    "generated/generated1000k/generated1000000_10000000.txt" -> 10000001)
 
-  override val outputFileName = "./output/mem_benchmarkRealDataSets"
+  override val outputFileName = "./output/mem_benchmark1MNodes"
 }
+
+object MemoryBenchmark10M1KENodes extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "generated/generated10000k/generated10000000_1000.txt" -> 10000491)
+  //"generated/generated10000k/generated10000000_10000.txt" -> 10004958,
+  //"generated/generated10000k/generated10000000_100000.txt" -> 10050008,
+  //"generated/generated10000k/generated10000000_1000000.txt" -> 10500346,
+  //"generated/generated10000k/generated10000000_10000000.txt" -> 14999265)
+
+  override val outputFileName = "./output/mem_benchmark10MNodes1KEdges"
+}
+
+object MemoryBenchmark10M10KENodes extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "generated/generated10000k/generated10000000_10000.txt" -> 10004958)
+  //"generated/generated10000k/generated10000000_100000.txt" -> 10050008,
+  //"generated/generated10000k/generated10000000_1000000.txt" -> 10500346,
+  //"generated/generated10000k/generated10000000_10000000.txt" -> 14999265)
+
+  override val outputFileName = "./output/mem_benchmark10MNodes10KEdges"
+}
+
+object MemoryBenchmark10M100KENodes extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "generated/generated10000k/generated10000000_100000.txt" -> 10050008)
+  //"generated/generated10000k/generated10000000_1000000.txt" -> 10500346,
+  //"generated/generated10000k/generated10000000_10000000.txt" -> 14999265)
+
+  override val outputFileName = "./output/mem_benchmark10MNodes100KEdges"
+}
+
+object MemoryBenchmark10M1MENodes extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "generated/generated10000k/generated10000000_1000000.txt" -> 10500346)
+  //"generated/generated10000k/generated10000000_10000000.txt" -> 14999265)
+
+  override val outputFileName = "./output/mem_benchmark10MNodes1MEdges"
+}
+
+object MemoryBenchmark10M10MENodes extends MemoryBenchmark {
+
+  override val fileName_lineCount: Map[String, Int] = Map(
+    "generated/generated10000k/generated10000000_10000000.txt" -> 14999265)
+
+  override val outputFileName = "./output/mem_benchmark10MNodes10MEdges"
+}
+
+//object MemoryBenchmarksRealDataSets extends MemoryBenchmark {
+//
+//  override val fileName_lineCount: Map[String, Int] = Map(
+//    "realdata/amazon0601.txt" -> 3387392,
+//    "realdata/email-Enron.txt" -> 367666,
+//    "realdata/cit-HepTh.txt" -> 352811)
+//
+//  override val outputFileName = "./output/mem_benchmarkRealDataSets"
+//}
