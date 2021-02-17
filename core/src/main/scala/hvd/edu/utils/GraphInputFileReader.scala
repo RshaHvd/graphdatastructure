@@ -7,13 +7,6 @@ import scala.io.{ BufferedSource, Source }
 
 object GraphInputFileReader extends LazyLogging {
 
-  //  def readFile2[N <: Node, C <: GraphContainer[N]](filePath: String, delimiter: String)(implicit ev: ContainerMaker[N, C], nm: NodeMaker[N], fanout: Option[Int] = None): Graph[N, C] = {
-  //    val url = getClass.getClassLoader.getResource(filePath)
-  //    val path = Paths.get(url.toURI)
-  //    val fileSize = Files.size(path)
-  //    readFile(filePath, fileSize, delimiter)
-  //  }
-
   def readFile[N <: Node](
     filePath:       String,
     fileLength:     Int,

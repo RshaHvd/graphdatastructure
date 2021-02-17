@@ -29,7 +29,7 @@ object GraphTypes {
 
   case object ALTreeType extends GraphType[ALNode]("ALT", DefaultALNodeMaker) {
     override val displayName: String = "AL-Tree"
-    override def graphContainer(linesInFile: Int): GraphContainer[ALNode] = BplusTreeALContainer(linesInFile, None)
+    override def graphContainer(linesInFile: Int): GraphContainer[ALNode] = BplusTreeALContainer(linesInFile, Option(500))
   }
 
   case object CSRArrayType extends GraphType[CSRNode]("CSRA", CSRNodeMaker) {
@@ -44,7 +44,7 @@ object GraphTypes {
 
   case object CSRTreeType extends GraphType[CSRNode]("CSRT", CSRNodeMaker) {
     override val displayName: String = "CSR-Tree"
-    override def graphContainer(linesInFile: Int): GraphContainer[CSRNode] = BplusTreeCSRContainer(linesInFile, None)
+    override def graphContainer(linesInFile: Int): GraphContainer[CSRNode] = BplusTreeCSRContainer(linesInFile, Option(500))
   }
 
 }
