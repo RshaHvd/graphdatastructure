@@ -16,7 +16,8 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph1() = {
-      graph.rangeEdges(298, 985230)
+      // 202, 15745
+      graph.rangeEdges(202, 15745)
     }
   }
 
@@ -28,7 +29,8 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph2() = {
-      graph.rangeEdges(298, 985230)
+      //15745, 305976
+      graph.rangeEdges(202, 15745)
     }
   }
 
@@ -40,7 +42,7 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph3() = {
-      graph.rangeEdges(298, 985230)
+      graph.rangeEdges(202, 15745)
     }
   }
 
@@ -52,7 +54,7 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph4() = {
-      graph.rangeEdges(298, 985230)
+      graph.rangeEdges(202, 15745)
     }
   }
 
@@ -64,7 +66,7 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph5() = {
-      graph.rangeEdges(298, 985230)
+      graph.rangeEdges(202, 15745)
     }
   }
 
@@ -76,7 +78,7 @@ object RangeBenchmark1MNodes1MEdges {
 
     @Benchmark
     def findInGraph6() = {
-      graph.rangeEdges(298, 985230)
+      graph.rangeEdges(202, 15745)
     }
   }
 

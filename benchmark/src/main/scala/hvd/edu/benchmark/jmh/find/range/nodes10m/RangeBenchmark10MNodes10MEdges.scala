@@ -10,13 +10,25 @@ object RangeBenchmark10MNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
+  class RangeALTree10M10MBenchmark {
+    val graph = ALTreeType.readG("generated/generated10000k/generated10000000_10000000.txt", "\\t", 14999265)
+
+    @Benchmark
+    def findInGraph3() = {
+      graph.rangeEdges(280, 9536)
+    }
+  }
+
+  @State(Scope.Thread)
+  @BenchmarkMode(Array(Mode.AverageTime))
+  @OutputTimeUnit(TimeUnit.MILLISECONDS)
   class RangeALArray10M10MBenchmark {
 
     val graph = ALArrayType.readG("generated/generated10000k/generated10000000_10000000.txt", "\\t", 14999265)
 
     @Benchmark
     def findInGraph1() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -28,19 +40,7 @@ object RangeBenchmark10MNodes10MEdges {
 
     @Benchmark
     def findInGraph2() = {
-      graph.rangeEdges(202, 9812624)
-    }
-  }
-
-  @State(Scope.Thread)
-  @BenchmarkMode(Array(Mode.AverageTime))
-  @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALTree10M10MBenchmark {
-    val graph = ALTreeType.readG("generated/generated10000k/generated10000000_10000000.txt", "\\t", 14999265)
-
-    @Benchmark
-    def findInGraph3() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -52,7 +52,7 @@ object RangeBenchmark10MNodes10MEdges {
 
     @Benchmark
     def findInGraph4() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -64,7 +64,7 @@ object RangeBenchmark10MNodes10MEdges {
 
     @Benchmark
     def findInGraph5() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -76,7 +76,7 @@ object RangeBenchmark10MNodes10MEdges {
 
     @Benchmark
     def findInGraph6() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 

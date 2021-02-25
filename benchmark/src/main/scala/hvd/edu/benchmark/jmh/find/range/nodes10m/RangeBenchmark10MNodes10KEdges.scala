@@ -16,7 +16,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph1() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -28,7 +28,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph2() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -40,7 +40,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph3() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -52,7 +52,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph4() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -64,7 +64,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph5() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 
@@ -76,7 +76,7 @@ object RangeBenchmark10MNodes10KEdges {
 
     @Benchmark
     def findInGraph6() = {
-      graph.rangeEdges(202, 9812624)
+      graph.rangeEdges(280, 9536)
     }
   }
 

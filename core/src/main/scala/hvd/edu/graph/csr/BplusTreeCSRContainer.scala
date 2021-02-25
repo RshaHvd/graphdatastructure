@@ -84,7 +84,10 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   override def range(vid1: EdgeIndex, vid2: EdgeIndex): List[Int] = {
     val allEdgedIndexInRanges = vertexContainer.range(vid1, vid2)
-    val allEdges = allEdgedIndexInRanges.flatMap(edgesForVertexId(_))
-    allEdges
+    val allEdges = allEdgedIndexInRanges.map {
+      (edgeContainer(_))
+    }
+    //allEdgedIndexInRanges.flatMap(edgesForVertexId(_))
+    allEdges.flatMap(_.toList)
   }
 }
