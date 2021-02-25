@@ -362,29 +362,12 @@ class BPlusTreeImpl[T: Ordering, D](override val fanout: Int) extends BPlusTree[
             val mayBeChildIndexGreaterThanEqT1 = indexNode.findFirstChildIndexGreaterThanEqT(t1)
             val searchInThisTree = mayBeChildIndexGreaterThanEqT1.fold(indexNode.children.last) {
               idx =>
-                // check the right child ( since we looking for >=  which can happen when it matches exactly)
-                //                if (indexNode.children(idx).listOfNodes.exists(_ >= t1)) {
-                //                  indexNode.children(idx)
-                //                }
-                //             else {
-                //                val oneLessIdx = idx - 1
-                //                if (oneLessIdx > 0 && indexNode.children(oneLessIdx).listOfNodes.exists(_ >= t1)) {
-                //                  indexNode.children(oneLessIdx)
-                //                }
-                //                else {
                 indexNode.children(idx)
-              //                }
             }
-            //}
             findGreaterThanEqual(searchInThisTree)
           }
           case leafNode: LeafNode[T, D] => {
-            //if (leafNode.listOfNodes.exists(_ >= t1)) {
             Option(leafNode)
-            //}
-            //            else {
-            //              None
-            //            }
           }
         }
       }
