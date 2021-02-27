@@ -11,8 +11,7 @@ import hvd.edu.graph.Node
  * [4 -> 5]
  */
 
-final case class CSRNode(override val id: Int, override val value: Int,
-                         firstEdgeIndex: Long = -1) extends Node {
+final case class CSRNode(override val id: Int, firstEdgeIndex: Long = -1) extends Node {
 
   private var nextEdgeId = -1
   def setNextId(nid: Int): Unit = {

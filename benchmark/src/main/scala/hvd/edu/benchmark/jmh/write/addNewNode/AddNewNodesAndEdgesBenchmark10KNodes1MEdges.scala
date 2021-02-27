@@ -27,9 +27,9 @@ object AddNewNodesAndEdgesBenchmark10KNodes1MEdges {
       ids: List[Int] =>
         if (ids.size > 1) {
           val nid = ids.head + 10000
-          val vNode = ALNode(nid, nid)
+          val vNode = ALNode(nid)
           val nodesAndEdges = ids.tail.map { eid =>
-            val eNode = ALNode(eid, eid)
+            val eNode = ALNode(eid)
             (vNode, eNode)
           }
           nodesAndEdges
@@ -64,9 +64,9 @@ object AddNewNodesAndEdgesBenchmark10KNodes1MEdges {
       ids: List[Int] =>
         if (ids.size > 1) {
           val nid = ids.head + 10000
-          val vNode = ALNode(nid, nid)
+          val vNode = ALNode(nid)
           val nodesAndEdges = ids.tail.map { eid =>
-            val eNode = ALNode(eid, eid)
+            val eNode = ALNode(eid)
             (vNode, eNode)
           }
           nodesAndEdges
@@ -101,9 +101,9 @@ object AddNewNodesAndEdgesBenchmark10KNodes1MEdges {
       ids: List[Int] =>
         if (ids.size > 1) {
           val nid = ids.head + 10000
-          val vNode = ALNode(nid, nid)
+          val vNode = ALNode(nid)
           val nodesAndEdges = ids.tail.map { eid =>
-            val eNode = ALNode(eid, eid)
+            val eNode = ALNode(eid)
             (vNode, eNode)
           }
           nodesAndEdges
@@ -154,9 +154,9 @@ object AddNewNodesAndEdgesBenchmark10KNodes1MEdges {
       ids: List[Int] =>
         if (ids.size > 1) {
           val nid = ids.head + 10000
-          val vNode = CSRNode(nid, nid)
+          val vNode = CSRNode(nid)
           val nodesAndEdges = ids.tail.map { eid =>
-            val eNode = CSRNode(eid, eid)
+            val eNode = CSRNode(eid)
             (vNode, eNode)
           }
           nodesAndEdges
@@ -191,9 +191,9 @@ object AddNewNodesAndEdgesBenchmark10KNodes1MEdges {
       ids: List[Int] =>
         if (ids.size > 1) {
           val nid = ids.head + 10000
-          val vNode = CSRNode(nid, nid)
+          val vNode = CSRNode(nid)
           val nodesAndEdges = ids.tail.map { eid =>
-            val eNode = CSRNode(eid, eid)
+            val eNode = CSRNode(eid)
             (vNode, eNode)
           }
           nodesAndEdges

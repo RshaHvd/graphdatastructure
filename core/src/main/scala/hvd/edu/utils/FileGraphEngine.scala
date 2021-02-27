@@ -27,13 +27,13 @@ object FileGraphEngine extends LazyLogging {
           if (edgesInLine.length == 2) {
             val firstE: Int = edgesInLine(0).toInt
             val secondE: Int = edgesInLine(1).toInt
-            val aln1 = nodeMaker.make(firstE, firstE)
-            val aln2 = nodeMaker.make(secondE, secondE)
+            val aln1 = nodeMaker.make(firstE)
+            val aln2 = nodeMaker.make(secondE)
             graph.addEdge(aln1, aln2)
           }
           else {
             val firstE: Int = edgesInLine(0).toInt
-            val aln1 = nodeMaker.make(firstE, firstE)
+            val aln1 = nodeMaker.make(firstE)
             graph.addVertex(aln1)
           }
         }

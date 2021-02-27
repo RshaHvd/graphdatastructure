@@ -52,7 +52,7 @@ case class ArrayALContainer(numVertex: Int) extends GraphContainer[ALNode] {
 
   override def nonEmptyVertexList = {
     val nodes = for (i <- 0 to vertexContainer.size - 1; if vertexContainer(i) != null) yield {
-      ALNode(i, i)
+      ALNode(i)
     }
     nodes.toList
   }

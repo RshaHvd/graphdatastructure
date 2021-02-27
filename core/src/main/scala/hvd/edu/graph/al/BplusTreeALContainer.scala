@@ -33,7 +33,7 @@ case class BplusTreeALContainer(numVertex: Int, fanout: Option[Int]) extends Gra
 
   override def allVertices: List[ALNode] = {
     val vids = container.getLeaves()
-    vids.map(_vid => ALNode(_vid, _vid))
+    vids.map(_vid => ALNode(_vid))
   }
 
   override def edgeLength: Int = container.getAllValues().map(_.size).sum

@@ -2,7 +2,6 @@ package hvd.edu.graph
 
 trait Node {
   def id(): Int
-  def value(): Int
 }
 
 trait GraphContainer[n <: Node] {

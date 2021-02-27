@@ -46,7 +46,7 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   override def allVertices: List[CSRNode] = {
     val allVids = vertexContainer.getLeaves()
-    allVids.map(v => CSRNode(v, v))
+    allVids.map(v => CSRNode(v))
   }
 
   override def edgeLength: Int = {
@@ -79,7 +79,7 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
     val nonEmptyKV = allKV.filterNot {
       case (k1, v1) => v1 == vertexNoEdgesEdgeId
     }
-    nonEmptyKV.map(v => CSRNode(v._1, v._1))
+    nonEmptyKV.map(v => CSRNode(v._1))
   }
 
   override def range(vid1: EdgeIndex, vid2: EdgeIndex): List[Int] = {

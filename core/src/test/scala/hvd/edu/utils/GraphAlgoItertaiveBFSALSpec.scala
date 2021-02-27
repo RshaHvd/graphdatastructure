@@ -16,7 +16,7 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
-    val walkDFFromNode = ALNode(10, 10)
+    val walkDFFromNode = ALNode(10)
     val actualBFSListNodes = GraphAlgos.bfsIterative(walkDFFromNode, graph)
 
     val actualBFSList = actualBFSListNodes
@@ -31,7 +31,7 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     val gc = ArrayALContainer(arrayEdges.length)
     val graph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNode = ALNode(10, 10)
+    val walkDFFromNode = ALNode(10)
     val actualListNodes = GraphAlgos.bfsIterative(walkDFFromNode, graph)
     val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14, 15)
@@ -45,13 +45,13 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     val gc = ArrayALContainer(arrayEdges.length)
     val graph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
-    val walkDFFromNodeFrom1 = ALNode(1, 1)
+    val walkDFFromNodeFrom1 = ALNode(1)
     val actualListNodesFrom1 = GraphAlgos.bfsIterative(walkDFFromNodeFrom1, graph)
 
-    val walkDFFromNode6 = ALNode(6, 6)
+    val walkDFFromNode6 = ALNode(6)
     val actualListNodes6 = GraphAlgos.bfsIterative(walkDFFromNode6, graph)
 
-    val walkDFFromNode5 = ALNode(5, 5)
+    val walkDFFromNode5 = ALNode(5)
     val actualListNodes5 = GraphAlgos.bfsIterative(walkDFFromNode5, graph)
 
     val actualList1 = actualListNodesFrom1

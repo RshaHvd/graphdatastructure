@@ -20,13 +20,13 @@ object StringGraphEngine extends LazyLogging {
       if (currEdgeArray.length == 2 && currEdgeArray(1).nonEmpty) {
         val firstE = currEdgeArray(0).toInt
         val secondE = currEdgeArray(1).toInt
-        val aln1 = nodeMaker.make(firstE, firstE)
-        val aln2 = nodeMaker.make(secondE, secondE)
+        val aln1 = nodeMaker.make(firstE)
+        val aln2 = nodeMaker.make(secondE)
         graph.addEdge(aln1, aln2)
       }
       else if (currEdgeArray.length == 1) {
         val firstE = currEdgeArray(0).toInt
-        val aln1 = nodeMaker.make(firstE, firstE)
+        val aln1 = nodeMaker.make(firstE)
         graph.addVertex(aln1)
       }
       else {

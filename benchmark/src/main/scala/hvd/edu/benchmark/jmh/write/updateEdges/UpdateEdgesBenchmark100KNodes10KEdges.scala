@@ -27,15 +27,15 @@ object UpdateEdgesBenchmark100KNodes10KEdges {
     val randomNodesEdges = randomNodes.map {
       nid =>
         val eId = nid + 100000
-        val vNode = ALNode(nid, nid)
-        val eNode = ALNode(eId, eId)
+        val vNode = ALNode(nid)
+        val eNode = ALNode(eId)
         (vNode, eNode)
     }
 
     @Benchmark
     def graph1() = {
-      for ((vid, eid) <- randomNodesEdges) {
-        graph.addEdge(vid, eid)
+      for ((vid, eId) <- randomNodesEdges) {
+        graph.addEdge(vid, eId)
       }
     }
   }
@@ -58,15 +58,15 @@ object UpdateEdgesBenchmark100KNodes10KEdges {
     val randomNodesEdges = randomNodes.map {
       nid =>
         val eId = nid + 100000
-        val vNode = ALNode(nid, nid)
-        val eNode = ALNode(eId, eId)
+        val vNode = ALNode(nid)
+        val eNode = ALNode(eId)
         (vNode, eNode)
     }
 
     @Benchmark
     def graph2() = {
-      for ((vid, eid) <- randomNodesEdges) {
-        graph.addEdge(vid, eid)
+      for ((vid, eId) <- randomNodesEdges) {
+        graph.addEdge(vid, eId)
       }
     }
   }
@@ -89,15 +89,15 @@ object UpdateEdgesBenchmark100KNodes10KEdges {
     val randomNodesEdges = randomNodes.map {
       nid =>
         val eId = nid + 100000
-        val vNode = ALNode(nid, nid)
-        val eNode = ALNode(eId, eId)
+        val vNode = ALNode(nid)
+        val eNode = ALNode(eId)
         (vNode, eNode)
     }
 
     @Benchmark
     def graph3() = {
-      for ((vid, eid) <- randomNodesEdges) {
-        graph.addEdge(vid, eid)
+      for ((vid, eId) <- randomNodesEdges) {
+        graph.addEdge(vid, eId)
       }
     }
   }
@@ -136,15 +136,15 @@ object UpdateEdgesBenchmark100KNodes10KEdges {
     val randomNodesEdges = randomNodes.map {
       nid =>
         val eId = nid + 100000
-        val vNode = CSRNode(nid, nid)
-        val eNode = CSRNode(eId, eId)
+        val vNode = CSRNode(nid)
+        val eNode = CSRNode(eId)
         (vNode, eNode)
     }
 
     @Benchmark
     def graph5() = {
-      for ((vid, eid) <- randomNodesEdges) {
-        graph.addEdge(vid, eid)
+      for ((vid, eId) <- randomNodesEdges) {
+        graph.addEdge(vid, eId)
       }
     }
   }
@@ -167,15 +167,15 @@ object UpdateEdgesBenchmark100KNodes10KEdges {
     val randomNodesEdges = randomNodes.map {
       nid =>
         val eId = nid + 100000
-        val vNode = CSRNode(nid, nid)
-        val eNode = CSRNode(eId, eId)
+        val vNode = CSRNode(nid)
+        val eNode = CSRNode(eId)
         (vNode, eNode)
     }
 
     @Benchmark
     def graph6() = {
-      for ((vid, eid) <- randomNodesEdges) {
-        graph.addEdge(vid, eid)
+      for ((vid, eId) <- randomNodesEdges) {
+        graph.addEdge(vid, eId)
       }
     }
   }

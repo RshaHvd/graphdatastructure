@@ -17,7 +17,7 @@ case class HashMapALContainer(numVertex: Int) extends GraphContainer[ALNode] {
 
   override def allVertices: List[ALNode] = {
     val vids = adjacencyListMap.keys
-    vids.map(v => ALNode(v, v)).toList
+    vids.map(v => ALNode(v)).toList
   }
 
   def hasVertex(vertex: ALNode): Boolean = {
