@@ -12,7 +12,7 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val graph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
     graph.vertexLength should be(5)
     graph.edgeLength should be(6)
@@ -29,7 +29,7 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val graph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
     val walkDFFromNode = ALNode(10, 10)
     val actualListNodes = GraphAlgos.bfsIterative(walkDFFromNode, graph)
@@ -43,7 +43,7 @@ class GraphAlgoItertaiveBFSALSpec extends FlatSpec with Matchers {
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val graph = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val graph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     graph shouldNot be(null)
     val walkDFFromNodeFrom1 = ALNode(1, 1)
     val actualListNodesFrom1 = GraphAlgos.bfsIterative(walkDFFromNodeFrom1, graph)

@@ -5,12 +5,12 @@ import hvd.edu.graph.al.{ ArrayALContainer, BplusTreeALContainer, HashMapALConta
 import hvd.edu.graph.csr.{ ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer }
 import org.scalatest.{ FlatSpec, Matchers }
 
-class GraphInputFileReaderSpec extends FlatSpec with Matchers {
+class FileGraphEngineSpec extends FlatSpec with Matchers {
 
   "Reading from a file" should "Generate valid ArrayBasedCSR Graph" in {
 
     val gc = ArrayCSRContainer(88234, 88234)
-    val readGraph = GraphInputFileReader.readFile(
+    val readGraph = FileGraphEngine.readFile(
       "facebook_combined.txt", 88234, " ", gc, CSRNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10 = readGraph.edgesForVertexId(10)
@@ -22,7 +22,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid HashMapBased CSR graph" in {
     val gc = HashMapCSRContainer(88234, 88234)
-    val readGraph = GraphInputFileReader.readFile(
+    val readGraph = FileGraphEngine.readFile(
       "facebook_combined.txt",
       88234, " ", gc, CSRNodeMaker)
     readGraph shouldNot be(null)
@@ -34,7 +34,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid BplusTree CSR graph" in {
     val gc = BplusTreeCSRContainer(88234, None)
-    val readGraph = GraphInputFileReader.readFile(
+    val readGraph = FileGraphEngine.readFile(
       "facebook_combined.txt", 88234, " ", gc, CSRNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10ForBplusTreeCSR = readGraph.edgesForVertexId(10)
@@ -45,7 +45,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid Adjacency List graph" in {
     val gc = ArrayALContainer(88234)
-    val readGraph = GraphInputFileReader.readFile(
+    val readGraph = FileGraphEngine.readFile(
       "facebook_combined.txt", 88234, " ", gc, DefaultALNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10AL = readGraph.edgesForVertexId(10)
@@ -56,7 +56,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid Adjacency List graph for HashMap Container" in {
     val gc = HashMapALContainer(88234)
-    val readGraph = GraphInputFileReader.readFile(
+    val readGraph = FileGraphEngine.readFile(
       "facebook_combined.txt", 88234, " ", gc, DefaultALNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10ALH = readGraph.edgesForVertexId(10)
@@ -67,7 +67,7 @@ class GraphInputFileReaderSpec extends FlatSpec with Matchers {
 
   it should "Generate a valid Adjacency List graph for BplusTreeBasedContainer" in {
     val gc = BplusTreeALContainer(88234, None)
-    val readGraph = GraphInputFileReader.readFile("facebook_combined.txt", 88234, " ",
+    val readGraph = FileGraphEngine.readFile("facebook_combined.txt", 88234, " ",
       gc, DefaultALNodeMaker)
     readGraph shouldNot be(null)
     val edgesForNode10ALBTree = readGraph.edgesForVertexId(10)

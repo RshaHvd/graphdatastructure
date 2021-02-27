@@ -1,7 +1,7 @@
 package hvd.edu.graph
 
 import hvd.edu.graph.al._
-import hvd.edu.utils.GraphBuilder
+import hvd.edu.utils.StringGraphEngine
 import org.scalatest.{ FlatSpec, Matchers }
 
 class AdjacencyListSpec extends FlatSpec with Matchers {
@@ -11,7 +11,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
     val nm = DefaultALNodeMaker
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, nm)
+    val generatedAL = StringGraphEngine.buildFromString(inputString, " ", ",", gc, nm)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -22,7 +22,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = ArrayALContainer(arrayEdges.length)
-    val generatedAL: Graph[ALNode] = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL: Graph[ALNode] = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -36,7 +36,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "0,2 1,3 2,3 2,4 3,5 4,5"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = HashMapALContainer(arrayEdges.length)
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -47,7 +47,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = HashMapALContainer(arrayEdges.length)
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -60,7 +60,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val fanout = 5 // implicit
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeALContainer(arrayEdges.length, Option(fanout))
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)
@@ -71,7 +71,7 @@ class AdjacencyListSpec extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeALContainer(arrayEdges.length, None)
-    val generatedAL = GraphBuilder.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
+    val generatedAL = StringGraphEngine.buildFromString(inputString, " ", ",", gc, DefaultALNodeMaker)
     generatedAL shouldNot be(null)
     //generatedAL.printGraph(None)
     generatedAL.vertexLength should be(5)

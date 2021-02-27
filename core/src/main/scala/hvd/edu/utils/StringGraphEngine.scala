@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.LazyLogging
 import hvd.edu.graph._
 import org.openjdk.jol.info.ClassLayout
 
-object GraphBuilder extends LazyLogging {
+object StringGraphEngine extends LazyLogging {
 
   def buildFromString[N <: Node](
     inputString:     String,

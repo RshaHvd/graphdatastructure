@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit
 
 import hvd.edu.graph.al.{ ArrayALContainer, ALNode }
 import hvd.edu.graph.{ Graph, DefaultALNodeMaker }
-import hvd.edu.utils.GraphBuilder
+import hvd.edu.utils.StringGraphEngine
 import org.openjdk.jmh.annotations._
 
 object ParamTester {
@@ -29,7 +29,7 @@ object ParamTester {
     def loadGraph = {
       val edges = inputStr.split(" ")
       val gc = ArrayALContainer(edges.length)
-      graph = GraphBuilder.buildFromString(inputStr, " ", ",", gc, DefaultALNodeMaker)
+      graph = StringGraphEngine.buildFromString(inputStr, " ", ",", gc, DefaultALNodeMaker)
     }
 
     @Benchmark

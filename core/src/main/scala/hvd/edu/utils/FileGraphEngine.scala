@@ -5,7 +5,7 @@ import hvd.edu.graph.{ GraphContainer, _ }
 
 import scala.io.{ BufferedSource, Source }
 
-object GraphInputFileReader extends LazyLogging {
+object FileGraphEngine extends LazyLogging {
 
   def readFile[N <: Node](
     filePath:       String,

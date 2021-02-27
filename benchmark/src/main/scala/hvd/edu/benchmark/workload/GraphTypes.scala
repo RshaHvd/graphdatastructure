@@ -3,13 +3,13 @@ package hvd.edu.benchmark.workload
 import hvd.edu.graph._
 import hvd.edu.graph.al.{ ArrayALContainer, HashMapALContainer, _ }
 import hvd.edu.graph.csr.{ ArrayCSRContainer, BplusTreeCSRContainer, CSRNode, HashMapCSRContainer }
-import hvd.edu.utils.{ GraphAlgos, GraphInputFileReader }
+import hvd.edu.utils.{ GraphAlgos, FileGraphEngine }
 
 sealed abstract class GraphType[N <: Node](val entryName: String, val nodeMaker: NodeMaker[N]) {
   def displayName = entryName
   def graphContainer(linesInFile: Int): GraphContainer[N]
   def readG(filePath: String, delimiter: String, linesInFile: Int): Graph[N] = {
-    GraphInputFileReader.readFile(filePath, linesInFile, delimiter, graphContainer(linesInFile), nodeMaker)
+    FileGraphEngine.readFile(filePath, linesInFile, delimiter, graphContainer(linesInFile), nodeMaker)
   }
 }
 
