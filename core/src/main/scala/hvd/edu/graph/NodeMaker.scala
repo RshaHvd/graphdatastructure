@@ -11,10 +11,6 @@ object CSRNodeMaker extends NodeMaker[CSRNode] {
   override def make(id: Int): CSRNode = CSRNode(id)
 }
 
-//object DefaultALNodeMaker extends NodeMaker[ALNode] {
-//  override def make(id: Int, value: Int) = ALNode(id, value)
-//}
-
 object DefaultALNodeMaker extends NodeMaker[ALNode] {
   override def make(id: Int) = ALNode(id)
 }

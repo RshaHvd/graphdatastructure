@@ -11,7 +11,6 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   type EdgeIndex = Int
   private val vertexContainer = new BPlusTreeImpl[Int, EdgeIndex](fanout.getOrElse(defaultFanout))
-  // TODO !! ArrayBuffer causing performance issues ?
   private var edgeContainer = Array.ofDim[List[Int]](numVertex.toInt)
   private var lastEdgePointer = -1
   private val vertexNoEdgesEdgeId = -1
