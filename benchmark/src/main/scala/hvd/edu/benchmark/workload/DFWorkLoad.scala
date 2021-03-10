@@ -21,7 +21,7 @@ object DFWorkLoad extends WorkLoad with LazyLogging {
     val recordedTime = {
 
       val g: Graph[N] = gt.readG(file, delimiter, linesInFile)
-      val n: N = gt.nodeMaker.make(nodeIdToWalkFrom, nodeIdToWalkFrom)
+      val n: N = gt.nodeMaker.make(nodeIdToWalkFrom)
       Globals.time {
         val foundNodes = GraphAlgos.dfsIterative(n, g)
         logger.info(s"DFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size}")

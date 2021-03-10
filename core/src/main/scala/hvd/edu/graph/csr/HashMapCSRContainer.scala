@@ -32,7 +32,7 @@ case class HashMapCSRContainer(val numVertex: Int, val numEdges: Int) extends Gr
 
   override def allVertices: List[CSRNode] = {
     val allVids = vertexContainer.keys.toList
-    allVids.map { v => CSRNode(v, v) }
+    allVids.map { v => CSRNode(v) }
   }
 
   private def allEdges: List[Int] = edgeContainer.values.toList.flatten

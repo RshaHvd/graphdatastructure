@@ -11,7 +11,6 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   type EdgeIndex = Int
   private val vertexContainer = new BPlusTreeImpl[Int, EdgeIndex](fanout.getOrElse(defaultFanout))
-  // TODO !! ArrayBuffer causing performance issues ?
   private var edgeContainer = Array.ofDim[List[Int]](numVertex.toInt)
   private var lastEdgePointer = -1
   private val vertexNoEdgesEdgeId = -1
@@ -46,7 +45,7 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
 
   override def allVertices: List[CSRNode] = {
     val allVids = vertexContainer.getLeaves()
-    allVids.map(v => CSRNode(v, v))
+    allVids.map(v => CSRNode(v))
   }
 
   override def edgeLength: Int = {
@@ -79,12 +78,15 @@ case class BplusTreeCSRContainer(numVertex: Int, fanout: Option[Int]) extends Gr
     val nonEmptyKV = allKV.filterNot {
       case (k1, v1) => v1 == vertexNoEdgesEdgeId
     }
-    nonEmptyKV.map(v => CSRNode(v._1, v._1))
+    nonEmptyKV.map(v => CSRNode(v._1))
   }
 
   override def range(vid1: EdgeIndex, vid2: EdgeIndex): List[Int] = {
     val allEdgedIndexInRanges = vertexContainer.range(vid1, vid2)
-    val allEdges = allEdgedIndexInRanges.flatMap(edgesForVertexId(_))
-    allEdges
+    val allEdges = allEdgedIndexInRanges.map {
+      (edgeContainer(_))
+    }
+    //allEdgedIndexInRanges.flatMap(edgesForVertexId(_))
+    allEdges.flatMap(_.toList)
   }
 }

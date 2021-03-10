@@ -15,7 +15,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       csrGraph shouldNot be(null)
       csrGraph.vertexLength should be(5)
       csrGraph.edgeLength should be(6)
-      val walkDFFromNode = CSRNode(10, 10)
+      val walkDFFromNode = CSRNode(10)
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 13, 14)
@@ -30,7 +30,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     val csrGraphs = TestGraphUtil.makeAllCSRGraphContainer(inputString, " ", ",")
     forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
-      val walkDFFromNode = CSRNode(10, 10)
+      val walkDFFromNode = CSRNode(10)
       val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 14, 15, 13)
@@ -46,13 +46,13 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
 
-      val walkDFFromNodeFrom1 = CSRNode(1, 1)
+      val walkDFFromNodeFrom1 = CSRNode(1)
       val actualListNodesFrom1 = GraphAlgos.dfs(walkDFFromNodeFrom1, csrGraph)
 
-      val walkDFFromNode6 = CSRNode(6, 6)
+      val walkDFFromNode6 = CSRNode(6)
       val actualListNodes6 = GraphAlgos.dfs(walkDFFromNode6, csrGraph)
 
-      val walkDFFromNode5 = CSRNode(5, 5)
+      val walkDFFromNode5 = CSRNode(5)
       val actualListNodes5 = GraphAlgos.dfs(walkDFFromNode5, csrGraph)
 
       val actualList1 = actualListNodesFrom1
@@ -82,7 +82,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
       csrGraph shouldNot be(null)
       csrGraph.vertexLength should be(5)
       csrGraph.edgeLength should be(6)
-      val walkDFFromNode = CSRNode(10, 10)
+      val walkDFFromNode = CSRNode(10)
       val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
 
       val actualBFSList = actualBFSListNodes
@@ -101,7 +101,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
     //csrGraphs.foreach { csrGraph =>
     forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
-      val walkDFFromNode = CSRNode(10, 10)
+      val walkDFFromNode = CSRNode(10)
       val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
       val actualList = actualListNodes
       val expectedList = List(10, 11, 12, 13, 14, 15)
@@ -116,7 +116,7 @@ class GraphAlgoCSRSpec extends FlatSpec with Matchers {
 
     forAll(csrGraphs) { csrGraph =>
       csrGraph shouldNot be(null)
-      val walkDFFromNodeFrom1 = CSRNode(1, 1)
+      val walkDFFromNodeFrom1 = CSRNode(1)
       val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, csrGraph)
 
       val actualList1 = actualListNodesFrom1

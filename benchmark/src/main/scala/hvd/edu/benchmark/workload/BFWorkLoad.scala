@@ -21,7 +21,7 @@ object BFWorkLoad extends WorkLoad with LazyLogging {
 
     val recordedTime = {
       val g = gt.readG(file, delimiter, linesInFile)
-      val n = gt.nodeMaker.make(nodeIdToWalkFrom, nodeIdToWalkFrom)
+      val n = gt.nodeMaker.make(nodeIdToWalkFrom)
       Globals.time {
         val foundNodes = GraphAlgos.bfs(n, g)
         logger.info(s"BFS-${gt.entryName} from Node: ${nodeIdToWalkFrom} found:${foundNodes.size} ")

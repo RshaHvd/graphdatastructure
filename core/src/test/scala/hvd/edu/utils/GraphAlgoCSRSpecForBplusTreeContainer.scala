@@ -11,11 +11,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
     csrGraph shouldNot be(null)
     csrGraph.vertexLength should be(5)
     csrGraph.edgeLength should be(6)
-    val walkDFFromNode = CSRNode(10, 10)
+    val walkDFFromNode = CSRNode(10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
     val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14)
@@ -26,9 +26,9 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
     csrGraph shouldNot be(null)
-    val walkDFFromNode = CSRNode(10, 10)
+    val walkDFFromNode = CSRNode(10)
     val actualListNodes = GraphAlgos.dfs(walkDFFromNode, csrGraph)
     val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 14, 15, 13)
@@ -39,17 +39,17 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "1,2 2,3 2,4 3, 4, 5,6 6,1 6,2 6,7 7, "
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
 
     csrGraph shouldNot be(null)
 
-    val walkDFFromNodeFrom1 = CSRNode(1, 1)
+    val walkDFFromNodeFrom1 = CSRNode(1)
     val actualListNodesFrom1 = GraphAlgos.dfs(walkDFFromNodeFrom1, csrGraph)
 
-    val walkDFFromNode6 = CSRNode(6, 6)
+    val walkDFFromNode6 = CSRNode(6)
     val actualListNodes6 = GraphAlgos.dfs(walkDFFromNode6, csrGraph)
 
-    val walkDFFromNode5 = CSRNode(5, 5)
+    val walkDFFromNode5 = CSRNode(5)
     val actualListNodes5 = GraphAlgos.dfs(walkDFFromNode5, csrGraph)
 
     val actualList1 = actualListNodesFrom1
@@ -71,11 +71,11 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 12,11 13,14 14"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
     csrGraph shouldNot be(null)
     csrGraph.vertexLength should be(5)
     csrGraph.edgeLength should be(6)
-    val walkDFFromNode = CSRNode(10, 10)
+    val walkDFFromNode = CSRNode(10)
     val actualBFSListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
 
     val actualBFSList = actualBFSListNodes
@@ -88,9 +88,9 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "10,11 10,12 10,13 11,12 11,14 12,14 13,12 13,14 14,15 15,10 15,11"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
     csrGraph shouldNot be(null)
-    val walkDFFromNode = CSRNode(10, 10)
+    val walkDFFromNode = CSRNode(10)
     val actualListNodes = GraphAlgos.bfs(walkDFFromNode, csrGraph)
     val actualList = actualListNodes
     val expectedList = List(10, 11, 12, 13, 14, 15)
@@ -101,9 +101,9 @@ class GraphAlgoCSRSpecForBplusTreeContainer extends FlatSpec with Matchers {
     val inputString = "1,2 2,3 2,4 3,5 4, 5,6 6,1 6,2 6,7 7,8"
     val arrayEdges: Array[String] = inputString.split(" ")
     val gc = BplusTreeCSRContainer(arrayEdges.length, None)
-    val csrGraph = GraphBuilder.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
+    val csrGraph = StringGraphEngine.buildFromString(inputString, " ", ",", gc, CSRNodeMaker)
     csrGraph shouldNot be(null)
-    val walkDFFromNodeFrom1 = CSRNode(1, 1)
+    val walkDFFromNodeFrom1 = CSRNode(1)
     val actualListNodesFrom1 = GraphAlgos.bfs(walkDFFromNodeFrom1, csrGraph)
 
     val actualList1 = actualListNodesFrom1
