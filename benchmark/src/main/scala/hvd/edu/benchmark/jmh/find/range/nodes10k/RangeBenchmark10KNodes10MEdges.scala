@@ -10,7 +10,7 @@ object RangeBenchmark10KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALArray10K1MBenchmark {
+  class RangeALArray10K10MBenchmark {
 
     val graph = ALArrayType.readG("generated/generated10k/generated10000_10000000.txt", "\\t", 9517247)
 
@@ -35,7 +35,7 @@ object RangeBenchmark10KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALTree10K1MBenchmark {
+  class RangeALTree10K10MBenchmark {
     val graph = ALTreeType.readG("generated/generated10k/generated10000_10000000.txt", "\\t", 9517247)
 
     @Benchmark
@@ -47,7 +47,7 @@ object RangeBenchmark10KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRArray10K1MBenchmark {
+  class RangeCSRArray10K10MBenchmark {
     val graph = CSRArrayType.readG("generated/generated10k/generated10000_10000000.txt", "\\t", 9517247)
 
     @Benchmark
@@ -59,7 +59,7 @@ object RangeBenchmark10KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRMap10K1MBenchmark {
+  class RangeCSRMap10K10MBenchmark {
     val graph = CSRMapType.readG("generated/generated10k/generated10000_10000000.txt", "\\t", 9517247)
 
     @Benchmark
@@ -71,7 +71,7 @@ object RangeBenchmark10KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRTree10K1MBenchmark {
+  class RangeCSRTree10K10MBenchmark {
     val graph = CSRTreeType.readG("generated/generated10k/generated10000_10000000.txt", "\\t", 9517247)
 
     @Benchmark

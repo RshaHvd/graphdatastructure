@@ -26,7 +26,6 @@ object LoadBenchmark1kNodes {
       val fileName = params.head
       val lineCount = params.last.toInt
       ALArrayType.readG(fileName, "\\t", lineCount)
-      // println(GraphLayout.parseInstance(g).toFootprint)
     }
 
     @Benchmark
