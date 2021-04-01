@@ -16,7 +16,6 @@ object RangeBenchmark100KNodes100KEdges {
 
     @Benchmark
     def findInGraph1() = {
-      //95, 99794
       graph.rangeEdges(10340, 35592)
     }
   }

@@ -10,7 +10,7 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALArray1K100KBenchmark {
+  class RangeALArray1K10MBenchmark {
 
     val graph = ALArrayType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
@@ -23,7 +23,7 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALMap1K100KBenchmark {
+  class RangeALMap1K10MBenchmark {
     val graph = ALMapType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
     @Benchmark
@@ -35,7 +35,7 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeALTree1K100KBenchmark {
+  class RangeALTree1K10MBenchmark {
     val graph = ALTreeType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
     @Benchmark
@@ -47,7 +47,7 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRArray1K100KBenchmark {
+  class RangeCSRArray1K10MBenchmark {
     val graph = CSRArrayType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
     @Benchmark
@@ -59,7 +59,7 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRMap1K100KBenchmark {
+  class RangeCSRMap1K10MBenchmark {
     val graph = CSRMapType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
     @Benchmark
@@ -71,25 +71,12 @@ object RangeBenchmark1KNodes10MEdges {
   @State(Scope.Thread)
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
-  class RangeCSRTree1K100KBenchmark {
+  class RangeCSRTree1K10MBenchmark {
     val graph = CSRTreeType.readG("generated/generated1k/generated1000_10000000.txt", "\\t", 998954)
 
     @Benchmark
     def findInGraph6() = {
       graph.rangeEdges(8, 974)
-      //      val mString = m.map {
-      //        case (k, v) => s"${k} = ${v.map(_.id).mkString(",")};"
-      //      }
-      //      //println(s"Graph6 found  = ${mString}")
-      //      val f = new File(s"findInGraph6.txt")
-      //      val printStream = new PrintWriter(f, "UTF-8")
-      //      try {
-      //        printStream.print(mString)
-      //      }
-      //      finally {
-      //        printStream.flush()
-      //        printStream.close()
-      //      }
     }
   }
 

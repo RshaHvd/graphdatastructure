@@ -33,12 +33,6 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def addVertex(vertex: N): Unit = graphContainer.addVertex(vertex)
 
-  //  def printGraph(mayBeVertexLen: Option[Int]): Unit = {
-  //    println(s"************* Started Printing Graph *************")
-  //    graphContainer.print(mayBeVertexLen)
-  //    println(s"************* Finished Printing Graph *************")
-  //  }
-
   def vertexList: List[N] = graphContainer.nonEmptyVertexList
 
   def vertexLength: Int = graphContainer.vertexLength
@@ -51,7 +45,5 @@ class Graph[N <: Node](graphContainer: GraphContainer[N]) {
 
   def rangeEdges(vid1: Int, vid2: Int): List[Int] = graphContainer.range(vid1, vid2)
 
-  // why did I implement it this way ?
   def findVertexById(i: Int): Option[N] = graphContainer.nonEmptyVertexList.find(v => v.id == i)
-
 }
